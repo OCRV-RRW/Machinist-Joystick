@@ -1,12 +1,20 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
 import './App.css';
+import { Routes } from './components/Routes';
 
-function App() {
-  return (
-  <>
-    
-  </>
-  );
+
+function getWebSocket()
+{
+  console.log('Create new websocket')
+  return new WebSocket('wss://ocrv-game.ru/Joystick')
 }
 
-export default App;
+const socket = getWebSocket();
+console.log('App')
+
+export default function App() {
+
+  return (
+    <Routes socket={socket}/>
+  );
+}
