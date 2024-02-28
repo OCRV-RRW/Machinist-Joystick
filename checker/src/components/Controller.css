@@ -1,0 +1,49 @@
+
+div.joystick{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: grey;
+}
+
+div.controller-container{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 30px;
+  bottom: 30px;
+}
+
+input[type="range"] {
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 100px;
+} 
+
+input[type="range"] {
+  -webkit-appearance: none;
+  margin-right: 15px;
+  background: url("../images/button_line.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% auto;
+}
+
+ input[type="range"]::-webkit-slider-thumb {
+    position: relative;
+  -webkit-appearance: none;
+  background: url("../images/button_move.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% auto;
+} 
+
+/* 
+input[type=range]::-webkit-slider-runnable-track  {
+  -webkit-appearance: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}  */

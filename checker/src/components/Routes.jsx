@@ -1,23 +1,26 @@
-import {BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { useNavigate, Route, Routes} from 'react-router-dom';
 import { Joystick } from './Joystick';
 import { useState, useEffect } from 'react';
 import { Queue } from './Queue'
 
-console.log('path')
-
-export function Routes({socket})
+export function AppRoutes({socket})
 {
-
+    const navigate = useNavigate();
     const [request, setRequest] = useState('');
     const [response, setResponse] = useState('{"Type":null}');
     const [open, setOpen] = useState(false);
-  
+
     useEffect(() => {
-      socket.onopen = () => {
+      console.log('-------------' + socket)
+      socket.onopen =
+       () => {
         console.log("open()")
         setOpen(true)
-    }
-      socket.onclose = () => {console.log("close()")}
+      }
+      socket.onclose = () => {
+        console.log("close()")
+        navigate("/ConnectionError")
+      }
       socket.onmessage = (event) => {
         console.log("message() - " + event.data)
         setResponse(event.data)
@@ -35,12 +38,41 @@ export function Routes({socket})
     }, [request])
 
     return (
-        <Router>
-            <Switch>
-                <Route path="/Joystick">
-                    <Joystick setRequest={setRequest} response={response} open={open}/>
-                </Route>
-            </Switch>
-        </Router>
+      
+        <Routes>
+          <Route path="/Joystick" element={<Joystick setRequest={setRequest} response={response} open={open} socket={socket}/>} />
+          <Route path="/ConnectionError" element={<ConnectionError isOpen={open}/>} />
+          <Route path="/" element={<Home setRequest={setRequest}/>} />
+        </Routes>
     )
+}
+
+
+export function ConnectionError({})
+{
+  const navigate = useNavigate();
+
+  function handleReconnection()
+  {
+    navigate("/")
+    console.log('reload current scene')
+    window.location.reload();
+  }
+
+  return (<>
+      <div>Произошла ошибка при соединении с сервером</div>
+      <button onClick={handleReconnection}>Переподключиться</button>
+    </>)
+}
+
+
+export function Home()
+{
+  const navigate = useNavigate();
+  return(
+    <>
+      <h1>Зайцы</h1>
+      <button onClick={() => navigate("/Joystick")}></button>
+    </>
+  );
 }
