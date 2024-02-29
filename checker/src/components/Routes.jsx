@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { Home } from './Home'
 
 
-
 var socket = null;
 
 function getWebSocket()
@@ -31,7 +30,7 @@ export function AppRoutes()
       socket.onclose = () => {
         setOpen(false)
         console.log("close()")
-        navigate("/ConnectionError")
+        navigate("/")
       }
       socket.onmessage = (event) => {
         console.log("message() - " + event.data)
@@ -77,26 +76,7 @@ export function AppRoutes()
       
         <Routes>
           <Route path="/Joystick" element={<Joystick setRequest={setRequest} response={response} open={open} socket={socket}/>} />
-          <Route path="/ConnectionError" element={<ConnectionError/>} />
           <Route path="/" element={<Home connect={getWebSocket} initSocket={initSocket}/>} />
         </Routes>
     )
-}
-
-
-export function ConnectionError()
-{
-  const navigate = useNavigate();
-
-  function handleReconnection()
-  {
-    navigate("/")
-    console.log('reload current scene')
-    //window.location.reload();
-  }
-
-  return (<>
-      <div>Произошла ошибка при соединении с сервером</div>
-      <button onClick={handleReconnection}>Переподключиться</button>
-    </>)
 }

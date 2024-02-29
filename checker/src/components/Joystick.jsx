@@ -9,7 +9,7 @@ const enterQueue = {"Role": "Assistant","ForServer":true,"Type":"EnterQueue"}
 
 export function Joystick({setRequest, response, open, socket})
 {
-    const [state, setState] = useState(<div>Joystick</div>)
+    const [state, setState] = useState(<div>Подключение ...</div>)
     const [isConnectedToRoom, setIsConnectedToRoom] = useState(false)
     const navigate = useNavigate();
     
@@ -18,8 +18,7 @@ export function Joystick({setRequest, response, open, socket})
         if (dir["IsSuchRoom"] === false)
         {
             setIsConnectedToRoom(false)
-            navigate("/ConnectionError")
-            console.log('setisconnectedToRoom false ---')
+            navigate("/")
         }
         if (dir["IsSuchRoom"] === true)
         {
@@ -34,7 +33,6 @@ export function Joystick({setRequest, response, open, socket})
     useEffect(()=> {
         if(open)
         {
-            console.log('Join room ')
             JoinRoom()
         }  
     }, [open])
@@ -45,7 +43,7 @@ export function Joystick({setRequest, response, open, socket})
     }, [isConnectedToRoom])
 
     useEffect(()=>{
-        console.log('get response ------- ' + response)
+        console.log('get response: ' + response)
         var dir = JSON.parse([response]);
         if (dir['Type'] === 'JoinRoomResponse')
             handleRoomResponse(dir)
