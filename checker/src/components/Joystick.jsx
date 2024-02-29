@@ -6,7 +6,6 @@ import { Queue } from './Queue';
 const joinRoom = {"RoomName": "Rabbits","ForServer":true, "Type":"JoinRoom"}
 const enterQueue = {"Role": "Assistant","ForServer":true,"Type":"EnterQueue"}
 
-
 export function Joystick({setRequest, response, open, socket})
 {
     const [state, setState] = useState(<div>Подключение ...</div>)

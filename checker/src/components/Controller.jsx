@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import './Controller.css'
 
 export function Controller({setRequest, socket})
@@ -20,7 +20,7 @@ export function Controller({setRequest, socket})
     const Down = 'Down'
 
     const moveBlockRange = 15; 
-    
+
     function setBaseState(target)
     {
         target.value = 0
@@ -61,10 +61,11 @@ export function Controller({setRequest, socket})
     {
         if(Math.abs(sliderValue) > moveBlockRange){
             setMoveBlock(false)
+            console.log('moveBlock: ' + moveBlock + 'move: ' + false)
             return false
         }
-        setMoveBlock(true)
-        return true
+        if (moveBlock)return true
+        return false
     }
     
     function handleInputChange(e) {
