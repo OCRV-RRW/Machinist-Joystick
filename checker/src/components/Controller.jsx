@@ -30,22 +30,22 @@ export function Controller({setRequest, socket})
     }
 
     function sendEvent(key, code) {
-      let event = {...moveEvent}
-      event['Key'] = key
-      event['State'] = code
-      socket.send(JSON.stringify({...event})) //TODO
+        let event = {...moveEvent}
+        event['Key'] = key
+        event['State'] = code
+        socket.send(JSON.stringify({...event})) //TODO
     }
     
     function ShiftDown() {
-      if(shiftState) return;
-      setShiftState(true)
-      sendEvent(Shift,Down)
+        if(shiftState) return;
+        setShiftState(true)
+        sendEvent(Shift,Down)
     }
     
     function ShiftUp() {
-      if(!shiftState) return;
-      setShiftState(false)
-      sendEvent(Shift,Up)
+        if(!shiftState) return;
+        setShiftState(false)
+        sendEvent(Shift,Up)
     }
     
     function setCurrentKey(key) {
