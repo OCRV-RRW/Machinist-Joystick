@@ -18,12 +18,11 @@ export function Joystick({setRequest, response, open, socket})
         if (dir["IsSuchRoom"] === false)
         {
             setIsConnectedToRoom(false)
+            window.location.reload();
             navigate("/")
         }
         if (dir["IsSuchRoom"] === true)
-        {
             setIsConnectedToRoom(true)
-        }
     }
 
     function JoinRoom(){
@@ -32,9 +31,7 @@ export function Joystick({setRequest, response, open, socket})
 
     useEffect(()=> {
         if(open)
-        {
             JoinRoom()
-        }  
     }, [open])
 
     useEffect(()=> {
@@ -51,13 +48,10 @@ export function Joystick({setRequest, response, open, socket})
             setState(<Queue spotInLine={dir['SpotInLine']}/>)
         if (dir['Type'] === 'LetJoystickIntoGame')
         {
-
             setRequest(JSON.stringify({"Role":"Assistant","Type":"StartGameplay","ForServer":false}))
             setState(<Controller setRequest={setRequest} socket={socket}/>)
         }
     }, [response])
 
-    return (
-        state
-    );
+    return (state);
 }
