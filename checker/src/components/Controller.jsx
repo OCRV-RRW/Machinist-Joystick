@@ -69,8 +69,7 @@ export function Controller({setRequest, socket})
     
     function handleInputChange(e) {
         const val = e.target.value
-        console.log('value ' + val)
-        if (handleMoveBlock(val)){console.log('block'); return;} 
+        if (handleMoveBlock(val)) return 
         if (val > 0 &&  val <= 100)
            setCurrentKey(D)
         else if (val < 0 && val >= -100)
