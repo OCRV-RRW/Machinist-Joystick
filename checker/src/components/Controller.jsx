@@ -6,6 +6,7 @@ export function Controller({setRequest, socket})
     const [currentKey, setKey] = useState('')
     const [shiftState, setShiftState] = useState(false)
     const [interact, setInteract] = useState(false)
+    const [moveBlock, setMoveBlock] = useState(true)
 
     const A = 'A'
     const D = 'D'
@@ -13,12 +14,15 @@ export function Controller({setRequest, socket})
     const Shift = 'LeftShift'
     const Up = 'Up'
     const Down = 'Down'
-    const timeOut = 200
+
+    const moveBlockRange = 15; 
     
-    function setBaseState()
+    function setBaseState(target)
     {
+        target.value = 0
         ShiftUp()
         setCurrentKey('')
+        setMoveBlock(true)
     }
 
     function sendEvent(key, code) {
@@ -49,10 +53,19 @@ export function Controller({setRequest, socket})
             //setTimeout(() => sendEvent(key, Down), (timeOut))
             sendEvent(key, Down)
     }
+
+    function handleMoveBlock(sliderValue)
+    {
+        if(Math.abs(sliderValue) > moveBlockRange)
+            setMoveBlock(false)
+    }
     
     function handleInputChange(e) {
-        let target = e.target
-        const val = target.value
+        const val = e.target.value
+
+        handleMoveBlock(val)
+        if (moveBlock) return; 
+        //if (Math.abs(sliderValue) <= interactRange) return;
         if (val > 0 &&  val <= 100)
            setCurrentKey(D)
         else if (val < 0 && val >= -100)
@@ -67,32 +80,35 @@ export function Controller({setRequest, socket})
     }
 
     function handleOnPointerUp(e) {
-
-        if(interact)
+        if(interact && moveBlock)
         {
+            console.log("interact")
             sendEvent(W, Down)
             sendEvent(W, Up)
         }
-        e.target.value = 0
-        setBaseState()
+        console.log("up")
+        setBaseState(e.target)
     }
 
     function handleOnPointerMove() {
-        setInteract(false)
+        //setInteract(false)
     }
 
     function handleOnPointerOut(e)
     {
-        e.target.value = 0
-        setBaseState()
+        console.log('out')
+        setBaseState(e.target)
     }
 
     return (<>
         <div className="joystick">
             <div className="controller-container">
                 <input id="controller"type="range" min="-100" max="100" defaultValue="0"
-                onPointerDown={handleOnPointerDown} onPointerUp={handleOnPointerUp}
-                onPointerMove={handleOnPointerMove} onPointerOut={handleOnPointerOut}
+                onTouchStart={handleOnPointerDown} onTouchEnd={handleOnPointerUp} 
+                onTouchMove={handleOnPointerMove}
+                onMouseDown={handleOnPointerDown} onMouseUp={handleOnPointerUp}
+                onMouseMove={handleOnPointerMove} onMouseOut={handleOnPointerOut}
+
                 onInput={handleInputChange}></input>
             </div>
         </div>
