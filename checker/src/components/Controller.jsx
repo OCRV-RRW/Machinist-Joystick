@@ -1,8 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
 import './Controller.css'
+
 export function Controller({setRequest, socket})
 {
-    const moveEvent = {"Key":null,"State":null,"Role":"Assistant","Type":"InputEvent","ForServer":false}
+    const navigate = useNavigate();
+    const startMenuEvent = {"Role":"Assistant", "Type":"StartMenu", "ForServer":false};
+    const moveEvent = {"Key":null, "State":null, "Role":"Assistant", "Type":"InputEvent", "ForServer":false}
     const [currentKey, setKey] = useState('')
     const [shiftState, setShiftState] = useState(false)
     const [interact, setInteract] = useState(false)
@@ -50,7 +54,6 @@ export function Controller({setRequest, socket})
             sendEvent(currentKey, Up)
         setKey(key)
         if (key !== '')
-            //setTimeout(() => sendEvent(key, Down), (timeOut))
             sendEvent(key, Down)
     }
 
@@ -65,7 +68,6 @@ export function Controller({setRequest, socket})
 
         handleMoveBlock(val)
         if (moveBlock) return; 
-        //if (Math.abs(sliderValue) <= interactRange) return;
         if (val > 0 &&  val <= 100)
            setCurrentKey(D)
         else if (val < 0 && val >= -100)
@@ -100,8 +102,15 @@ export function Controller({setRequest, socket})
         setBaseState(e.target)
     }
 
+    function handleExit()
+    {
+        socket.send(JSON.stringify(startMenuEvent)) //TODO
+        navigate('/')
+    }
+
     return (<>
         <div className="joystick">
+            <button className="exit" onClick={handleExit}>Выйти</button>
             <div className="controller-container">
                 <input id="controller"type="range" min="-100" max="100" defaultValue="0"
                 onTouchStart={handleOnPointerDown} onTouchEnd={handleOnPointerUp} 

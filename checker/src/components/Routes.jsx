@@ -1,7 +1,7 @@
 import { useNavigate, Route, Routes} from 'react-router-dom';
 import { Joystick } from './Joystick';
 import { useState, useEffect } from 'react';
-import { Queue } from './Queue'
+import { Home } from './Home'
 
 export function AppRoutes({socket})
 {
@@ -63,16 +63,4 @@ export function ConnectionError({})
       <div>Произошла ошибка при соединении с сервером</div>
       <button onClick={handleReconnection}>Переподключиться</button>
     </>)
-}
-
-
-export function Home()
-{
-  const navigate = useNavigate();
-  return(
-    <>
-      <h1>Зайцы</h1>
-      <button onClick={() => navigate("/Joystick")}></button>
-    </>
-  );
 }

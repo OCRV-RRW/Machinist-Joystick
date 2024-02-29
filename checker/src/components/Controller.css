@@ -1,12 +1,15 @@
-
-div.joystick{
+div.joystick {
   width: 100%;
   height: 100%;
   position: absolute;
   background: grey;
 }
 
-div.controller-container{
+button.exit {
+  background-color: green;
+}
+
+div.controller-container {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -24,7 +27,6 @@ input[type="range"] {
 
 input[type="range"] {
   -webkit-appearance: none;
-  margin-right: 15px;
   background: url("../images/button_line.png");
   background-repeat: no-repeat;
   background-position: center center;

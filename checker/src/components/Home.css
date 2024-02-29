@@ -1,0 +1,32 @@
+div.start-page-container {
+    padding-bottom:50px;
+    position:relative;
+    margin-left: 10%;
+    margin-right: 10%;
+    top:10%;
+    height:70%;
+}
+
+div.start-page-container img{
+    max-width: 500px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    top:0px;
+    width:100%;
+}
+
+div.start-page-container button{
+    margin-top:20px;
+    position: absolute;
+    bottom: 0px;
+    width:100%;
+    font-size: 40px;
+    height: 100px;
+    appearance: none;
+    border: 0;
+    border-radius: 5px;
+    background: rgb(205, 32, 45);
+    color: #fff;
+    padding: 8px 16px;
+}
