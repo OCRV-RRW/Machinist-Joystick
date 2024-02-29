@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Controller } from './Controller';
+import { Queue } from './Queue';
+
 const joinRoom = {"RoomName": "Rabbits","ForServer":true, "Type":"JoinRoom"}
 const enterQueue = {"Role": "Assistant","ForServer":true,"Type":"EnterQueue"}
 
@@ -34,9 +36,7 @@ export function Joystick({setRequest, response, open, socket})
         {
             console.log('Join room ')
             JoinRoom()
-        }
-
-            
+        }  
     }, [open])
 
     useEffect(()=> {
@@ -61,13 +61,4 @@ export function Joystick({setRequest, response, open, socket})
     return (
         state
     );
-}
-
-export function Queue({spotInLine})
-{
-    return(
-    <>
-    <h1>Queue</h1>
-    <div>{spotInLine}</div>
-    </>)
 }

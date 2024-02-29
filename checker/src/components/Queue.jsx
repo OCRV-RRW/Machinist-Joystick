@@ -1,24 +1,8 @@
-import { useEffect } from "react";
-import { joinRoom } from "./events"
-
-const roomName = 'Rabbits'
-
-export function Queue({setRequest, response})
+export function Queue({spotInLine})
 {
-
-    // function JoinRoom(){
-    //     console.log('joinRoom')
-    //     var joinEvent = {...joinRoom}
-    //     joinEvent['RoomName'] = roomName
-    //     console.log(setRequest)
-    //     setRequest(joinRoom)
-    // }
-
-    // useEffect(()=> {
-    //     JoinRoom()
-    // }, [])
-
     return(
-        <div>Hello</div>
-    );
+    <>
+    <h1>Queue</h1>
+    <div>{spotInLine}</div>
+    </>)
 }
