@@ -11,7 +11,6 @@ function getWebSocket()
 {
   console.log('Create new websocket')
   socket =  new WebSocket('wss://ocrv-game.ru/Joystick') 
-  //return new WebSocket('ws://localhost:9000/Joystick') // ocrv-game.ru  //localhost:9000
 }
 
 export function AppRoutes()

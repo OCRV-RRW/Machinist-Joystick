@@ -59,15 +59,18 @@ export function Controller({setRequest, socket})
 
     function handleMoveBlock(sliderValue)
     {
-        if(Math.abs(sliderValue) > moveBlockRange)
+        if(Math.abs(sliderValue) > moveBlockRange){
             setMoveBlock(false)
+            return false
+        }
+        setMoveBlock(true)
+        return true
     }
     
     function handleInputChange(e) {
         const val = e.target.value
-
-        handleMoveBlock(val)
-        if (moveBlock) return; 
+        console.log('value ' + val)
+        if (handleMoveBlock(val)){console.log('block'); return;} 
         if (val > 0 &&  val <= 100)
            setCurrentKey(D)
         else if (val < 0 && val >= -100)
