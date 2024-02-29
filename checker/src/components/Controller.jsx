@@ -5,7 +5,7 @@ import './Controller.css'
 export function Controller({setRequest, socket})
 {
     const navigate = useNavigate();
-    const startMenuEvent = {"Role":"Assistant", "Type":"StartMenu", "ForServer":false};
+    const startMenuEvent = {"Role":"Assistant", "Type":"Quit", "ForServer":false};
     const moveEvent = {"Key":null, "State":null, "Role":"Assistant", "Type":"InputEvent", "ForServer":false}
     const [currentKey, setKey] = useState('')
     const [shiftState, setShiftState] = useState(false)

@@ -53,6 +53,7 @@ export function Joystick({setRequest, response, open, socket})
             setState(<Queue spotInLine={dir['SpotInLine']}/>)
         if (dir['Type'] === 'LetJoystickIntoGame')
         {
+
             setRequest(JSON.stringify({"Role":"Assistant","Type":"StartGameplay","ForServer":false}))
             setState(<Controller setRequest={setRequest} socket={socket}/>)
         }
