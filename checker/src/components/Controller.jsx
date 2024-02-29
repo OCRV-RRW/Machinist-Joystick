@@ -95,10 +95,6 @@ export function Controller({setRequest, socket})
         setBaseState(e.target)
     }
 
-    function handleOnPointerMove() {
-        //setInteract(false)
-    }
-
     function handleOnPointerOut(e)
     {
         console.log('out')
@@ -117,9 +113,9 @@ export function Controller({setRequest, socket})
             <div className="controller-container">
                 <input id="controller"type="range" min="-100" max="100" defaultValue="0"
                 onTouchStart={handleOnPointerDown} onTouchEnd={handleOnPointerUp} 
-                onTouchMove={handleOnPointerMove}
+
                 onMouseDown={handleOnPointerDown} onMouseUp={handleOnPointerUp}
-                onMouseMove={handleOnPointerMove} onMouseOut={handleOnPointerOut}
+                onMouseOut={handleOnPointerOut}
 
                 onInput={handleInputChange}></input>
             </div>
