@@ -28,6 +28,12 @@ export function Joystick({setRequest, response, open, socket})
         setRequest(JSON.stringify({...joinRoom}))
     }
 
+  useEffect(() => {
+    const onUnload = (...args) => navigate("/");
+    window.addEventListener("beforeunload", onUnload);
+    return () => window.removeEventListener("beforeunload", onUnload);
+  }, []);
+
     useEffect(()=> {
         if(open)
             JoinRoom()

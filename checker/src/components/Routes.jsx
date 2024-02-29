@@ -73,7 +73,6 @@ export function AppRoutes()
 
 
     return (
-      
         <Routes>
           <Route path="/Joystick" element={<Joystick setRequest={setRequest} response={response} open={open} socket={socket}/>} />
           <Route path="/" element={<Home connect={getWebSocket} initSocket={initSocket}/>} />

@@ -1,15 +1,22 @@
-div.start-page-container {
+div.start-page-container
+{
+    height: 100%;
+    width: 100%;
+    background-color: black;
+}
+
+div.start-page-button-container {
+    height: 70%;
     padding-bottom:50px;
     position:relative;
-    min-height:600px;
+    max-height: 550px;
     margin-left: 10%;
     margin-right: 10%;
     top:10%;
-    height:70%;
 }
 
 div.start-page-container img{
-    max-width: 500px;
+    max-width: 450px;
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);

@@ -7,8 +7,10 @@ export function Home({connect, initSocket})
 
   return(
     <div className="start-page-container">
-      <img src={require('../images/against _rabbits.jpg')}/>
-      <button onClick={() => {connect(); initSocket();navigate("/Joystick")}}>Подключиться</button>
+      <div className="start-page-button-container">
+        <img src={require('../images/against _rabbits.png')}/>
+        <button onClick={() => {connect(); initSocket();navigate("/Joystick")}}>Подключиться</button>
+      </div>
     </div>
   );
 }
