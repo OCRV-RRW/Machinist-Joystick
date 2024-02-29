@@ -1,6 +1,7 @@
 div.start-page-container {
     padding-bottom:50px;
     position:relative;
+    min-height:600px;
     margin-left: 10%;
     margin-right: 10%;
     top:10%;
