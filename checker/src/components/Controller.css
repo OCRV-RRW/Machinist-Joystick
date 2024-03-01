@@ -36,6 +36,9 @@ input[type="range"]::-webkit-slider-thumb {
   background: url("../images/button_move.png");
   background-repeat: no-repeat;
   background-position: center center;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
   background-size: 20vw 20vw;;
 }
 
