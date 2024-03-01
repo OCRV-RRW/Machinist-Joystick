@@ -12,7 +12,6 @@ export function Joystick({setRequest, response, open, socket})
     const [state, setState] = useState(<Connection/>)
     const [isConnectedToRoom, setIsConnectedToRoom] = useState(false)
     const navigate = useNavigate();
-    
     function handleRoomResponse(dir)
     {
         if (dir["IsSuchRoom"] === false)
