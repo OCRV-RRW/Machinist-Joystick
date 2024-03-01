@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Controller.css'
 
 export function Controller({setRequest, socket})
@@ -20,6 +20,18 @@ export function Controller({setRequest, socket})
     const Down = 'Down'
 
     const moveBlockRange = 15; 
+
+    function handleExit()
+    {
+        socket.send(JSON.stringify(startMenuEvent)) //TODO
+        navigate('/')
+    }
+
+    useEffect(() => {
+        window.onblur = () =>{
+            handleExit()
+        }
+    }, [])
 
     function setBaseState(target)
     {
@@ -99,12 +111,6 @@ export function Controller({setRequest, socket})
     {
         console.log('out')
         setBaseState(e.target)
-    }
-
-    function handleExit()
-    {
-        socket.send(JSON.stringify(startMenuEvent)) //TODO
-        navigate('/')
     }
 
     return (<>
