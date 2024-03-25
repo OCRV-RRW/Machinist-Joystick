@@ -1,0 +1,40 @@
+div.start-page-container
+{
+    height: 100%;
+    width: 100%;
+    background-color: black;
+}
+
+div.start-page-button-container {
+    height: 70%;
+    padding-bottom:50px;
+    position:relative;
+    max-height: 550px;
+    margin-left: 10%;
+    margin-right: 10%;
+    top:10%;
+}
+
+div.start-page-container img{
+    max-width: 450px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    top:0px;
+    width:100%;
+}
+
+div.start-page-container button{
+    margin-top:20px;
+    position: absolute;
+    bottom: 0px;
+    width:100%;
+    font-size: 40px;
+    height: 100px;
+    appearance: none;
+    border: 0;
+    border-radius: 5px;
+    background: rgb(205, 32, 45);
+    color: #fff;
+    padding: 8px 16px;
+}
