@@ -1,57 +1,59 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Controller } from './Controller';
-import { Queue } from './Queue';
-import { Connection } from './Connection';
 
-const joinRoom = {"RoomName": "Rabbits","ForServer":true, "Type":"JoinRoom"}
-const enterQueue = {"Role": "Assistant","ForServer":true,"Type":"EnterQueue"}
+const movementEvent = {"Right":false,"Left":false,"Interact":false,"Role":null,"Type":"MovementEvent","ForServer":false}
 
-export function Joystick({setRequest, response, open, socket})
+
+export function Joystick({socket})
 {
-    const [state, setState] = useState(<Connection/>)
-    const [isConnectedToRoom, setIsConnectedToRoom] = useState(false)
-    const navigate = useNavigate();
-    
-    function handleRoomResponse(dir)
+    const [left, setLeft] = useState(false)
+    const [right, setRight] = useState(false)
+
+    useEffect(() =>
     {
-        if (dir["IsSuchRoom"] === false)
-        {
-            setIsConnectedToRoom(false)
-            window.location.reload();
-            navigate("/")
-        }
-        if (dir["IsSuchRoom"] === true)
-            setIsConnectedToRoom(true)
+        let event = getMovementEvent()
+        socket.send(JSON.stringify(event))
+        console.log(event)
+    }, [left, right])
+
+    function getMovementEvent(){
+        let event = {...movementEvent}
+        event["Left"] = left
+        event["Right"] = right
+        event["Interact"] = false
+        return event
     }
 
-    function JoinRoom(){
-        setRequest(JSON.stringify({...joinRoom}))
+    function downLeft() {setLeft(true);}
+
+    function upLeft() {setLeft(false);}
+
+    function downRight() {setRight(true); }
+
+    function upRight() {setRight(false);}
+
+    function handleInteractClick()
+    {
+        console.log('interact')
+        let event = getMovementEvent()
+        event["Interact"] = true
+        socket.send(JSON.stringify(event))
+        event["Interact"] = false
+        socket.send(JSON.stringify(event))
     }
 
-    useEffect(()=> {
-        if(open)
-            JoinRoom()
-    }, [open])
-
-    useEffect(()=> {
-        if(isConnectedToRoom === true)
-            setRequest(JSON.stringify({...enterQueue}))  
-    }, [isConnectedToRoom])
-
-    useEffect(()=>{
-        console.log('get response: ' + response)
-        var dir = JSON.parse([response]);
-        if (dir['Type'] === 'JoinRoomResponse')
-            handleRoomResponse(dir)
-        if (dir['Type'] === 'UpdateSpotInLine')
-            setState(<Queue spotInLine={dir['SpotInLine']}/>)
-        if (dir['Type'] === 'LetJoystickIntoGame')
-        {
-            setRequest(JSON.stringify({"Role":"Assistant","Type":"StartGameplay","ForServer":false}))
-            setState(<Controller setRequest={setRequest} socket={socket}/>)
-        }
-    }, [response])
-
-    return (state);
+   return(
+    <>
+    <button 
+        onTouchStart={downLeft} onTouchEnd={upLeft}
+        onMouseDown={downLeft} onMouseUp={upLeft} onMouseOut={upLeft}
+    >Left</button>
+    <button  
+        onTouchStart={downRight} onTouchEnd={upRight} 
+        onMouseDown={downRight} onMouseUp={upRight} onMouseOut={upRight}
+    >Right</button>
+    <button
+        onClick={handleInteractClick}
+    >Interact</button>
+    </>
+   );
 }

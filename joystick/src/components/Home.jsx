@@ -1,15 +1,17 @@
-import { useNavigate } from 'react-router-dom';
 import './Home.css'
 
-export function Home({connect, initSocket})
+export function Home({connect, navigate})
 {
-  const navigate = useNavigate();
+  function handleOnStart()
+  {
+    navigate("/join")
+  }
 
   return(
     <div className="start-page-container">
       <div className="start-page-button-container">
         <img src={require('../images/against _rabbits.png')}/>
-        <button onClick={() => {connect(); initSocket();navigate("/Joystick")}}>Подключиться</button>
+        <button onClick={handleOnStart}>Подключиться</button>
       </div>
     </div>
   );
