@@ -29,17 +29,10 @@ input[type="range"] {
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  box-shadow: 0px 0px 0px 0px;
-  height: 20vw;
-  width: 20vw;
+  width: 100%;
+  margin: 7.3px 0;
+  background-color: transparent;
   -webkit-appearance: none;
-  background: url("../images/button_move.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  background-size: 20vw 20vw;;
 }
 
 button.exit {

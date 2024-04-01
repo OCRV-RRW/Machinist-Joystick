@@ -1,0 +1,77 @@
+#controllers-container{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+}
+
+#driver-controller-panel,
+#driver-crane-panel{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: auto 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width:  132px;
+    height: 230px;
+} 
+
+#driver-controller,
+#driver-crane
+{
+    background-color: rgba(0, 0, 0, 0);
+    -webkit-appearance: none;
+    position: absolute; 
+    left: -23px;
+    width: 170px;
+    top: 40px;
+    height: 90px;
+    margin: 30px 0;
+    transform: rotate(90deg);
+}
+
+/* left slider */
+#driver-controller-panel{
+    background: url("../images/left-controller-panel.svg");
+    left: 5vw;
+}
+
+#driver-controller::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    margin-top:-20px;
+    width: 40px;
+    height: 80px;
+    background: url("../images/left-slider.svg");
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+/* right slider */
+#driver-crane-panel{
+    background: url("../images/right-controller-panel.svg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: auto 100%;
+    width:  132px;
+    right: 5vw;
+}
+
+#driver-crane
+{
+    left: -60px;
+    top: 0px;
+    width:  132px;
+    height: 200px;
+}
+
+#driver-crane::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 100px;
+    margin-top: 110px;
+    background-color: grey;
+    border-radius: 30px;
+    cursor: pointer;
+}

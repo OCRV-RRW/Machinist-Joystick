@@ -1,24 +1,21 @@
 import { useState } from "react";
+import './ChooseRoom.css'
 
 export function ChooseRoom({onJoin, socket})
 {
     const [errorMessage, setErrorMessage] = useState()
 
     const joinRoom = {"RoomName": "","ForServer":true, "Type":"JoinRoomRequest"}
-
+    
     function handleRoomResponse(response)
     {
         var dir = JSON.parse([response]);
         if (dir["Type"] !== "JoinRoomResponse") return;
 
         if (dir["IsSuchRoom"] === false)
-        {
-            setErrorMessage(<div>Такой комнаты не существует</div>)
-        }
+            setErrorMessage(<p className="error">Комната с таким именем ещё не создана.</p>)
         if (dir["IsSuchRoom"] === true)
-        {
             onJoin()
-        }
     }
 
     function handleJoinRoom() {
@@ -34,12 +31,11 @@ export function ChooseRoom({onJoin, socket})
     }
       
     return (
-        <>
-            <label>
-                Название комнаты: <input id="roomName" type="text"/>
-            </label>
+        <div className="choose-room-container">
+            <p id="label">Название комнаты:</p>
+            <input id="roomName" type="text"/>
             {errorMessage}
-            <button onClick={handleJoinRoom}>Выбрать</button>
-        </>
+            <button className="default-button" onClick={handleJoinRoom}>Выбрать</button></div>
+        
     );
 }

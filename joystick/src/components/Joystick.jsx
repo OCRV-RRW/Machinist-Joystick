@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import './Joystick.css'
 
 const movementEvent = {"Right":false,"Left":false,"Interact":false,"Role":null,"Type":"MovementEvent","ForServer":false}
 
@@ -23,13 +24,13 @@ export function Joystick({socket})
         return event
     }
 
-    function downLeft() {setLeft(true);}
+    const downLeft = () => setLeft(true)
 
-    function upLeft() {setLeft(false);}
+    const upLeft = () => setLeft(false)
 
-    function downRight() {setRight(true); }
+    const downRight = () => setRight(true)
 
-    function upRight() {setRight(false);}
+    const upRight = () => setRight(false)
 
     function handleInteractClick()
     {
@@ -43,17 +44,17 @@ export function Joystick({socket})
 
    return(
     <>
-    <button 
+    <button id="left"
         onTouchStart={downLeft} onTouchEnd={upLeft}
         onMouseDown={downLeft} onMouseUp={upLeft} onMouseOut={upLeft}
-    >Left</button>
-    <button  
+    ></button>
+    <button id="right"
         onTouchStart={downRight} onTouchEnd={upRight} 
         onMouseDown={downRight} onMouseUp={upRight} onMouseOut={upRight}
-    >Right</button>
-    <button
+    ></button>
+    <button id="interact"
         onClick={handleInteractClick}
-    >Interact</button>
+    ></button>
     </>
    );
 }

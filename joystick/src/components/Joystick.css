@@ -1,0 +1,50 @@
+#left, #right, #interact {
+    position: absolute;
+    width: 26vw;
+    height: 26vw;
+    bottom: 0;
+    background: url("../images/moving_button.svg");
+    -webkit-appearance: none;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+    border: none;
+}
+
+#left{
+    left:0;
+}
+
+#right{
+    right: 0px;
+    transform: rotate(180deg)
+}
+
+#interact{
+    
+    position: absolute;
+    bottom:0;
+    -webkit-appearance: none;
+    background: url("../images/interact_button.svg");
+    width: 25vw;
+    height: 25vw;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% auto;
+    border: none;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+
+#left:active,
+#right:active,
+#interact:active
+{
+    width: 28vw;
+    height: 28vw;
+}
+
+  
