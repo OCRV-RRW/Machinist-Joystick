@@ -21,12 +21,9 @@ export function ChooseRoom({onJoin, socket})
     function handleJoinRoom() {
 
         let roomName = document.getElementById("roomName").value
-        socket.onopen = () => {console.log("open")}
         socket.addEventListener("message", (event) => {handleRoomResponse(event.data)});
         let event = {...joinRoom}
         event["RoomName"] = roomName
-        console.log(event)
-        console.log(socket.OPEN)
         socket.send(JSON.stringify(event))
     }
       
