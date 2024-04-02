@@ -1,10 +1,32 @@
+import { useEffect, useState } from "react"
 import "./Queue.css"
 
-export function Queue({spotInLine})
+export function Queue({socket, onEnterGame, chooseRole})
 {
-    return(
+    const leaveQueueEvent = {}
+    const [spotInLine, seSpotInLine] = useState("-")
+
+    function handleQueueEvent(e)
+    {
+        var dir = JSON.parse([e.data]);
+        if (dir["Type"] === "UpdateSpotInLine") seSpotInLine(dir["SpotInLine"]);
+        if (dir["Type"] === "LetJoystickIntoGame") onEnterGame();
+    }
+
+    function LeaveQueue()
+    {
+        socket.send(JSON.stringify(leaveQueueEvent))
+        chooseRole()
+    }
+
+    useEffect(() => {
+        socket.addEventListener("message", (e)=>handleQueueEvent(e))
+    })
+
+    return (
         <>
         <div id="header-queue">Oчередь</div>
+        <button onClick={LeaveQueue}>leave</button>
         <div className="spot-in-line-container">
         <p>
             Место в очереди:
@@ -12,5 +34,5 @@ export function Queue({spotInLine})
         <p id="spot-in-line">{spotInLine}</p>
         </div>
         </>
-)
+    )
 }
