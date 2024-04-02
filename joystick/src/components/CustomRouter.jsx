@@ -2,9 +2,11 @@ import { Joystick } from './Joystick';
 import { useCallback, useEffect, useState } from 'react';
 import { Home } from './Home';
 import { Join } from './Join';
+import { Reconnection } from './Reconnection';
 
-function getSocket(){
-  let socket = new WebSocket('ws://localhost:9000/Joystick') // TODO:
+export function getSocket(){
+  //let socket = new WebSocket('ws://localhost:9000/Joystick') // TODO:
+  let socket = new WebSocket('wss://ocrv-game.ru/v2.0/Joystick') // TODO:
   console.log("Open socket")
   socket.addEventListener("message", (e) => {console.log("receive message: " + e.data)})
   return socket
@@ -59,17 +61,4 @@ export function CustomRouter() {
     content = <Reconnection setSocket={setSocket} navigate={navigate}/>
 
   return (content);
-}
-
-
-export function Reconnection({setSocket, navigate})
-{
-  function handleReconnect()
-  {
-    console.log(setSocket)
-    setSocket(getSocket())
-    navigate('/')
-  }
-
-  return (<button onClick={handleReconnect}>Переподключиться</button>)
 }
