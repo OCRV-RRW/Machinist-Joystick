@@ -1,0 +1,25 @@
+#choose-role-container{
+    position: absolute;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+
+    height: 40%;
+}
+
+#machinist-button, #assistant-button{
+    font-size: 5vw;
+    position: absolute;
+    height: 100%;
+    width: 40vw;
+}
+
+#machinist-button{
+    left: 0;
+    margin-left: 5vw;
+}
+
+#assistant-button{
+    right: 0;
+    margin-right: 5vw;
+}

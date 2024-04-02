@@ -1,3 +1,5 @@
+import "./ChooseRoleAndEnterQueue.css"
+
 export function ChooseRoleAndEnterQueue({socket, onEnterQueue, onEnterGame})
 {
     const roleEvent = {"Role": "Assistant","ForServer":true,"Type":"EnterQueueRequest"}
@@ -30,9 +32,9 @@ export function ChooseRoleAndEnterQueue({socket, onEnterQueue, onEnterGame})
     }
 
     return (
-    <div>
-        <button onClick={onChooseMachinist}>Машинист</button>
-        <button onClick={onChooseAssistant}>Ассистент</button>
+    <div id='choose-role-container'>
+        <button id='machinist-button' className='default-button' onClick={onChooseMachinist}>Машинист</button>
+        <button id='assistant-button' className='default-button' onClick={onChooseAssistant}>Ассистент</button>
     </div>
     );
 }
