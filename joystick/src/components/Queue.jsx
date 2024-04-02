@@ -19,14 +19,18 @@ export function Queue({socket, onEnterGame, chooseRole})
         chooseRole()
     }
 
-    useEffect(() => {
-        socket.addEventListener("message", (e)=>handleQueueEvent(e))
-    })
+    // useEffect(() => {
+    //     socket.addEventListener("message", (e)=>handleQueueEvent(e))
+    // })
 
     return (
         <>
         <div id="header-queue">Oчередь</div>
-        <button onClick={LeaveQueue}>leave</button>
+        <div id="leave-container">
+            <button className="default-button" onClick={LeaveQueue}>
+                выйти
+            </button>
+        </div>
         <div className="spot-in-line-container">
         <p>
             Место в очереди:
