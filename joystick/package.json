@@ -37,7 +37,7 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://momuswinner.github.io/ticketchecker",
+  "homepage": "https://momuswinner.github.io/joystick",
   "devDependencies": {
     "babel-plugin-transform-remove-console": "^6.9.4"
   }
