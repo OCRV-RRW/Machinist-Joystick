@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './TrainControlPanel.css'
 
-export function TrainControlPanel({socket})
+export function TrainControlPanel({socket, navigate})
 {
     const trainMovementEvent = {"Crane":0,"Controller":0,"Role":null,"Type":"TrainMovement","ForServer":false}
 
@@ -42,14 +42,15 @@ export function TrainControlPanel({socket})
 , [crane])
 
     useEffect(()=>{
-        trainMovementEvent["Controller"] = rangeToController[controller]
-        trainMovementEvent["Crane"] = crane
-        console.log(trainMovementEvent) //TODO:
-        socket.send(JSON.stringify(trainMovementEvent))
+        // trainMovementEvent["Controller"] = rangeToController[controller]
+        // trainMovementEvent["Crane"] = crane
+        // console.log(trainMovementEvent) //TODO:
+        // socket.send(JSON.stringify(trainMovementEvent))
     }, [controller, crane])
 
     return (
         <>
+        <button id="return-to-joystick" className="default-button" onClick={() => navigate('/joystick')}></button>
         <div id="controllers-container">
             <div id="driver-controller-panel">
                 <input 

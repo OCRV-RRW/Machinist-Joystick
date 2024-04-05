@@ -1,6 +1,6 @@
 #controllers-container{
     position: absolute;
-    top: 50%;
+    top: 60%;
     transform: translateY(-50%);
     width: 100%;
 }
@@ -74,4 +74,19 @@
     background-color: grey;
     border-radius: 30px;
     cursor: pointer;
+}
+
+
+#return-to-joystick{
+    padding: 0;
+    border: none;
+    margin-top: 10px;
+    left: 10px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: url("../images/return-to-joystick.svg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #D9D9D9;
 }
