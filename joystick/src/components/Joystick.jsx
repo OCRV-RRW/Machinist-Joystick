@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 import './Joystick.css'
 
 const movementEvent = {"Right":false,"Left":false,"Interact":false,"Role":null,"Type":"MovementEvent","ForServer":false}
-const openTrainControlPanelEvent = {"Role":null,"Type":"OpenTrainControlPanel","ForServer":false}
 
 export function Joystick({socket, navigate})
 {
     const [left, setLeft] = useState(false)
     const [right, setRight] = useState(false)
+    const [interact, setInteract] = useState(false)
 
 
     const handleSocketEvent = useCallback( (data) => {
@@ -22,7 +22,7 @@ export function Joystick({socket, navigate})
         let event = getMovementEvent()
         socket.send(JSON.stringify(event))
         console.log(event)
-    }, [left, right])
+    }, [left, right, interact])
 
     useEffect(() => {
         socket.addEventListener("message", (event) => {handleSocketEvent(event.data)});
@@ -31,13 +31,15 @@ export function Joystick({socket, navigate})
         };
     })
 
-    function getMovementEvent(){
+    const getMovementEvent = useCallback(() =>
+    {
         let event = {...movementEvent}
         event["Left"] = left
         event["Right"] = right
-        event["Interact"] = false
+        event["Interact"] = interact
         return event
-    }
+    }, [left, right, interact]
+    )
 
     const downLeft = () => setLeft(true)
 
@@ -47,14 +49,9 @@ export function Joystick({socket, navigate})
 
     const upRight = () => setRight(false)
 
-    function handleInteractClick()
-    {
-        let event = getMovementEvent()
-        event["Interact"] = true
-        socket.send(JSON.stringify(event))
-        event["Interact"] = false
-        socket.send(JSON.stringify(event))
-    }
+    const upInteract = () => setInteract(false)
+
+    const downInteract = () => setInteract(true)
 
    return(
     <>
@@ -67,7 +64,8 @@ export function Joystick({socket, navigate})
         onMouseDown={downRight} onMouseUp={upRight} onMouseOut={upRight}
     ></button>
     <button id="interact"
-        onClick={handleInteractClick}
+        onTouchStart={downInteract} onTouchEnd={upInteract} 
+        onMouseDown={downInteract} onMouseUp={upInteract} onMouseOut={upInteract}
     ></button>
     </>
    );
