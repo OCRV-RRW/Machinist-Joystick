@@ -49,7 +49,7 @@ html, body, #root {
 /* Default button */
 
 .default-button{
-  border: 0;
+  border: none;
   background: #525252;
   font-family: "Roboto";
   font-size: 20px;
