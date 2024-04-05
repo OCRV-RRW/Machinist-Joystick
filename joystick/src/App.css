@@ -38,7 +38,8 @@
 }
 
 body {
-    margin: 0;
+  overflow:hidden; /*To remove the reboot when the gesture is down*/ 
+  margin: 0;
 }
 
 html, body, #root {
