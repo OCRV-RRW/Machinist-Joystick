@@ -1,11 +1,21 @@
 import { useState, useEffect } from 'react'
-import './TrainJoystick.css'
+import './TrainControlPanel.css'
 
-export function TrainJoystick()
+export function TrainControlPanel({socket})
 {
-    const trainMovementEvent = {"controllerMode":0,"craneMode":1,"Role":null,"Type":"TrainMovementEvent","ForServer":false}
+    const trainMovementEvent = {"Crane":0,"Controller":0,"Role":null,"Type":"TrainMovement","ForServer":false}
+
     const [controller, setController] = useState(2)
     const [crane, setCrane] = useState(1)
+
+    //https://www.notion.so/sergsamsonov/3daa131736af46c4bc285434fa9b1c9c
+    const rangeToController = {
+        0: 3,
+        1: 2,
+        2: 1,
+        3: 0,
+        4: 4
+    }
 
     function handleDriverController(e) {
         let value = e.target.value
@@ -19,12 +29,11 @@ export function TrainJoystick()
         setCrane(value)
     }
 
-
     useEffect(()=>{
         var slider = document.querySelector('[data="test"]')
 
-            if (crane === '0')
-            slider.innerHTML = "#driver-crane::-webkit-slider-thumb { transform : rotate(30deg); }"
+        if (crane === '0')
+        slider.innerHTML = "#driver-crane::-webkit-slider-thumb { transform : rotate(30deg); }"
         if (crane === '1')
             slider.innerHTML = "#driver-crane::-webkit-slider-thumb {  transform : rotate(0deg); }"
         if (crane === '2')
@@ -32,12 +41,11 @@ export function TrainJoystick()
     }
 , [crane])
 
-
-
     useEffect(()=>{
-        trainMovementEvent["controllerMode"] = controller
-        trainMovementEvent["craneMode"] = crane
-        console.log(trainMovementEvent)
+        trainMovementEvent["Controller"] = rangeToController[controller]
+        trainMovementEvent["Crane"] = crane
+        console.log(trainMovementEvent) //TODO:
+        socket.send(JSON.stringify(trainMovementEvent))
     }, [controller, crane])
 
     return (

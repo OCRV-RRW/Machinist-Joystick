@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Home } from './Home';
 import { Join } from './Join';
 import { Reconnection } from './Reconnection';
+import { TrainControlPanel } from './TrainControlPanel'
 
 export function getSocket(){
   //let socket = new WebSocket('ws://localhost:9000/Joystick') // TODO:
@@ -56,9 +57,11 @@ export function CustomRouter() {
   else if (page === '/join')
     content = <Join socket={socket} navigate={navigate}/>;
   else if (page === '/joystick')
-    content = <Joystick socket={socket} />;
+    content = <Joystick socket={socket} navigate={navigate}/>;
   else if (page === '/reconnection')
     content = <Reconnection setSocket={setSocket} navigate={navigate}/>
+  else if (page === '/trainControlPanel')
+    content = <TrainControlPanel socket={socket} navigate={navigate}/>
 
   return (content);
 }

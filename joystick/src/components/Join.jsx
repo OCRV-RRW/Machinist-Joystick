@@ -12,9 +12,9 @@ export function Join({socket, navigate})
         setState(<ChooseRoleAndEnterQueue onEnterQueue={onEnterQueue} onEnterGame={onEnterGame} socket={socket}/>)
     }
 
-    function onEnterQueue()
+    function onEnterQueue(spotInLine)
     {
-        setState(<Queue socket={socket} onEnterGame={onEnterGame} chooseRole={chooseRole}/>)
+        setState(<Queue socket={socket} startSpotInLine={spotInLine} onEnterGame={onEnterGame} chooseRole={chooseRole}/>)
     }
 
     function onEnterGame()

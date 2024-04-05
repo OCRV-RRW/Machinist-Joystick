@@ -7,9 +7,10 @@ export function ChooseRoleAndEnterQueue({socket, onEnterQueue, onEnterGame})
 
     function handleEnterQueueResponse(e)
     {
-        var dir = JSON.parse([e.data]);
-        if (dir["Type"] === "EnterQueueResponse") onEnterQueue();
-        if (dir["Type"] === "LetJoystickIntoGame") onEnterGame();
+        var dir = JSON.parse([e.data])
+        // if (dir["Type"] === "EnterQueueResponse") //TODO:
+        if (dir["Type"] === "LetJoystickIntoGame") onEnterGame()
+        if (dir["Type"] === "UpdateSpotInLine")  onEnterQueue(dir["SpotInLine"])
     }
 
     function onChooseMachinist()
@@ -32,9 +33,12 @@ export function ChooseRoleAndEnterQueue({socket, onEnterQueue, onEnterGame})
     }
 
     return (
-    <div id='choose-role-container'>
-        <button id='machinist-button' className='default-button' onClick={onChooseMachinist}>Машинист</button>
-        <button id='assistant-button' className='default-button' onClick={onChooseAssistant}>Ассистент</button>
-    </div>
+        <>
+        <p id='choose-role-title'>Выберите роль</p> 
+        <div id='choose-role-container'>
+            <button id='machinist-button' className='default-button' onClick={onChooseMachinist}>Машинист</button>
+            <button id='assistant-button' className='default-button' onClick={onChooseAssistant}>Ассистент</button>
+        </div>
+        </>
     );
 }

@@ -50,6 +50,7 @@ html, body, #root {
 .default-button{
   border: 0;
   background: #525252;
+  font-family: "Roboto";
   font-size: 20px;
   color: white;
   border-radius: 7px;
@@ -68,4 +69,9 @@ html, body, #root {
   top: 3px;
   box-shadow: 0 2px 0px #121212;
   transition: all .2s;
+}
+
+
+p{
+  font-family: "Roboto";
 }

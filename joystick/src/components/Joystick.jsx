@@ -1,13 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './Joystick.css'
 
 const movementEvent = {"Right":false,"Left":false,"Interact":false,"Role":null,"Type":"MovementEvent","ForServer":false}
+const openTrainControlPanelEvent = {"Role":null,"Type":"OpenTrainControlPanel","ForServer":false}
 
-
-export function Joystick({socket})
+export function Joystick({socket, navigate})
 {
     const [left, setLeft] = useState(false)
     const [right, setRight] = useState(false)
+
+
+    const handleSocketEvent = useCallback( (data) => {
+        console.log(data)
+        var dir = JSON.parse([data]);
+        if (dir["Type"] !== "OpenTrainControlPanel") return;
+        navigate('/trainControlPanel')
+      })
 
     useEffect(() =>
     {
@@ -15,6 +23,13 @@ export function Joystick({socket})
         socket.send(JSON.stringify(event))
         console.log(event)
     }, [left, right])
+
+    useEffect(() => {
+        socket.addEventListener("message", (event) => {handleSocketEvent(event.data)});
+        return () => {
+          socket.removeEventListener("message", (event) => {handleSocketEvent(event.data)});
+        };
+    })
 
     function getMovementEvent(){
         let event = {...movementEvent}
@@ -34,7 +49,6 @@ export function Joystick({socket})
 
     function handleInteractClick()
     {
-        console.log('interact')
         let event = getMovementEvent()
         event["Interact"] = true
         socket.send(JSON.stringify(event))

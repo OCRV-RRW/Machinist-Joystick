@@ -3,8 +3,8 @@
     margin: auto;
     position: absolute;
     top: 0; left: 0; bottom: 0; right: 0;
-
-    height: 40%;
+    height: 30vh;
+    max-height: 200px;
 }
 
 #machinist-button, #assistant-button{
@@ -22,4 +22,13 @@
 #assistant-button{
     right: 0;
     margin-right: 5vw;
+}
+
+
+#choose-role-title{
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    font-size: 40px;
 }

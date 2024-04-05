@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import "./Queue.css"
 
-export function Queue({socket, onEnterGame, chooseRole})
+export function Queue({socket, onEnterGame, chooseRole, startSpotInLine})
 {
     const leaveQueueEvent = {}
-    const [spotInLine, seSpotInLine] = useState("-")
+    const [spotInLine, seSpotInLine] = useState(startSpotInLine)
 
     function handleQueueEvent(e)
     {
@@ -19,9 +19,10 @@ export function Queue({socket, onEnterGame, chooseRole})
         chooseRole()
     }
 
-    // useEffect(() => {
-    //     socket.addEventListener("message", (e)=>handleQueueEvent(e))
-    // })
+    useEffect(() => {
+        console.log("start handle queue events")
+        socket.addEventListener("message", (e)=>handleQueueEvent(e))
+    })
 
     return (
         <>
