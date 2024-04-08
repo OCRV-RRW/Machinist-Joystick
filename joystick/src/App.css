@@ -37,6 +37,14 @@
   }
 }
 
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   overflow:hidden; /*To remove the reboot when the gesture is down*/ 
   margin: 0;
@@ -49,6 +57,12 @@ html, body, #root {
 /* Default button */
 
 .default-button{
+  /* disable user select */
+  -ms-user-select: none; 
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  user-select: none;
+
   border: none;
   background: #525252;
   font-family: "Roboto";
