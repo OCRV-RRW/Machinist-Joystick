@@ -42,9 +42,9 @@ export function TrainControlPanel({socket, navigate})
 , [crane])
 
     useEffect(()=>{
-        // trainMovementEvent["Controller"] = rangeToController[controller]
-        // trainMovementEvent["Crane"] = crane
-        // socket.send(JSON.stringify(trainMovementEvent))
+        trainMovementEvent["Controller"] = rangeToController[controller]
+        trainMovementEvent["Crane"] = crane
+        socket.send(JSON.stringify(trainMovementEvent))
     }, [controller, crane])
 
     return (
