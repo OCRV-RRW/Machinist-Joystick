@@ -46,6 +46,7 @@ a {
 }
 
 body {
+  -webkit-touch-callout: none !important; 
   overflow:hidden; /*To remove the reboot when the gesture is down*/ 
   margin: 0;
 }
@@ -64,6 +65,8 @@ html, body, #root {
 /* Default button */
 
 .default-button{
+  -webkit-touch-callout: none !important; 
+
   /* disable user select */
   -ms-user-select: none; 
   -moz-user-select: none; 

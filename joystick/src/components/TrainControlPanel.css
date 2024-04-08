@@ -67,6 +67,7 @@
 }
 
 #driver-crane::-webkit-slider-thumb {
+    transform : rotate(30deg); 
     -webkit-appearance: none;
     width: 20px;
     height: 100px;
