@@ -42,15 +42,15 @@ export function TrainControlPanel({socket, navigate})
 , [crane])
 
     useEffect(()=>{
-        trainMovementEvent["Controller"] = rangeToController[controller]
-        trainMovementEvent["Crane"] = crane
-        socket.send(JSON.stringify(trainMovementEvent))
+        // trainMovementEvent["Controller"] = rangeToController[controller]
+        // trainMovementEvent["Crane"] = crane
+        // socket.send(JSON.stringify(trainMovementEvent))
     }, [controller, crane])
 
     return (
         <>
         <button id="return-to-joystick" className="default-button" onClick={() => navigate('/joystick')}></button>
-        <div id="controllers-container">
+        <div id="controllers-container" className='unselect'>
             <div id="driver-controller-panel">
                 <input 
                     id="driver-controller"

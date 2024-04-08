@@ -1,6 +1,6 @@
 #controllers-container{
     position: absolute;
-    top: 60%;
+    top: 50%;
     transform: translateY(-50%);
     width: 100%;
 }
@@ -78,9 +78,13 @@
 
 
 #return-to-joystick{
+    position: absolute;
     padding: 0;
     margin-top: 10px;
-    left: 10px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
     width: 70px;
     height: 70px;
     border-radius: 50%;

@@ -54,6 +54,13 @@ html, body, #root {
   height: 100%;
 }
 
+.unselect{
+  -ms-user-select: none; 
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  user-select: none;
+}
+
 /* Default button */
 
 .default-button{

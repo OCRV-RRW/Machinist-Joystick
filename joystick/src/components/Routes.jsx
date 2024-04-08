@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { CustomRouter } from './CustomRouter';
+import { TrainControlPanel } from './TrainControlPanel';
 
 export function AppRoutes()
 {
@@ -9,6 +9,6 @@ export function AppRoutes()
   }, [])
 
   return (
-    <CustomRouter/>
+    <TrainControlPanel/>
   )
 }
