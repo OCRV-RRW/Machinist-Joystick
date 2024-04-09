@@ -5,7 +5,7 @@ export function TrainControlPanel({socket, navigate})
 {
     const trainMovementEvent = {"Crane":0,"Controller":0,"Role":null,"Type":"TrainMovement","ForServer":false}
 
-    const [controller, setController] = useState(2)
+    const [controller, setController] = useState(3)
     const [crane, setCrane] = useState(0)
 
     //https://www.notion.so/sergsamsonov/3daa131736af46c4bc285434fa9b1c9c
@@ -41,6 +41,7 @@ export function TrainControlPanel({socket, navigate})
 
     useEffect(()=>{
         trainMovementEvent["Controller"] = rangeToController[controller]
+        console.log("controller: " + controller + ", value: " + rangeToController[controller])
         trainMovementEvent["Crane"] = crane
         socket.send(JSON.stringify(trainMovementEvent))
     }, [controller, crane])
