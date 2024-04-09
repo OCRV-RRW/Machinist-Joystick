@@ -3,7 +3,7 @@ import { CustomRouter } from './CustomRouter';
 
 export function AppRoutes()
 {
-  // window.oncontextmenu = function() { return false; }
+  window.oncontextmenu = function() { return false; }
 
   useEffect(()=>{
     var viewportmeta = document.querySelector('meta[name="viewport"]');

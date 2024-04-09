@@ -38,6 +38,7 @@
 }
 
 #driver-controller::-webkit-slider-thumb {
+    pointer-events: auto;
     -webkit-appearance: none;
     margin-top:-20px;
     width: 40px;
@@ -67,6 +68,7 @@
 }
 
 #driver-crane::-webkit-slider-thumb {
+    pointer-events: auto;
     transform : rotate(30deg); 
     -webkit-appearance: none;
     width: 20px;
@@ -93,4 +95,11 @@
     background-repeat: no-repeat;
     background-position: center center;
     background-color: #D9D9D9;
+}
+
+
+#driver-crane,
+#driver-controller
+{ 
+    pointer-events: none;
 }
