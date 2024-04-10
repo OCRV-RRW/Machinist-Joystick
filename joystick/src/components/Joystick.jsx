@@ -55,15 +55,18 @@ export function Joystick({socket, navigate})
 
    return(
     <div id="move-button-container">
-        <button id="left" className="default-button"
+        <button id="left"
+            className={left ? "press-button" : "up-button"}
             onTouchStart={downLeft} onTouchEnd={upLeft}
             onMouseDown={downLeft} onMouseUp={upLeft} onMouseOut={upLeft}
         ></button>
-        <button id="right" className="default-button"
+        <button id="right"
+            className={right ? "press-button" : "up-button"}
             onTouchStart={downRight} onTouchEnd={upRight} 
             onMouseDown={downRight} onMouseUp={upRight} onMouseOut={upRight}
         ></button>
-        <button id="interact" className="default-button"
+        <button id="interact"
+            className={interact ? "press-button" : "up-button"}
             onTouchStart={downInteract} onTouchEnd={upInteract} 
             onMouseDown={downInteract} onMouseUp={upInteract} onMouseOut={upInteract}
         ></button>

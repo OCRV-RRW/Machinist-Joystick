@@ -42,3 +42,32 @@
     border-radius: 50%;
     border: none;
 }
+
+.up-button, .press-button{
+    /* disable user select */
+    -ms-user-select: none; 
+    -moz-user-select: none; 
+    -webkit-user-select: none; 
+    user-select: none;
+    border: none;
+    background: #525252;
+    font-family: "Roboto";
+    font-size: 20px;
+    color: white;
+    border-radius: 7px;
+    box-shadow: 0 7px 0px #242424;
+    display: inline-block;
+    transition: all .2s;
+    position: relative;
+    padding: 20px 25px;
+    position: relative;
+    top: 0;
+    cursor: pointer;
+    margin:0 20px;
+}
+
+.press-button{
+    top: 3px;
+    box-shadow: 0 2px 0px #121212;
+    transition: all .2s;
+}
