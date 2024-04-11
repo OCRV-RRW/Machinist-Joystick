@@ -8,5 +8,8 @@ export function Reconnection({ setSocket, navigate }) {
     navigate('/');
   }
 
-  return (<button id='reconnection-button' className='default-button' onClick={handleReconnect}>Переподключиться</button>);
+  return (
+    <button id='reconnection-button' className='default-button' onClick={handleReconnect}>
+      Переподключиться
+    </button>);
 }
