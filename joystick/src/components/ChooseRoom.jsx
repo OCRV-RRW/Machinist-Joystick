@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import './ChooseRoom.css'
 
 export function ChooseRoom({onJoin, socket})
@@ -17,11 +17,16 @@ export function ChooseRoom({onJoin, socket})
         if (dir["IsSuchRoom"] === true)
             onJoin()
     }
+    
+    useEffect(() => {
+        socket.addEventListener("message", (event) => {handleRoomResponse(event.data)});
+        return () => {
+          socket.removeEventListener("message", (event) => {handleRoomResponse(event.data)});
+        };
+    })
 
     function handleJoinRoom() {
-
         let roomName = document.getElementById("roomName").value
-        socket.addEventListener("message", (event) => {handleRoomResponse(event.data)});
         let event = {...joinRoom}
         event["RoomName"] = roomName
         socket.send(JSON.stringify(event))

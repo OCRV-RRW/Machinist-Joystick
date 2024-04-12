@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import "./ChooseRoleAndEnterQueue.css"
 
 export function ChooseRoleAndEnterQueue({socket, onEnterQueue, onEnterGame})
@@ -23,13 +24,18 @@ export function ChooseRoleAndEnterQueue({socket, onEnterQueue, onEnterGame})
         ChooseRole("Assistant")
     }
 
+    useEffect(() => {
+        socket.addEventListener("message", (event) => {handleEnterQueueResponse(event.data)});
+        return () => {
+          socket.removeEventListener("message", (event) => {handleEnterQueueResponse(event.data)});
+        };
+    })
+
     function ChooseRole(role)
     {
         let event = {...roleEvent}
         event["Role"] = role
         socket.send(JSON.stringify(event))
-
-        socket.addEventListener("message", handleEnterQueueResponse)
     }
 
     return (
