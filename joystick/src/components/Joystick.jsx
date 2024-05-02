@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import './Joystick.css'
+import {BrowserView, MobileView} from 'react-device-detect';
 
 const movementEvent = {"Right":false,"Left":false,"Interact":false,"Role":null,"Type":"MovementEvent","ForServer":false}
 
@@ -8,7 +9,6 @@ export function Joystick({socket, navigate})
     const [left, setLeft] = useState(false)
     const [right, setRight] = useState(false)
     const [interact, setInteract] = useState(false)
-
 
     const handleSocketEvent = useCallback( (data) => {
         console.log(data)
@@ -53,23 +53,45 @@ export function Joystick({socket, navigate})
 
     const downInteract = () => setInteract(true)
 
+    function onClickInteract () {
+        setInteract(true)
+        setTimeout(()=>{setInteract(false)}, 100 )
+    }
+
    return(
+    <>
+    <MobileView>
+        <div id="move-button-container">
+            <button id="left"
+                className={left ? "press-button" : "up-button"}
+                onTouchStart={downLeft} onTouchEnd={upLeft}
+            ></button>
+            <button id="right"
+                className={right ? "press-button" : "up-button"}
+                onTouchStart={downRight} onTouchEnd={upRight} 
+            ></button>
+            <button id="interact"
+                className={interact ? "press-button" : "up-button"}
+                onTouchStart={downInteract} onTouchEnd={upInteract} 
+            ></button>
+        </div>
+    </MobileView>
+    <BrowserView>
     <div id="move-button-container">
         <button id="left"
             className={left ? "press-button" : "up-button"}
-            onTouchStart={downLeft} onTouchEnd={upLeft}
             onMouseDown={downLeft} onMouseUp={upLeft} onMouseOut={upLeft}
         ></button>
         <button id="right"
             className={right ? "press-button" : "up-button"}
-            onTouchStart={downRight} onTouchEnd={upRight} 
             onMouseDown={downRight} onMouseUp={upRight} onMouseOut={upRight}
         ></button>
         <button id="interact"
             className={interact ? "press-button" : "up-button"}
-            onTouchStart={downInteract} onTouchEnd={upInteract} 
             onMouseDown={downInteract} onMouseUp={upInteract} onMouseOut={upInteract}
         ></button>
     </div>
+    </BrowserView>
+    </>
    );
 }

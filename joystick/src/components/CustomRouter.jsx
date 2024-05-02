@@ -6,8 +6,9 @@ import { Reconnection } from './Reconnection';
 import { TrainControlPanel } from './TrainControlPanel'
 
 export function getSocket(){
-  let socket = new WebSocket('wss://ocrv-game.ru/v2.0/Joystick')
-  console.log("Open socket")
+  let host = 'wss://ocrv-game.ru/v2.0/Joystick'
+  let socket = new WebSocket(host)
+  console.log("OPEN SOCKET: " + host)
   socket.addEventListener("message", (e) => {console.log("receive message: " + e.data)})
   return socket
 }

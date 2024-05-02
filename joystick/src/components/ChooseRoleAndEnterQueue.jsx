@@ -8,7 +8,7 @@ export function ChooseRoleAndEnterQueue({socket, onEnterQueue, onEnterGame})
 
     function handleEnterQueueResponse(e)
     {
-        var dir = JSON.parse([e.data])
+        var dir = JSON.parse([e])
         // if (dir["Type"] === "EnterQueueResponse") //TODO:
         if (dir["Type"] === "LetJoystickIntoGame") onEnterGame()
         if (dir["Type"] === "UpdateSpotInLine")  onEnterQueue(dir["SpotInLine"])
