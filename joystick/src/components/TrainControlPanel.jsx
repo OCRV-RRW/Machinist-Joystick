@@ -1,41 +1,41 @@
 import { useState, useEffect } from 'react'
 import './TrainControlPanel.css'
 
+//https://www.notion.so/sergsamsonov/3daa131736af46c4bc285434fa9b1c9c
+const rangeToController = {
+    0: 3,
+    1: 2,
+    2: 1,
+    3: 0,
+    4: 4
+}
+
 export function TrainControlPanel({socket, craneDefault, controllerDefault, onExit})
 {
     const trainMovementEvent = {"Crane":0,"Controller":0,"Role":null,"Type":"TrainMovement","ForServer":false}
 
-    const [controller, setController] = useState(3)
-    const [crane, setCrane] = useState(0)
-
-    //https://www.notion.so/sergsamsonov/3daa131736af46c4bc285434fa9b1c9c
-    const rangeToController = {
-        0: 3,
-        1: 2,
-        2: 1,
-        3: 0,
-        4: 4
-    }
+    const [controller, setController] = useState(getDefaultController())
+    const [crane, setCrane] = useState(craneDefault)
 
     function handleDriverController(e) {
         let value = e.target.value
         console.log("driver-controller: " + value)
-        setController(value)
+        setController(Number(value))
     }
 
     function handleDriverCrane(e) {
         let value = e.target.value
         console.log("driver-crane: " + value)
-        setCrane(value)
+        setCrane(Number(value))
     }
 
     useEffect(()=>{
         var slider = document.querySelector('[data="test"]')
-        if (crane === '0')
+        if (crane === 0)
             slider.innerHTML = "#driver-crane::-webkit-slider-thumb { transform : rotate(30deg); }"
-        if (crane === '1')
+        if (crane === 1)
             slider.innerHTML = "#driver-crane::-webkit-slider-thumb {  transform : rotate(0deg); }"
-        if (crane === '2')
+        if (crane === 2)
             slider.innerHTML = "#driver-crane::-webkit-slider-thumb {  transform : rotate(-30deg); }"
     }, [crane])
 
@@ -47,7 +47,7 @@ export function TrainControlPanel({socket, craneDefault, controllerDefault, onEx
     }, [controller, crane])
 
 
-    function getDefaultCrane()
+    function getDefaultController()
     {
         for (const [key, value] of Object.entries(rangeToController)) {
             if(value === controllerDefault)
@@ -64,7 +64,7 @@ export function TrainControlPanel({socket, craneDefault, controllerDefault, onEx
                 <input 
                     id="driver-controller"
                     type="range" 
-                    min="0" max="4" defaultValue={getDefaultCrane()}
+                    min="0" max="4" defaultValue={getDefaultController()}
                     onInput={handleDriverController}/>
             </div>
             <div id="driver-crane-panel">

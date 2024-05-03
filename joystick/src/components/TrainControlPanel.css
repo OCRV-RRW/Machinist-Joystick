@@ -69,7 +69,7 @@
 
 #driver-crane::-webkit-slider-thumb {
     pointer-events: auto;
-    transform : rotate(30deg); 
+    /* transform : rotate(30deg); TODO: */
     -webkit-appearance: none;
     width: 20px;
     height: 100px;
