@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './TrainControlPanel.css'
 
-export function TrainControlPanel({socket, navigate})
+export function TrainControlPanel({socket, craneDefault, controllerDefault, onExit})
 {
     const trainMovementEvent = {"Crane":0,"Controller":0,"Role":null,"Type":"TrainMovement","ForServer":false}
 
@@ -46,22 +46,32 @@ export function TrainControlPanel({socket, navigate})
         socket.send(JSON.stringify(trainMovementEvent))
     }, [controller, crane])
 
+
+    function getDefaultCrane()
+    {
+        for (const [key, value] of Object.entries(rangeToController)) {
+            if(value === controllerDefault)
+                return key
+        }
+        return 0
+    }
+
     return (
         <>
-        <button id="return-to-joystick" className="default-button" onClick={() => navigate('/joystick')}></button>
+        <button id="return-to-joystick" className="default-button" onClick={() => onExit()}></button>
         <div id="controllers-container" className='unselect'>
             <div id="driver-controller-panel">
                 <input 
                     id="driver-controller"
                     type="range" 
-                    min="0" max="4" defaultValue="3"
+                    min="0" max="4" defaultValue={getDefaultCrane()}
                     onInput={handleDriverController}/>
             </div>
             <div id="driver-crane-panel">
                 <input
                     id="driver-crane"
                     type="range"
-                    min="0" max="2" defaultValue="0"
+                    min="0" max="2" defaultValue={craneDefault}
                     onInput={handleDriverCrane}/>
             </div>
         </div>
