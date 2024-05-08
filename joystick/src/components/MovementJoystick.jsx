@@ -13,7 +13,6 @@ export function MovementJoystick({socket})
     {
         let event = getMovementEvent()
         socket.send(JSON.stringify(event))
-        console.log(event)
     }, [left, right, interact])
 
     const getMovementEvent = useCallback(() =>
