@@ -5,7 +5,7 @@ export function ChooseRoom({onJoin, socket})
 {
     const [errorMessage, setErrorMessage] = useState()
 
-    const joinRoom = {"RoomName": "","ForServer":true, "Type":"JoinRoomRequest"}
+    const joinRoomEvent = {"RoomName": "","ForServer":true, "Type":"JoinRoomRequest"}
     
     function handleRoomResponse(response)
     {
@@ -17,19 +17,33 @@ export function ChooseRoom({onJoin, socket})
         if (dir["IsSuchRoom"] === true)
             onJoin()
     }
+
+    useEffect(()=> {
+        let search = window.location.search;
+        let params = new URLSearchParams(search);
+        let roomName = params.get('roomName');
+      
+        if(roomName)
+            joinRoom(roomName)
+    }, [])
     
     useEffect(() => {
         socket.addEventListener("message", (event) => {handleRoomResponse(event.data)});
         return () => {
           socket.removeEventListener("message", (event) => {handleRoomResponse(event.data)});
         };
-    })
+    }, [])
+
+    function joinRoom(roomName){
+        console.log(roomName)
+        let event = {...joinRoomEvent}
+        event["RoomName"] = roomName
+        socket.send(JSON.stringify(event))
+    }
 
     function handleJoinRoom() {
         let roomName = document.getElementById("roomName").value
-        let event = {...joinRoom}
-        event["RoomName"] = roomName
-        socket.send(JSON.stringify(event))
+        joinRoom(roomName)
     }
       
     return (
