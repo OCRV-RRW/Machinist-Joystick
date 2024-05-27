@@ -43,21 +43,22 @@ export function SmartModeSwitching({ scaleTargetId, positionTargetId, modeAmount
 
     const handleTouchMove = useCallback(
         event => {
+            var touch =  event.targetTouches[0].clientY
             console.log(
                 "touchStartPosition: " + touchState.touchStartYPosition,
-                event.touches[0].clientY
+                touch
             );
-            if (touchState.isDragging === true && event.touches[0].clientY) {
+            if (touchState.isDragging === true && touch) {
                 if (!touchState.touchStartYPosition) {
                     console.log("invalid touch");
                     setTouchState(prevTouchState => ({
                         ...prevTouchState,
-                        touchStartYPosition: event.touches[0].clientY
+                        touchStartYPosition: touch
                     }));
                 } else {
                     var mode = 0;
-                    let distance = touchState.touchStartYPosition - event.touches[0].clientY;
-                    if (event.touches[0].clientY > touchState.touchStartYPosition) 
+                    let distance = touchState.touchStartYPosition - touch;
+                    if (touch > touchState.touchStartYPosition) 
                         mode = -1 * getMode(distance);
                     else 
                         mode = getMode(distance);
