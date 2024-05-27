@@ -3,7 +3,7 @@ import "./Queue.css"
 
 export function Queue({socket, onEnterGame, chooseRole, startSpotInLine})
 {
-    const leaveQueueEvent = {}
+    const leaveQueueEvent = {"ForServer":true,"Type":"LeaveQueue"}
     const [spotInLine, seSpotInLine] = useState(startSpotInLine)
 
     function handleQueueEvent(e)
