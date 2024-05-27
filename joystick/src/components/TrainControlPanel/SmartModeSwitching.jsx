@@ -56,22 +56,17 @@ export function SmartModeSwitching({ scaleTargetId, positionTargetId, modeAmount
                     }));
                 } else {
                     var mode = 0;
-                    if (event.touches[0].clientY > touchState.touchStartYPosition) {
-                        console.log("IS SMALLER");
-
-                        let distance = touchState.touchStartYPosition - event.touches[0].clientY;
+                    let distance = touchState.touchStartYPosition - event.touches[0].clientY;
+                    if (event.touches[0].clientY > touchState.touchStartYPosition) 
                         mode = -1 * getMode(distance);
-                    }
-                    else {
-                        console.log("IS GREATER");
-                        let distance = touchState.touchStartYPosition - event.touches[0].clientY;
+                    else 
                         mode = getMode(distance);
-                    }
+
                     if (currentMode !== mode && touchState.touchStartYPosition !== 0) {
                         var diff = mode - currentMode;
-                        if ((mode === 1 && currentMode === -1) || (mode === -1 && currentMode === 1)) //TODO          
+                        if ((mode === 1 && currentMode === -1) || (mode === -1 && currentMode === 1))
                             diff /= 2; // between -1 and 1 range is 2 but if ignore 0 then we get 1
-                        onUpdateMode(diff); // diff between mode and currentMode (ignore zero)
+                        onUpdateMode(diff); // diff between new mode and currentMode (ignore zero)
                         setCurrentMode(mode);
                     }
                 }
