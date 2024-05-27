@@ -6,6 +6,7 @@
 
 .driver-control-el-container{
     flex-grow: 1;
+    flex: 30vw;
 }
 
 #driver-controller-panel,

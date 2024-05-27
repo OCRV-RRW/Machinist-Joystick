@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 
-export function SmartModeSwitching({ scaleTargetId, positionTargetId, modeAmount, onUpdateMode }) {
+export function SmartModeSwitching({scaleTargetId, positionTargetId, modeAmount, onUpdateMode }) {
     const [touchState, setTouchState] = useState({
         touchStartYPosition: 0,
         isDragging: false,
@@ -87,11 +87,12 @@ export function SmartModeSwitching({ scaleTargetId, positionTargetId, modeAmount
         }, [touchState.isDragging, touchState.touchStartYPosition]);
 
     useEffect(() => {
-        window.addEventListener("touchmove", handleTouchMove);
-        window.addEventListener("touchend", handleTouchEnd);
+        var area = document.getElementById(positionTargetId);
+        area.addEventListener("touchmove", handleTouchMove);
+        area.addEventListener("touchend", handleTouchEnd);
         return () => {
-            window.removeEventListener("touchmove", handleTouchMove);
-            window.removeEventListener("touchend", handleTouchEnd);
+            area.removeEventListener("touchmove", handleTouchMove);
+            area.removeEventListener("touchend", handleTouchEnd);
         };
     }, [handleTouchMove, handleTouchEnd]);
 }
