@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { MovementJoystick } from './MovementJoystick';
-import { TrainControlPanel } from './TrainControlPanel';
+import { TrainControlPanel } from './TrainControlPanel/TrainControlPanel';
 
 export function Joystick({socket, navigate})
 {

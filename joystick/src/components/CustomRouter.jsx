@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Home } from './Home';
 import { Join } from './Join';
 import { Reconnection } from './Reconnection';
-import { TrainControlPanel } from './TrainControlPanel'
+import { TrainControlPanel } from './TrainControlPanel/TrainControlPanel'
 
 export function getSocket(){
   let host = 'wss://ocrv-game.ru/v2.0/Joystick'
@@ -71,5 +71,7 @@ export function CustomRouter() {
       content = <Home socket={socket} navigate={navigate} />
       break
   }
+
+  content = <TrainControlPanel  socket={socket} navigate={navigate}  craneDefault={0} controllerDefault={0}/>
   return (content);
 }
