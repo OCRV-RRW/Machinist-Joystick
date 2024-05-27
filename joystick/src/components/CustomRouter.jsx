@@ -72,6 +72,5 @@ export function CustomRouter() {
       break
   }
 
-  content = <TrainControlPanel  socket={socket} navigate={navigate}  craneDefault={0} controllerDefault={0}/>
   return (content);
 }

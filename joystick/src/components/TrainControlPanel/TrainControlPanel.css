@@ -90,7 +90,7 @@
 }
 
 #return-to-joystick{
-    padding: 0;
+    top: 5vh;
     position: relative;
     left: 0;
     right: 0;

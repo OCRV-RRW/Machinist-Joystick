@@ -11,10 +11,10 @@ export function TrainControlPanel({socket, craneDefault, controllerDefault, onEx
     const [crane, setCrane] = useState(craneDefault)
 
     useEffect(()=>{
-        // trainMovementEvent["Controller"] = controller
-        // trainMovementEvent["Crane"] = crane
+        trainMovementEvent["Controller"] = controller
+        trainMovementEvent["Crane"] = crane
 
-        // socket.send(JSON.stringify(trainMovementEvent))
+        socket.send(JSON.stringify(trainMovementEvent))
     }, [controller, crane])
 
 
