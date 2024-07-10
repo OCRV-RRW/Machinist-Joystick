@@ -4,6 +4,7 @@ import { Home } from './Home';
 import { Join } from './Join';
 import { Reconnection } from './Reconnection';
 import { TrainControlPanel } from './TrainControlPanel'
+import { Game } from './minigame/Game';
 
 export function getSocket(){
   let host = 'wss://ocrv-game.ru/v2.0/Joystick'
@@ -67,9 +68,13 @@ export function CustomRouter() {
     case '/trainControlPanel':
       content = <TrainControlPanel socket={socket} navigate={navigate}/>
       break
+    case '/pipes':
+      content = <Game></Game>
+      break
     default:
       content = <Home socket={socket} navigate={navigate} />
       break
   }
+  // content = <Game></Game>
   return (content);
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { MovementJoystick } from './MovementJoystick';
 import { TrainControlPanel } from './TrainControlPanel';
+import { Game } from './minigame/Game';
 
 export function Joystick({socket, navigate})
 {
@@ -14,6 +15,9 @@ export function Joystick({socket, navigate})
             craneDefault={dir["Crane"]}
             controllerDefault={dir["Controller"]}
             onExit={setJoystick}/>)
+        if (dir["Type"] === "StartPipeGame") {
+            setState(<Game socket={socket} id={dir["Id"]}></Game>)
+        }
     })
 
     function setJoystick()
