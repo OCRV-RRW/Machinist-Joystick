@@ -16,7 +16,10 @@ export function Joystick({socket, navigate})
             controllerDefault={dir["Controller"]}
             onExit={setJoystick}/>)
         if (dir["Type"] === "StartPipeGame") {
-            setState(<Game socket={socket} id={dir["Id"]}></Game>)
+            setState(<Game socket={socket} 
+                id={dir["Id"]} 
+                onExit={setJoystick}>
+                </Game>)
         }
     })
 

@@ -3,7 +3,7 @@ import './Game.css'
 import { GameGridElement } from './GameGridElement';
 import minigameData from '../../miniGame.json'
 
-export function Game({ socket, id }) {
+export function Game({ socket, id, onExit }) {
     const levels = minigameData.levels
     const elements = []
     const minLevelNumber = 0
@@ -208,6 +208,7 @@ export function Game({ socket, id }) {
         })
 
         socket.send(JSON.stringify(repairEvent))
+        onExit()
     }
 
     return (
@@ -220,7 +221,7 @@ export function Game({ socket, id }) {
                     {elements}
             </div>
             <div className='buttons-container'>
-                <button className='game-button return-to-joystick'></button>
+                <button className='game-button return-to-joystick' onClick={() => onExit()}></button>
                 <button className='game-button restart-button' onClick={() => {restart()}}></button>
             </div>
         </div>
