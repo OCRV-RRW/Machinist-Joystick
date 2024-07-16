@@ -16,4 +16,15 @@ export class Grid {
             row.map((cell) => {cell.clear()})
         })
     }
+
+    allCellsIsBusy() {
+        for (let row of this.cells) {
+            for (let c of row) {
+                if (c.path === null)
+                    return false
+            }
+        }
+
+        return true
+    }
 }

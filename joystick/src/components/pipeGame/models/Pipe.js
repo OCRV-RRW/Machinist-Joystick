@@ -1,12 +1,11 @@
 export class Pipe {
     color
-    type
+    type = null
     vector = []
     directions = []
 
-    constructor(color, type) {
+    constructor(color) {
         this.color = color
-        this.type = type
     }
 
     setVector() {

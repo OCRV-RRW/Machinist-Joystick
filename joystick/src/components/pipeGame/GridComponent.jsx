@@ -7,7 +7,7 @@ export const IsDragContext = React.createContext()
 export const CurrentPathContext = React.createContext()
 export const CurrentCellContext = React.createContext()
 
-export const GridComponent = ({grid, setGrid}) => {
+export const GridComponent = ({grid, setGrid, checkStateGame}) => {
     const [currentColor, setCurrentColor] = useState(null)
     const [isDragging, setIsDragging] = useState(false)
     const [currentPath, setCurrentPath] = useState(null)
@@ -58,6 +58,7 @@ export const GridComponent = ({grid, setGrid}) => {
         setCurrentColor(null)
         setIsDragging(false)
         setPrevCell(null)
+        checkStateGame()
     }
 
     const onEnter = (cell) => {

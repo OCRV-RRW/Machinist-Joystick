@@ -29,6 +29,9 @@ export function PipeGame({ socket, id, returnToJoystick }) {
     }
 
     const checkStateGame = () => {
+        if (grid.allCellsIsBusy() !== true)
+            return
+
         socket.send(JSON.stringify(repairEvent))
         returnToJoystick()
     }
@@ -40,7 +43,11 @@ export function PipeGame({ socket, id, returnToJoystick }) {
                 <button className='game-button return-to-joystick' onClick={() => {returnToJoystick()}}></button>
                 <button className='game-button restart-button' onClick={() => {restart()}}></button>
             </div>
-            <GridComponent grid={grid} setGrid={setGrid}></GridComponent>
+            <GridComponent 
+                grid={grid} 
+                setGrid={setGrid} 
+                checkStateGame={() => {checkStateGame()}}>
+            </GridComponent>
         </div>
         </>
     )
