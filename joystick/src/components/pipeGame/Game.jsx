@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './Game.css'
 import { GameGridElement } from './GameGridElement';
 import minigameData from '../../miniGame.json'
+import { Grid } from './GridComponent';
 
 export function Game({ socket, id, onExit }) {
     const levels = minigameData.levels
@@ -168,39 +169,6 @@ export function Game({ socket, id, onExit }) {
             onLeave={(element) => elementOnLeave(element)}/>)
     })
 
-    function onTouchStart(event) {
-        elementsRefs.current.map(elRef => {
-            if (elRef.checkPos({ x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY })) {
-                elRef.onDown()
-            }
-        });
-    }
-
-    function onTouchEnd(event) {
-        elementsRefs.current.map(elRef => {
-            if (elRef.checkPos({ x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY })) {
-                elRef.onUp()
-            }
-        });
-
-        checkStateGame()
-    }
-
-    function onTouchMove(event) {
-        elementsRefs.current.map(elRef => {
-            if (elRef.checkPos({ x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY })) {
-                if (elRef.state.entered === false) {
-                    elRef.onEnter()
-                }
-            }
-            else {
-                if (elRef.state.entered === true) {
-                    elRef.onLeave()
-                }
-            }
-        });
-    }
-
     function checkStateGame() {
         elementsRefs.current.map(elRef => {
             if (elRef.state.isBusy === false)
@@ -214,16 +182,11 @@ export function Game({ socket, id, onExit }) {
     return (
         <>
         <div className='container'>
-            <div className='game-grid'
-                onTouchStart={onTouchStart} 
-                onTouchEnd={onTouchEnd}
-                onTouchMove={onTouchMove}>
-                    {elements}
-            </div>
             <div className='buttons-container'>
                 <button className='game-button return-to-joystick' onClick={() => onExit()}></button>
                 <button className='game-button restart-button' onClick={() => {restart()}}></button>
             </div>
+            <Grid levels={levels}></Grid>
         </div>
         </>
     )

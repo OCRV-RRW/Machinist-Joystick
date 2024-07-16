@@ -4,7 +4,7 @@ import { Home } from './Home';
 import { Join } from './Join';
 import { Reconnection } from './Reconnection';
 import { TrainControlPanel } from './TrainControlPanel'
-import { Game } from './minigame/Game';
+import { PipeGame } from './pipeGame/PipeGame';
 
 export function getSocket(){
   let host = 'wss://ocrv-game.ru/v2.0/Joystick'
@@ -68,13 +68,19 @@ export function CustomRouter() {
     case '/trainControlPanel':
       content = <TrainControlPanel socket={socket} navigate={navigate}/>
       break
-    case '/pipes':
-      content = <Game></Game>
-      break
     default:
       content = <Home socket={socket} navigate={navigate} />
       break
   }
+
+  let search = window.location.search;
+  let params = new URLSearchParams(search);
+  let roomName = params.get('pipe');
+
+  if (roomName==="true") {
+    content = <PipeGame socket={socket}></PipeGame>
+  }
+
   // content = <Game></Game>
   return (content);
 }
