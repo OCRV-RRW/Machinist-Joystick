@@ -80,7 +80,8 @@ export const GridComponent = ({grid, setGrid, checkStateGame}) => {
                                     addCellToCurrentPath={(cell) => {addCellToCurrentPath(cell)}}
                                     replaceCurrentPath={(newPath) => {replaceCurrentPath(newPath)}}
                                     clearCellPath={(path) => {clearCellPath(path)}}
-                                    prevCell={prevCell}></CellComponent> 
+                                    prevCell={prevCell}>
+                                </CellComponent> 
                             )
                         })
                     })}

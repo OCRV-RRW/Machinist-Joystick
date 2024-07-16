@@ -1,17 +1,10 @@
 import { useRef, useState } from 'react' 
 import './GameEndPointElement.css'
-import { Pipe } from './models/Pipe'
 import { EndPipeComponent } from './EndPipeComponent'
 
 export const EndCellComponent = ({ 
     cell, 
-    onStart, 
-    onEnd, 
-    onEnter, 
-    currentColor, 
-    addCellToCurrentPath, 
-    replaceCurrentPath,
-    prevCell
+    onStart
 }) => {
     const ref = useRef(null)
     const [pipe, setPipe] = useState(null)
@@ -20,7 +13,7 @@ export const EndCellComponent = ({
         if (cell.path !== null)
             return
 
-        cell.tryAddPipe(new Pipe(cell.color, ""))
+        cell.tryAddPipe(cell.color)
         setPipe(cell.pipe)
         onStart(cell)
         cell.setIsStart(true)

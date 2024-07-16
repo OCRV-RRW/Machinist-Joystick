@@ -1,3 +1,5 @@
+import { Pipe } from "./Pipe";
+
 export class Cell {
     x;
     y;
@@ -10,7 +12,8 @@ export class Cell {
         this.y = y
     }
 
-    tryAddPipe(pipe) {
+    tryAddPipe(color) {
+        let pipe = new Pipe(color, false)
         if (this.checkPipe(pipe)) {
             this.pipe = pipe
             return true

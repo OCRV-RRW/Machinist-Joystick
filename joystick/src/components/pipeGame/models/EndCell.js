@@ -1,4 +1,5 @@
 import { Cell } from "./Cell";
+import { Pipe } from "./Pipe";
 
 export class EndCell extends Cell {
     color
@@ -9,6 +10,15 @@ export class EndCell extends Cell {
         this.color = color
     }
 
+    tryAddPipe(color) {
+        let pipe = new Pipe(color, true)
+        if (this.checkPipe(pipe)) {
+            this.pipe = pipe
+            return true
+        }
+        return false
+    }
+    
     setIsStart(value) {
         this.isStart = value
     }

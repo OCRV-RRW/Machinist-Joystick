@@ -3,9 +3,11 @@ export class Pipe {
     type = null
     vector = []
     directions = []
+    isEnd = false
 
-    constructor(color) {
+    constructor(color, isEnd=false) {
         this.color = color
+        this.isEnd = isEnd
     }
 
     setVector() {
@@ -47,11 +49,19 @@ export class Pipe {
     }
 
     setDirection({x, y}) {
-        if (this.directions.length === 2) {
-            this.directions[1] = [x, y]
+        if (this.isEnd === true) {
+            if (this.directions.length === 1)
+                this.directions[0] = [x, y]
+            else
+                this.directions.push([x, y])
         }
         else {
-            this.directions.push([x, y])
+            if (this.directions.length === 2) {
+                this.directions[1] = [x, y]
+            }
+            else {
+                this.directions.push([x, y])
+            }
         }
 
         this.setVector()

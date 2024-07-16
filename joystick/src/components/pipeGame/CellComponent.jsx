@@ -1,6 +1,5 @@
 import "./GameGridElement.css"
 import { EndCellComponent } from "./EndCellComponent"
-import { Pipe } from "./models/Pipe"
 import { PipeComponent } from "./PipeComponent"
 import { useRef, useContext, useState } from "react"
 import { IsDragContext } from "./GridComponent"
@@ -10,8 +9,7 @@ export const CellComponent = ({
     onStart, 
     onEnd, 
     onEnter, 
-    currentColor, 
-    setDrag, 
+    currentColor,
     addCellToCurrentPath, 
     replaceCurrentPath, 
     clearCellPath,
@@ -48,7 +46,7 @@ export const CellComponent = ({
             }
 
             onEnter(cell)
-            cell.tryAddPipe(new Pipe(currentColor, ''))
+            cell.tryAddPipe(currentColor)
             setPipe(cell.pipe)
 
             cell.pipe.setDirection({ 
@@ -85,16 +83,11 @@ export const CellComponent = ({
         onPointerEnter={pointerEnterHandler}
         onPointerUp={pointerUpHandler}
         className="grid-element">
-            {cell.color && <EndCellComponent 
+            {cell.color && 
+                <EndCellComponent 
                     cell={cell} 
-                    onStart= {onStart}
-                    onEnd={onEnd}
-                    onEnter={onEnter}
-                    currentColor={currentColor}
-                    addCellToCurrentPath={addCellToCurrentPath}
-                    replaceCurrentPath={replaceCurrentPath}
-                    prevCell={prevCell}
-                    isStart={cell.isStart}></EndCellComponent>}
+                    onStart= {onStart}>
+                </EndCellComponent>}
             {cell.pipe !== null && !cell.color &&  
             <PipeComponent pipe={cell.pipe}>
             </PipeComponent>}
