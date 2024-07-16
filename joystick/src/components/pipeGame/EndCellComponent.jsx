@@ -17,6 +17,9 @@ export const EndCellComponent = ({
     const [pipe, setPipe] = useState(null)
 
     const pointerDownHandler = (e) => {
+        if (cell.path !== null)
+            return
+
         cell.tryAddPipe(new Pipe(cell.color, ""))
         setPipe(cell.pipe)
         onStart(cell)

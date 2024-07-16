@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { MovementJoystick } from './MovementJoystick';
 import { TrainControlPanel } from './TrainControlPanel';
-import { Game } from './pipeGame/Game';
+import { PipeGame } from './pipeGame/PipeGame';
 
 export function Joystick({socket, navigate})
 {
@@ -16,10 +16,10 @@ export function Joystick({socket, navigate})
             controllerDefault={dir["Controller"]}
             onExit={setJoystick}/>)
         if (dir["Type"] === "StartPipeGame") {
-            setState(<Game socket={socket} 
+            setState(<PipeGame socket={socket} 
                 id={dir["Id"]} 
-                onExit={setJoystick}>
-                </Game>)
+                returnToJoystick={setJoystick}>
+                </PipeGame>)
         }
     })
 

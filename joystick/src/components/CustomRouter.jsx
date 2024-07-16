@@ -78,7 +78,7 @@ export function CustomRouter() {
   let roomName = params.get('pipe');
 
   if (roomName==="true") {
-    content = <PipeGame socket={socket}></PipeGame>
+    content = <PipeGame></PipeGame>
   }
 
   // content = <Game></Game>

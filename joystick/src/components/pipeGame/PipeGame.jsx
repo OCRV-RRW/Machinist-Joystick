@@ -10,6 +10,7 @@ export function PipeGame({ socket, id, returnToJoystick }) {
     const maxLevelNumber = levels.length
     const currentLevel = useRef({})
     const [grid, setGrid] = useState(new Grid())
+    const repairEvent = {"Id": id, "Role":null, "Type":"RepairFuse", "ForServer":false}
 
     useEffect(() => {
         currentLevel.current = minigameData.levels[Math.floor(Math.random() * (maxLevelNumber - minLevelNumber)) + minLevelNumber]
@@ -25,6 +26,11 @@ export function PipeGame({ socket, id, returnToJoystick }) {
         copyGrid.cells = grid.cells
         copyGrid.clear()
         setGrid(copyGrid)
+    }
+
+    const checkStateGame = () => {
+        socket.send(JSON.stringify(repairEvent))
+        returnToJoystick()
     }
 
     return (
