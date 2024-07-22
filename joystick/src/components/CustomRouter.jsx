@@ -64,9 +64,6 @@ export function CustomRouter() {
     case '/reconnection':
       content = <Reconnection setSocket={setSocket} navigate={navigate}/>
       break
-    case '/trainControlPanel':
-      content = <TrainControlPanel socket={socket} navigate={navigate}/>
-      break
     default:
       content = <Home socket={socket} navigate={navigate} />
       break
