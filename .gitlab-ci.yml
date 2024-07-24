@@ -1,0 +1,28 @@
+image: node
+
+build:
+  stage: build
+  cache:
+    paths:
+      - joystick/node_modules/
+  script:
+    - cd joystick
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - joystick/build
+
+pages:
+  stage: deploy
+  dependencies: 
+    - build
+  script:
+    - rm -rf joystick/public
+    - cp joystick/build/index.html build/404.html
+    - mv joystick/build joystick/public
+  artifacts:
+    paths:
+      - joystick/public
+  only:
+    - main
