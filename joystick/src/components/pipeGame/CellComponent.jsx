@@ -1,53 +1,74 @@
 import "./GameGridElement.css"
 import { EndCellComponent } from "./EndCellComponent"
 import { PipeComponent } from "./PipeComponent"
-import { useRef, useContext, useState } from "react"
-import { IsDragContext } from "./GridComponent"
+import { useRef, useState, useEffect } from "react"
+import { CellsPath } from "./models/CellsPath"
 
 export const CellComponent = ({ 
     cell, 
     onStart, 
     onEnd, 
-    onEnter, 
-    currentColor,
+    onEnter,
     addCellToCurrentPath, 
     replaceCurrentPath, 
     clearCellPath,
-    prevCell 
+    touchEventsController,
+    isDrag
 }) => {
     const ref = useRef(null)
-    const isDrag = useContext(IsDragContext)
-    const [pipe, setPipe] = useState(null)
+    let rect = null
 
-    const end = (cell) => {
-        onEnd(cell)
-    }
+    useEffect(() => {
+        touchEventsController.subscribe(pointerEnterHandler, "touchMove")
+        touchEventsController.subscribe(pointerUpHandler, "touchEnd")
+        if (ref.current !== null)
+            rect = ref.current.getBoundingClientRect()
 
-    const pointerEnterHandler = (e) => {
-        if (isDrag) {
+        return () => {
+            touchEventsController.unsubscribe(pointerEnterHandler, "touchMove")
+            touchEventsController.unsubscribe(pointerUpHandler, "touchEnd")
+        }
+    }, [])
+
+    const pointerEnterHandler = (touchPosition, prevCell, currentColor) => {
+        if (rect === null)
+            return
+
+        if (cell === prevCell)
+            return
+
+        if (cell.checkPosition(touchPosition, rect) === false)
+            return
+
+        if (isDrag.current) {
             if (cell.path !== null) {
                 if ((cell.pipe.color !== currentColor))  {
-                    end(prevCell)
+                    onEnd(prevCell)
                     return
                 }
-                let newPath = cell.path.returnToCell(cell)
+                let newPath = new CellsPath()
+                newPath.cells = cell.path.returnToCell(cell)
                 replaceCurrentPath(newPath)
             }
             else {
                 if ((Math.abs(cell.x - prevCell.x) + Math.abs(cell.y - prevCell.y)) >= 2) {
-                    end(prevCell)
+                    onEnd(prevCell)
                     return
                 }
 
                 if (cell.color && cell.color !== currentColor) {
-                    end(prevCell)
+                    onEnd(prevCell)
+                    return
+                }
+
+                if (prevCell.color === currentColor && prevCell.isStart === false) {
+                    onEnd(prevCell)
                     return
                 }
             }
 
             onEnter(cell)
             cell.tryAddPipe(currentColor)
-            setPipe(cell.pipe)
 
             cell.pipe.setDirection({ 
                 x: cell.y - prevCell.y, 
@@ -65,11 +86,17 @@ export const CellComponent = ({
         }
     }
 
-    const pointerUpHandler = (e) => {
+    const pointerUpHandler = (touchPosition) => {
+        if (rect === null)
+            return
+
+        if (cell.checkPosition(touchPosition, rect) === false)
+            return
+
         if (cell.path !== null) 
         {
-            if (isDrag) {
-                end(cell)
+            if (isDrag.current) {
+                onEnd(cell)
             }
             else {
                 replaceCurrentPath(null)
@@ -80,13 +107,12 @@ export const CellComponent = ({
 
     return (<>
         <div ref={ref}
-        onPointerEnter={pointerEnterHandler}
-        onPointerUp={pointerUpHandler}
         className="grid-element">
             {cell.color && 
                 <EndCellComponent 
                     cell={cell} 
-                    onStart= {onStart}>
+                    onStart= {onStart}
+                    touchEventsController={touchEventsController}>
                 </EndCellComponent>}
             {cell.pipe !== null && !cell.color &&  
             <PipeComponent pipe={cell.pipe}>

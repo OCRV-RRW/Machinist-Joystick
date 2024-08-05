@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react' 
+import { useEffect, useRef, useState } from 'react' 
 import './GameEndPointElement.css'
 import { EndPipeComponent } from './EndPipeComponent'
 
@@ -6,21 +6,17 @@ export const EndCellComponent = ({
     cell, 
     onStart
 }) => {
-    const ref = useRef(null)
-    const [pipe, setPipe] = useState(null)
-
-    const pointerDownHandler = (e) => {
+    const pointerDownHandler = () => {
         if (cell.path !== null)
             return
 
         cell.tryAddPipe(cell.color)
-        setPipe(cell.pipe)
         onStart(cell)
         cell.setIsStart(true)
     }
 
     return (
-        <div ref={ref} 
+        <div
             onPointerDown={pointerDownHandler}
             className='end-element-container'>
              <div className={'end-point-element end-point-element-'+ cell.color}>
