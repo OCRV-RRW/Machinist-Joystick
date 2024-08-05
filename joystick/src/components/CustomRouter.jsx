@@ -3,8 +3,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { Home } from './Home';
 import { Join } from './Join';
 import { Reconnection } from './Reconnection';
+<<<<<<< HEAD
 import { TrainControlPanel } from './TrainControlPanel'
 import { PipeGame } from './pipeGame/PipeGame';
+=======
+import { TrainControlPanel } from './TrainControlPanel/TrainControlPanel'
+>>>>>>> main
 
 export function getSocket(){
   let host = 'wss://ocrv-game.ru/v2.0/Joystick'
@@ -65,14 +69,12 @@ export function CustomRouter() {
     case '/reconnection':
       content = <Reconnection setSocket={setSocket} navigate={navigate}/>
       break
-    case '/trainControlPanel':
-      content = <TrainControlPanel socket={socket} navigate={navigate}/>
-      break
     default:
       content = <Home socket={socket} navigate={navigate} />
       break
   }
 
+<<<<<<< HEAD
   let search = window.location.search;
   let params = new URLSearchParams(search);
   let roomName = params.get('pipe');
@@ -82,5 +84,7 @@ export function CustomRouter() {
   }
 
   // content = <Game></Game>
+=======
+>>>>>>> main
   return (content);
 }

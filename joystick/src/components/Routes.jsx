@@ -8,8 +8,14 @@ export function AppRoutes()
   useEffect(()=>{
     var viewportmeta = document.querySelector('meta[name="viewport"]');
     viewportmeta.content = 'user-scalable=NO, width=device-width, initial-scale=1.0'
+    document.ondragstart   = false;
+    document.onselectstart = false;
     document.ondragstart = () => false
-    document.oncontextmenu = () => false
+    window.oncontextmenu = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    };
   }, [])
 
   return (

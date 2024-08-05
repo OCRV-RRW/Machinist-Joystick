@@ -9,6 +9,7 @@ export function MovementJoystick({socket})
     const [left, setLeft] = useState(false)
     const [right, setRight] = useState(false)
     const [interact, setInteract] = useState(false)
+
     useEffect(() =>
     {
         let event = getMovementEvent()

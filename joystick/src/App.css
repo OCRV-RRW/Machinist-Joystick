@@ -67,12 +67,6 @@ html, body, #root {
 .default-button{
   -webkit-touch-callout: none !important; 
 
-  /* disable user select */
-  -ms-user-select: none; 
-  -moz-user-select: none; 
-  -webkit-user-select: none; 
-  user-select: none;
-
   border: none;
   background: #525252;
   font-family: "Roboto";
@@ -99,4 +93,15 @@ html, body, #root {
 
 p{
   font-family: "Roboto";
+}
+
+
+*{
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
