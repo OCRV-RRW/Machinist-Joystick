@@ -5,12 +5,18 @@ export class Cell {
     y;
     pipe = null;
     path = null;
-    isStart = false
+    isStart = false;
 
     constructor(x, y){
         this.x = x
         this.y = y
     }
+
+    checkPosition(touchPosition, refRect) {
+        return ((touchPosition.x >= refRect.x && touchPosition.x <= refRect.x + refRect.width)
+            && (touchPosition.y >= refRect.y && touchPosition.y <= refRect.y + refRect.height))
+    }
+
 
     tryAddPipe(color) {
         let pipe = new Pipe(color, false)
