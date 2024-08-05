@@ -16,6 +16,9 @@ export class Pipe {
                 this.directions[0][1] === this.directions[1][1]) {
                 this.vector = this.directions[0]
             }
+            if (this.directions[0][0] === 0 && this.directions[1][0] === 0) {
+                this.vector = this.directions[0]
+            }
             else {
                 let vectorSum = this.calculateVectorSum(this.directions[0], this.directions[1])
                 let determinant = this.calculateDeterminant(this.directions[0], this.directions[1])
