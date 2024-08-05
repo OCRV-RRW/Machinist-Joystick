@@ -23,10 +23,10 @@ export const CellComponent = ({
         touchEventsController.subscribe(pointerUpHandler, "touchEnd")
         if (ref.current !== null)
             rect = ref.current.getBoundingClientRect()
-
         return () => {
             touchEventsController.unsubscribe(pointerEnterHandler, "touchMove")
             touchEventsController.unsubscribe(pointerUpHandler, "touchEnd")
+            console.log("dsds")
         }
     }, [])
 
@@ -34,7 +34,7 @@ export const CellComponent = ({
         if (rect === null)
             return
 
-        if (cell === prevCell)
+        if (prevCell && cell === prevCell)
             return
 
         if (cell.checkPosition(touchPosition, rect) === false)
