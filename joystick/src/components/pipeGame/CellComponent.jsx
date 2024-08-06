@@ -1,7 +1,7 @@
 import "./GameGridElement.css"
 import { EndCellComponent } from "./EndCellComponent"
 import { PipeComponent } from "./PipeComponent"
-import { useRef, useState, useEffect } from "react"
+import { useRef, useEffect } from "react"
 import { CellsPath } from "./models/CellsPath"
 
 export const CellComponent = ({ 
@@ -16,28 +16,24 @@ export const CellComponent = ({
     isDrag
 }) => {
     const ref = useRef(null)
-    let rect = null
-
+    
     useEffect(() => {
         touchEventsController.subscribe(pointerEnterHandler, "touchMove")
         touchEventsController.subscribe(pointerUpHandler, "touchEnd")
-        if (ref.current !== null)
-            rect = ref.current.getBoundingClientRect()
         return () => {
             touchEventsController.unsubscribe(pointerEnterHandler, "touchMove")
             touchEventsController.unsubscribe(pointerUpHandler, "touchEnd")
-            console.log("dsds")
         }
     }, [])
 
     const pointerEnterHandler = (touchPosition, prevCell, currentColor) => {
-        if (rect === null)
+        if (ref.current === null)
             return
 
         if (prevCell && cell === prevCell)
             return
 
-        if (cell.checkPosition(touchPosition, rect) === false)
+        if (cell.checkPosition(touchPosition, ref.current.getBoundingClientRect()) === false)
             return
 
         if (isDrag.current) {
@@ -87,10 +83,10 @@ export const CellComponent = ({
     }
 
     const pointerUpHandler = (touchPosition) => {
-        if (rect === null)
+        if (ref.current === null)
             return
 
-        if (cell.checkPosition(touchPosition, rect) === false)
+        if (cell.checkPosition(touchPosition, ref.current.getBoundingClientRect()) === false)
             return
 
         if (cell.path !== null) 
