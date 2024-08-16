@@ -11,6 +11,7 @@ export function PipeGame({ socket, id, returnToJoystick }) {
     const currentLevel = useRef({})
     const [grid, setGrid] = useState(new Grid())
     const repairEvent = {"Id": id, "Role":null, "Type":"RepairFuse", "ForServer":false}
+    const exitGameEvent = {"Role": null, "Type": "ExitMiniGame", "ForServer": false}
 
     useEffect(() => {
         currentLevel.current = minigameData.levels[Math.floor(Math.random() * (maxLevelNumber - minLevelNumber)) + minLevelNumber]
@@ -33,6 +34,11 @@ export function PipeGame({ socket, id, returnToJoystick }) {
             return
 
         socket.send(JSON.stringify(repairEvent))
+        returnJoystick()
+    }
+
+    const returnJoystick = () => {
+        socket.send(JSON.stringify(exitGameEvent))
         returnToJoystick()
     }
 
@@ -40,7 +46,7 @@ export function PipeGame({ socket, id, returnToJoystick }) {
         <>
         <div className='container'>
             <div className='buttons-container'>
-                <button className='game-button return-to-joystick' onClick={() => {returnToJoystick()}}></button>
+                <button className='game-button return-to-joystick' onClick={returnJoystick}></button>
                 <button className='game-button restart-button' onClick={() => {restart()}}></button>
             </div>
             <GridComponent 
