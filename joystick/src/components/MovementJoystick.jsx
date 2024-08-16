@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useLayoutEffect } from 'react';
 import './MovementJoystick.css'
 import {BrowserView, MobileView} from 'react-device-detect';
 
@@ -14,6 +14,7 @@ export function MovementJoystick({socket})
     {
         let event = getMovementEvent()
         socket.send(JSON.stringify(event))
+        console.log("dsads")
     }, [left, right, interact])
 
     const getMovementEvent = useCallback(() =>
@@ -35,9 +36,17 @@ export function MovementJoystick({socket})
 
     const upInteract = () => setInteract(false)
 
-    const downInteract = () => setInteract(true)
+    const downInteract = () => {
+        resetMoveButtons()
+        setInteract(true)
+    }
 
-   return(
+    const resetMoveButtons = () => {
+        upRight()
+        upLeft()
+    }
+
+    return(
     <>
     <MobileView>
         <div id="move-button-container">
