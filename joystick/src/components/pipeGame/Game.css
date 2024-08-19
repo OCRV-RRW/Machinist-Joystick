@@ -1,0 +1,95 @@
+.container {
+    background-color: #333333;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.buttons-container {
+    position: relative;
+    display: flex;
+}
+
+.game-grid {
+    display: inline-grid;
+    grid-template-columns: repeat(4, 23%);
+    grid-template-rows: repeat(4, 23%);
+    grid-column-gap: 1.5%;
+    grid-row-gap: 1.5%;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+}
+
+.game-button {
+    border: 0cap;
+    padding: 0px;
+}
+
+.restart-button {
+    background: url("../../images/restartMinigame.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+}
+
+.return-to-joystick{
+    background: url("../../images/returnToJoystick.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+}
+
+/*media*/
+
+@media (orientation: landscape) {
+    .container {
+        justify-content: space-around;
+        flex-direction: row-reverse;
+        align-items: center;
+    }
+
+    .game-grid {
+        width: 85vh;
+        height: 85vh;
+    }
+
+    .buttons-container {
+        flex-direction: column;
+        width: 25vh;
+        height: 85vh;
+    }
+
+    .game-button {
+        width: 25vh;
+        height: 25vh;
+    }
+}
+
+@media (orientation: portrait) {
+    .container {
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .game-grid {
+        width: 85vw;
+        height: 85vw;
+    }
+
+    .buttons-container {
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 85vw;
+        height: 25vw;
+    }
+
+    .game-button {
+        width: 25vw;
+        height: 25vw;
+    }
+}
