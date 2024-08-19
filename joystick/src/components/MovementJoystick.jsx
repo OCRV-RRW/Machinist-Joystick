@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback, useLayoutEffect } from 'react';
+import React from 'react';
+import { useState, useEffect, useCallback, useImperativeHandle } from 'react';
 import './MovementJoystick.css'
 import {BrowserView, MobileView} from 'react-device-detect';
 
 const movementEvent = {"Right":false,"Left":false,"Interact":false,"Role":null,"Type":"MovementEvent","ForServer":false}
 
-export function MovementJoystick({socket})
+export const MovementJoystick = React.forwardRef((props, ref) =>
 {
     const [left, setLeft] = useState(false)
     const [right, setRight] = useState(false)
@@ -13,9 +14,14 @@ export function MovementJoystick({socket})
     useEffect(() =>
     {
         let event = getMovementEvent()
-        socket.send(JSON.stringify(event))
-        console.log("dsads")
+        props.socket.send(JSON.stringify(event))
     }, [left, right, interact])
+
+    useEffect(() => {
+        return (() => {
+            upAll(props.socket)
+        })
+    }, [])
 
     const getMovementEvent = useCallback(() =>
     {
@@ -36,14 +42,15 @@ export function MovementJoystick({socket})
 
     const upInteract = () => setInteract(false)
 
-    const downInteract = () => {
-        resetMoveButtons()
-        setInteract(true)
-    }
+    const downInteract = () => setInteract(true)
 
-    const resetMoveButtons = () => {
-        upRight()
-        upLeft()
+    function upAll(socket)
+    {
+        let event = {...movementEvent}
+        event["Left"] = false;
+        event["Right"] = false;
+        event["Interact"] = false;
+        socket.send(JSON.stringify(event))
     }
 
     return(
@@ -82,4 +89,4 @@ export function MovementJoystick({socket})
     </BrowserView>
     </>
    );
-}
+})
