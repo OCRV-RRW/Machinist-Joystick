@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { MovementJoystick } from './MovementJoystick';
 import { TrainControlPanel } from './TrainControlPanel/TrainControlPanel';
+import { PipeGame } from './pipeGame/PipeGame';
 
 export function Joystick({socket, navigate})
 {
@@ -9,11 +10,18 @@ export function Joystick({socket, navigate})
     const handleSocketEvent = useCallback( (data) => {
         console.log(data)
         var dir = JSON.parse([data]);
-        if (dir["Type"] === "OpenTrainControlPanel")
-           setState(<TrainControlPanel socket={socket}
-            craneDefault={dir["Crane"]}
-            controllerDefault={dir["Controller"]}
-            onExit={setJoystick}/>)
+        if (dir["Type"] === "OpenTrainControlPanel") {
+            setState(<TrainControlPanel socket={socket}
+                craneDefault={dir["Crane"]}
+                controllerDefault={dir["Controller"]}
+                onExit={setJoystick}/>)
+        }
+        if (dir["Type"] === "StartPipeGame") {
+            setState(<PipeGame socket={socket} 
+                id={dir["Id"]} 
+                returnToJoystick={setJoystick}>
+                </PipeGame>)
+        }
     })
 
     function setJoystick()
