@@ -6,6 +6,8 @@ import { TrainCrane } from './TrainCrane'
 export function TrainControlPanel({socket, craneDefault, controllerDefault, onExit})
 {
     const trainMovementEvent = {"Crane":0,"Controller":0,"Role":null,"Type":"TrainMovement","ForServer":false}
+    const exitEvent = {"ForServer":false, "Type": "LeaveControlPanel", "Role": "Machinist"}
+
 
     const [controller, setController] = useState()
     const [crane, setCrane] = useState(craneDefault)
@@ -17,13 +19,18 @@ export function TrainControlPanel({socket, craneDefault, controllerDefault, onEx
         socket.send(JSON.stringify(trainMovementEvent))
     }, [controller, crane])
 
+    function sendExitEvent()
+    {
+        socket.send(JSON.stringify(exitEvent))
+    }
+
 
     return (
         <>
         <div className='train-control-panel-layout'>
             <TrainController onUpdateControllerMode={setController} startControllerValue={controllerDefault}/> 
             <div className='driver-empty-center'>
-                <button id="return-to-joystick" className="default-button" onClick={() => onExit()}></button>
+                <button id="return-to-joystick" className="default-button" onClick={() => {sendExitEvent(); onExit()}}></button>
             </div>
             <TrainCrane onUpdateCraneMode={setCrane} startCraneValue={craneDefault}/>
         </div>
