@@ -39,7 +39,6 @@ nodes {
   type: TYPE_BOX
   texture: "gui/Starts"
   id: "back"
-  adjust_mode: ADJUST_MODE_STRETCH
   inherit_alpha: true
   clipping_mode: CLIPPING_MODE_STENCIL
 }

@@ -1,0 +1,10 @@
+name: "train_control"
+scale_along_z: 0
+embedded_instances {
+  id: "ui"
+  data: "components {\n"
+  "  id: \"train_control_screen\"\n"
+  "  component: \"/main/gui/train_control_screen.gui\"\n"
+  "}\n"
+  ""
+}

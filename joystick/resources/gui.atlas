@@ -25,4 +25,22 @@ images {
 images {
   image: "/resources/images/move.png"
 }
+images {
+  image: "/resources/images/cont_handler.png"
+}
+images {
+  image: "/resources/images/cont_icon.png"
+}
+images {
+  image: "/resources/images/crane_handler.png"
+}
+images {
+  image: "/resources/images/crane_icon.png"
+}
+images {
+  image: "/resources/images/exit.png"
+}
+images {
+  image: "/resources/images/scroll.png"
+}
 inner_padding: 1

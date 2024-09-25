@@ -4,14 +4,14 @@ local function tchm_click(self)
 	self.tchm:set_enabled(false)
 	self.tchmp:set_enabled(false)
 	gui.animate(self.tchmp.node, gui.PROP_POSITION, vmath.vector3(0, -2000, 0), gui.EASING_INBACK, 0.2)
-	eventbus.publish('selected_role', 'Machinist')
+	timer.delay(0.8, false, function() eventbus.publish('selected_role', 'Machinist') end)
 end
 
 local function tchmp_click(self)
 	self.tchm:set_enabled(false)
 	self.tchmp:set_enabled(false)
 	gui.animate(self.tchm.node, gui.PROP_POSITION, vmath.vector3(0, -2000, 0), gui.EASING_INBACK, 0.2)
-	eventbus.publish('selected_role', 'Assistant')
+	timer.delay(0.8, false, function() eventbus.publish('selected_role', 'Assistant') end)
 end
 
 local function disconnection_click(self)

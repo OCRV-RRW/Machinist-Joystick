@@ -1,0 +1,340 @@
+script: "/main/gui/train_control_screen.gui_script"
+fonts {
+  name: "base"
+  font: "/fonts/base.font"
+}
+fonts {
+  name: "base_copy"
+  font: "/fonts/base_copy.font"
+}
+fonts {
+  name: "heading"
+  font: "/fonts/heading.font"
+}
+fonts {
+  name: "main"
+  font: "/fonts/main.font"
+}
+fonts {
+  name: "middle"
+  font: "/fonts/middle.font"
+}
+fonts {
+  name: "small"
+  font: "/fonts/small.font"
+}
+textures {
+  name: "gui"
+  texture: "/resources/gui.atlas"
+}
+nodes {
+  position {
+    x: 540.0
+    y: 960.0
+  }
+  size {
+    x: 1080.0
+    y: 1920.0
+  }
+  type: TYPE_BOX
+  texture: "gui/Starts"
+  id: "root"
+  inherit_alpha: true
+  clipping_mode: CLIPPING_MODE_STENCIL
+}
+nodes {
+  position {
+    x: 402.0
+    y: 822.0
+  }
+  size {
+    x: 276.0
+    y: 276.0
+  }
+  type: TYPE_BOX
+  texture: "gui/exit"
+  id: "back_btn"
+  xanchor: XANCHOR_RIGHT
+  yanchor: YANCHOR_TOP
+  parent: "root"
+}
+nodes {
+  position {
+    y: -960.0
+  }
+  size {
+    x: 1080.0
+    y: 1200.0
+  }
+  type: TYPE_BOX
+  id: "handlers"
+  yanchor: YANCHOR_BOTTOM
+  pivot: PIVOT_S
+  parent: "root"
+  inherit_alpha: true
+  alpha: 0.0
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 540.0
+    y: 600.0
+  }
+  size {
+    x: 186.0
+    y: 756.0
+  }
+  type: TYPE_BOX
+  id: "crane"
+  xanchor: XANCHOR_RIGHT
+  pivot: PIVOT_E
+  parent: "handlers"
+  alpha: 0.0
+}
+nodes {
+  position {
+    x: -88.0
+    y: 460.0
+  }
+  size {
+    x: 120.0
+    y: 96.0
+  }
+  type: TYPE_BOX
+  texture: "gui/crane_icon"
+  id: "crane_icon"
+  parent: "crane"
+}
+nodes {
+  position {
+    x: -290.0
+    y: -260.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "\320\275\320\260\320\261\320\276\321\200"
+  font: "middle"
+  id: "rise"
+  pivot: PIVOT_E
+  parent: "crane"
+}
+nodes {
+  position {
+    x: -290.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "\321\203\320\264\320\265\321\200\320\266\320\260\320\275\320\270\320\265"
+  font: "middle"
+  id: "hold"
+  pivot: PIVOT_E
+  parent: "crane"
+}
+nodes {
+  position {
+    x: -290.0
+    y: 260.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "\320\276\321\202\320\277\321\203\321\201\320\272"
+  font: "middle"
+  id: "release"
+  pivot: PIVOT_E
+  parent: "crane"
+}
+nodes {
+  rotation {
+    y: 180.0
+  }
+  size {
+    x: 186.0
+    y: 756.0
+  }
+  type: TYPE_BOX
+  texture: "gui/scroll"
+  id: "scroll"
+  pivot: PIVOT_W
+  parent: "crane"
+}
+nodes {
+  position {
+    y: -260.0
+  }
+  size {
+    x: 246.0
+    y: 156.0
+  }
+  type: TYPE_BOX
+  texture: "gui/crane_handler"
+  id: "crane_handler"
+  pivot: PIVOT_E
+  parent: "crane"
+}
+nodes {
+  size {
+    x: 540.0
+    y: 1200.0
+  }
+  type: TYPE_BOX
+  id: "crane_input"
+  pivot: PIVOT_E
+  parent: "crane"
+  inherit_alpha: true
+  alpha: 0.0
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: -540.0
+    y: 600.0
+  }
+  size {
+    x: 186.0
+    y: 756.0
+  }
+  type: TYPE_BOX
+  texture: "gui/scroll"
+  id: "controller"
+  xanchor: XANCHOR_RIGHT
+  pivot: PIVOT_W
+  parent: "handlers"
+}
+nodes {
+  position {
+    y: -260.0
+  }
+  size {
+    x: 246.0
+    y: 156.0
+  }
+  type: TYPE_BOX
+  texture: "gui/cont_handler"
+  id: "controller_handler"
+  pivot: PIVOT_W
+  parent: "controller"
+  inherit_alpha: true
+}
+nodes {
+  size {
+    x: 540.0
+    y: 1200.0
+  }
+  type: TYPE_BOX
+  id: "controller_input"
+  pivot: PIVOT_W
+  parent: "controller"
+  inherit_alpha: true
+  alpha: 0.0
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 88.0
+    y: 460.0
+  }
+  size {
+    x: 84.0
+    y: 96.0
+  }
+  type: TYPE_BOX
+  texture: "gui/cont_icon"
+  id: "controller_icon"
+  parent: "controller"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 290.0
+    y: -260.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "R"
+  font: "middle"
+  id: "r"
+  pivot: PIVOT_W
+  parent: "controller"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 290.0
+    y: -130.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "0"
+  font: "middle"
+  id: "0"
+  pivot: PIVOT_W
+  parent: "controller"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 290.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "M"
+  font: "middle"
+  id: "m"
+  pivot: PIVOT_W
+  parent: "controller"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 290.0
+    y: 130.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "1"
+  font: "middle"
+  id: "first"
+  pivot: PIVOT_W
+  parent: "controller"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 290.0
+    y: 260.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "2"
+  font: "middle"
+  id: "second"
+  pivot: PIVOT_W
+  parent: "controller"
+  inherit_alpha: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

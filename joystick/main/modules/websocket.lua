@@ -1,10 +1,11 @@
-local M = { 
-    CONNECTION = nil,
-    ROOM_JOINER = require('main.modules.roomjoiner'),
-    ROLE_CHOOSER = require('main.modules.rolechooser'),
+local M = {
+	CONNECTION = nil,
+	ROOM_JOINER = require('main.modules.roomjoiner'),
+	ROLE_CHOOSER = require('main.modules.rolechooser'),
 	QUEUE = require('main.modules.queue'),
 	WALK = require('main.modules.walk'),
-    HOST = 'wss://ocrv-game.ru/v2.0/Joystick'
+	TRAINCONTROL = require('main.modules.traincontrol'),
+	HOST = 'wss://ocrv-game.ru/v2.0/Joystick'
 }
 
 local function websocket_callback(self, conn, data)
@@ -47,39 +48,41 @@ local function disconnecting()
 end
 
 local function setup_event()
-    pprint('websocket init')
+	pprint('websocket init')
 	eventbus.subscribe('connecting', connecting)
 	eventbus.subscribe('disconnecting', disconnecting)
 	eventbus.subscribe('join_room_error', disconnecting)
 end
 
 local function drop_events()
-    eventbus.unsubscribe('connecting', connecting)
+	eventbus.unsubscribe('connecting', connecting)
 	eventbus.unsubscribe('disconnecting', disconnecting)
 	eventbus.unsubscribe('join_room_error', disconnecting)
 end
 
 function M.init()
-    M.ROLE_CHOOSER.init()
-    M.ROOM_JOINER.init()
+	M.ROLE_CHOOSER.init()
+	M.ROOM_JOINER.init()
 	M.QUEUE.init()
 	M.WALK.init()
-    setup_event()
+	setup_event()
 end
 
 function M.send(message)
-    message = json.encode(message)
-    pprint('Send to server: ' .. message)
-    websocket.send(M.CONNECTION, message, { type = websocket.DATA_TYPE_TEXT })
-    eventbus.publish('send', message)
+	if M.CONNECTION then
+		message = json.encode(message)
+		pprint('Send to server: ' .. message)
+		websocket.send(M.CONNECTION, message, { type = websocket.DATA_TYPE_TEXT })
+		eventbus.publish('send', message)
+	end
 end
 
 function M.dispose()
-    drop_events()
+	drop_events()
 	M.WALK.final()
 	M.QUEUE.final()
-    M.ROLE_CHOOSER.final()
-    M.ROOM_JOINER.final()
+	M.ROLE_CHOOSER.final()
+	M.ROOM_JOINER.final()
 end
 
 return M

@@ -1,4 +1,6 @@
 local customstyle = require('main.gui.style')
+local buttons_hidden = vmath.vector3(0, -1920, 0)
+local buttons_shown  = vmath.vector3(0, 0, 0)
 
 local function back_button_click(self)
 	eventbus.publish('disconnecting')
@@ -34,6 +36,9 @@ local function setup(self)
 		eventbus.publish('move_interact', {key = ws.WALK.INTERACTION, phase = ws.WALK.PHASE.UP}) 
 		eventbus.publish('move_interact', {key = ws.WALK.INTERACTION, phase = ws.WALK.PHASE.CLICK})
 	end)
+	self.buttons = gui.get_node('buttons')
+	gui.set_position(self.buttons, buttons_hidden)
+	gui.animate(self.buttons, gui.PROP_POSITION, buttons_shown, gui.EASING_OUTCIRC, 0.2, 0.1)
 end
 
 local function init_events(self)
@@ -44,6 +49,7 @@ local function init_events(self)
 end
 
 local function drop_events(self)
+	eventbus.publish('move_interact', {}) 
 	eventbus.unsubscribe('disconnected', self.on_disconnected)
 	eventbus.unsubscribe('error', self.on_error)
 	self.on_disconnected = nil
