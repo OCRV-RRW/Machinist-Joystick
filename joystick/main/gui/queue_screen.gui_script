@@ -1,0 +1,85 @@
+local customstyle = require('main.gui.style')
+local spot_enter_pos = vmath.vector3(0, -460, 0)
+local spot_pos = vmath.vector3(0, -60, 0)
+local spot_exit_pos = vmath.vector3(0, 260, 0)
+
+local function antimate_spot(self, start_pos, end_pos, start_alpha, end_alpha, complete_function)
+	gui.set_position(self.spot_in_line, spot_enter_pos)
+	gui.set_alpha(self.spot_in_line, start_alpha)
+	gui.animate(self.spot_in_line, gui.PROP_POSITION, end_pos, gui.EASING_LINEAR, 0.1, 0, complete_function)
+	gui.animate(self.spot_in_line, 'color.w', end_alpha, gui.EASING_LINEAR, 0.1)
+end
+
+local function back_button_click(self)
+	eventbus.publish('choose_role_screen')
+	eventbus.publish('leave_queue')
+end
+
+local function update_spot_info(self)
+	if self.last_spot == _G.spot_in_line then return end
+	self.last_spot = _G.spot_in_line
+	antimate_spot(self, spot_pos, spot_exit_pos, 1, 0, function ()
+		gui.set_text(self.spot_in_line, _G.spot_in_line)
+		antimate_spot(self, spot_exit_pos, spot_pos, 0, 1)
+	end)
+end
+
+local function disconnected(self)
+	local main_url = msg.url('main', '/root', 'script')
+	msg.post(main_url, 'connection_menu')
+	self.clicked = false
+end
+
+local function setup(self)
+	self.back_button = self.druid:new_button(gui.get_node('back_btn'), back_button_click)
+	self.back_button:set_style(customstyle)
+
+	self.spot_in_line = gui.get_node('spot_in_line')
+	self.last_spot = _G.spot_in_line
+	gui.set_text(self.spot_in_line, _G.spot_in_line)
+end
+
+local function init_events(self)
+	self.on_update_queue = function (data) msg.post(msg.url('queue', '/ui', 'queue_screen'), 'update_queue') end
+	self.on_disconnected = function() disconnected(self) end
+	self.on_error = function() disconnected(self) end
+	eventbus.subscribe('update_queue', self.on_update_queue)
+	eventbus.subscribe('disconnected', self.on_disconnected)
+	eventbus.subscribe('error', self.on_error)
+end
+
+local function drop_events(self)
+	eventbus.unsubscribe('update_queue', self.on_update_queue)
+	eventbus.unsubscribe('disconnected', self.on_disconnected)
+	eventbus.unsubscribe('error', self.on_error)
+	self.on_disconnected = nil
+	self.on_error = nil
+end
+
+
+function init(self)
+	self.druid = druid.new(self)
+	setup(self)
+	init_events(self)
+	antimate_spot(self, spot_exit_pos, spot_pos, 0, 1)
+end
+
+function final(self)
+	drop_events(self)
+	self.druid:final()
+end
+
+function update(self, dt)
+	self.druid:update(dt)
+end
+
+function on_message(self, message_id, message, sender)
+	self.druid:on_message(message_id, message, sender)
+	if message_id == hash('update_queue')then
+		update_spot_info(self)
+	end
+end
+
+function on_input(self, action_id, action)
+	self.druid:on_input(action_id, action)
+end

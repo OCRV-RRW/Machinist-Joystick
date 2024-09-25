@@ -47,6 +47,7 @@ end
 
 local function disconnected(self)
 	gui.set_enabled(gui.get_node('back'), true)
+	
 	gui.animate(gui.get_node('train'), gui.PROP_POSITION, vmath.vector3(0, 385, 0), gui.EASING_OUTCIRC, .5, .1)
 	gui.set_enabled(self.disconnection.node, false)
 	self.disconnection:set_enabled(true)

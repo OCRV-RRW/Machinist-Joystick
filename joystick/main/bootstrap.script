@@ -1,6 +1,8 @@
 eventbus = require('main/modules/eventbus')
 ws = require('main.modules.websocket')
 druid = require("druid.druid")
+bootstrap_url = msg.url('main', '/root', 'script')
+spot_in_line = 1
 
 local function unload(self)
 	if self.loaded_proxies == nil then return false end
@@ -39,15 +41,22 @@ end
 
 local function init_events(self)
 	self.choose_role_screen = function ()
-		msg.post(msg.url('main', '/root', 'script'), 'choose')
+		msg.post(bootstrap_url, 'choose_role_screen')
+	end
+
+	self.queue_screen  = function (data)
+		msg.post(bootstrap_url, 'queue_screen', data)
 	end
 
 	eventbus.subscribe('choose_role_screen', self.choose_role_screen)
+	eventbus.subscribe('into_queue', self.queue_screen)
 end
 
 local function drop_events(self)
+	eventbus.unsubscribe('into_queue', self.queue_screen)
 	eventbus.unsubscribe('choose_role_screen', self.choose_role_screen)
-	self.choose_role = nil
+	self.choose_role_screen = nil
+	self.queue_screen = nil
 end
 
 function init(self)
@@ -62,8 +71,10 @@ function on_message(self, message_id, message, sender)
 		on_loaded(self, sender)
 	elseif message_id == hash('proxy_unloaded') then
 		on_unloaded(self, sender)
-	elseif message_id == hash('choose') then
+	elseif message_id == hash('choose_role_screen') then
 		load(self, 'chooseroleproxy')
+	elseif message_id == hash('queue_screen') then
+		load(self, 'queueproxy')
 	elseif message_id == hash('connection_menu') then
 		unload(self)
 	end

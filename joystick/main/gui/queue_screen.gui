@@ -1,0 +1,100 @@
+script: "/main/gui/queue_screen.gui_script"
+fonts {
+  name: "base"
+  font: "/fonts/base.font"
+}
+fonts {
+  name: "base_copy"
+  font: "/fonts/base_copy.font"
+}
+fonts {
+  name: "heading"
+  font: "/fonts/heading.font"
+}
+fonts {
+  name: "main"
+  font: "/fonts/main.font"
+}
+fonts {
+  name: "middle"
+  font: "/fonts/middle.font"
+}
+fonts {
+  name: "small"
+  font: "/fonts/small.font"
+}
+textures {
+  name: "gui"
+  texture: "/resources/gui.atlas"
+}
+nodes {
+  position {
+    x: 540.0
+    y: 960.0
+  }
+  size {
+    x: 1080.0
+    y: 1920.0
+  }
+  type: TYPE_BOX
+  texture: "gui/Starts"
+  id: "root"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: -402.0
+    y: 822.0
+  }
+  size {
+    x: 276.0
+    y: 276.0
+  }
+  type: TYPE_BOX
+  texture: "gui/back button"
+  id: "back_btn"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_TOP
+  parent: "root"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    y: 389.0
+  }
+  size {
+    x: 1080.0
+    y: 300.0
+  }
+  color {
+    x: 0.498
+    y: 0.549
+    z: 0.553
+  }
+  type: TYPE_TEXT
+  text: "\320\222\321\213 \320\262 \320\276\321\207\320\265\321\200\320\265\320\264\320\270 \320\277\320\276\320\264\n"
+  "\320\275\320\276\320\274\320\265\321\200\320\276\320\274"
+  font: "main"
+  id: "text"
+  yanchor: YANCHOR_TOP
+  parent: "root"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    y: -60.0
+  }
+  size {
+    x: 400.0
+    y: 600.0
+  }
+  type: TYPE_TEXT
+  text: "3\n"
+  ""
+  font: "base_copy"
+  id: "spot_in_line"
+  parent: "root"
+  inherit_alpha: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

@@ -45,7 +45,7 @@ function M.init()
     else
         M.PAGE_URL = ""
     end
-    local split = string:split(page_url, '/')
+    local split = string:split(M.PAGE_URL, '/')
     local room_name = string:split(split[table.maxn(split)], '=')
 
     M.ROOM_NAME = room_name[2] or 'd7c28e8d-6872-41ad-924c-1d4dae9c418c'

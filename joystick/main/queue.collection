@@ -1,0 +1,10 @@
+name: "queue"
+scale_along_z: 0
+embedded_instances {
+  id: "ui"
+  data: "components {\n"
+  "  id: \"queue_screen\"\n"
+  "  component: \"/main/gui/queue_screen.gui\"\n"
+  "}\n"
+  ""
+}

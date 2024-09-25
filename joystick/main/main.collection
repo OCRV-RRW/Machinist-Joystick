@@ -18,5 +18,11 @@ embedded_instances {
   "  data: \"collection: \\\"/main/choose_role.collection\\\"\\n"
   "\"\n"
   "}\n"
+  "embedded_components {\n"
+  "  id: \"queueproxy\"\n"
+  "  type: \"collectionproxy\"\n"
+  "  data: \"collection: \\\"/main/queue.collection\\\"\\n"
+  "\"\n"
+  "}\n"
   ""
 }
