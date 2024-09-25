@@ -1,16 +1,21 @@
-local customstyle = require('main.gui.style')
+local customstyle    = require('main.gui.style')
 local buttons_hidden = vmath.vector3(0, -1920, 0)
 local buttons_shown  = vmath.vector3(0, 0, 0)
 
-local function back_button_click(self)
-	eventbus.publish('disconnecting')
-	self.back_button:set_enabled(false)
+local function disconnected(self)
+	gui.animate(self.buttons, gui.PROP_POSITION, buttons_hidden, gui.EASING_INCIRC, 0.2, 0, function()
+		msg.post(bootstrap_url, 'connection_menu')
+	end)
+	self.clicked = false
 end
 
-local function disconnected(self)
-	local main_url = msg.url('main', '/root', 'script')
-	msg.post(main_url, 'connection_menu')
-	self.clicked = false
+local function back_button_click(self)
+	self.back_button:set_enabled(false)
+	if ws.CONNECTION == nil then
+		disconnected(self)
+	else
+		eventbus.publish('disconnecting')
+	end
 end
 
 local function setup(self)
@@ -21,20 +26,29 @@ local function setup(self)
 	self.left = self.druid:new_button(gui.get_node('left'))
 	self.interaction = self.druid:new_button(gui.get_node('interaction'))
 
-	self.right.on_pressed:subscribe(function (self, args, btn) eventbus.publish('move_interact', {key = ws.WALK.RIGHT, phase = ws.WALK.PHASE.DOWN}) end)
-	self.right.on_click:subscribe(function (self, args, btn) 
-		eventbus.publish('move_interact', {key = ws.WALK.RIGHT, phase = ws.WALK.PHASE.UP}) 
-		eventbus.publish('move_interact', {key = ws.WALK.RIGHT, phase = ws.WALK.PHASE.CLICK})
+	self.right.on_pressed:subscribe(function(self, args, btn)
+		eventbus.publish('move_interact',
+			{ key = ws.WALK.RIGHT, phase = ws.WALK.PHASE.DOWN })
 	end)
-	self.left.on_pressed:subscribe(function (self, args, btn) eventbus.publish('move_interact', {key = ws.WALK.LEFT, phase = ws.WALK.PHASE.DOWN}) end)
-	self.left.on_click:subscribe(function (self, args, btn) 
-		eventbus.publish('move_interact', {key = ws.WALK.LEFT, phase = ws.WALK.PHASE.UP}) 
-		eventbus.publish('move_interact', {key = ws.WALK.LEFT, phase = ws.WALK.PHASE.CLICK})
+	self.right.on_click:subscribe(function(self, args, btn)
+		eventbus.publish('move_interact', { key = ws.WALK.RIGHT, phase = ws.WALK.PHASE.UP })
+		eventbus.publish('move_interact', { key = ws.WALK.RIGHT, phase = ws.WALK.PHASE.CLICK })
 	end)
-	self.interaction.on_pressed:subscribe (function (self, args, btn) eventbus.publish('move_interact', {key = ws.WALK.INTERACTION, phase = ws.WALK.PHASE.DOWN}) end)
-	self.interaction.on_click:subscribe(function (self, args, btn) 
-		eventbus.publish('move_interact', {key = ws.WALK.INTERACTION, phase = ws.WALK.PHASE.UP}) 
-		eventbus.publish('move_interact', {key = ws.WALK.INTERACTION, phase = ws.WALK.PHASE.CLICK})
+	self.left.on_pressed:subscribe(function(self, args, btn)
+		eventbus.publish('move_interact',
+			{ key = ws.WALK.LEFT, phase = ws.WALK.PHASE.DOWN })
+	end)
+	self.left.on_click:subscribe(function(self, args, btn)
+		eventbus.publish('move_interact', { key = ws.WALK.LEFT, phase = ws.WALK.PHASE.UP })
+		eventbus.publish('move_interact', { key = ws.WALK.LEFT, phase = ws.WALK.PHASE.CLICK })
+	end)
+	self.interaction.on_pressed:subscribe(function(self, args, btn)
+		eventbus.publish('move_interact',
+			{ key = ws.WALK.INTERACTION, phase = ws.WALK.PHASE.DOWN })
+	end)
+	self.interaction.on_click:subscribe(function(self, args, btn)
+		eventbus.publish('move_interact', { key = ws.WALK.INTERACTION, phase = ws.WALK.PHASE.UP })
+		eventbus.publish('move_interact', { key = ws.WALK.INTERACTION, phase = ws.WALK.PHASE.CLICK })
 	end)
 	self.buttons = gui.get_node('buttons')
 	gui.set_position(self.buttons, buttons_hidden)
@@ -49,7 +63,7 @@ local function init_events(self)
 end
 
 local function drop_events(self)
-	eventbus.publish('move_interact', {}) 
+	eventbus.publish('move_interact', {})
 	eventbus.unsubscribe('disconnected', self.on_disconnected)
 	eventbus.unsubscribe('error', self.on_error)
 	self.on_disconnected = nil

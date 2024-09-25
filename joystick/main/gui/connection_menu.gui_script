@@ -137,7 +137,6 @@ end
 
 function on_message(self, message_id, message, sender)
 	self.druid:on_message(message_id, message, sender)
-
 end
 
 function on_input(self, action_id, action)

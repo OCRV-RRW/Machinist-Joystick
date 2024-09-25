@@ -13,7 +13,7 @@ local function websocket_callback(self, conn, data)
 	if data.event == websocket.EVENT_DISCONNECTED then
 		pprint('Disconnected: ' .. tostring(conn))
 		eventbus.publish('disconnected', conn)
-		connection = nil
+		M.CONNECTION = nil
 	elseif data.event == websocket.EVENT_CONNECTED then
 		pprint('Connected: ' .. tostring(conn))
 		eventbus.publish('connected', conn)
