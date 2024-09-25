@@ -48,13 +48,19 @@ local function init_events(self)
 		msg.post(bootstrap_url, 'queue_screen', data)
 	end
 
-	eventbus.subscribe('choose_role_screen', self.choose_role_screen)
+	self.walk_screen = function (data)
+		msg.post(bootstrap_url, 'walk_screen', data)
+	end
+
+	eventbus.subscribe('choose_role', self.choose_role_screen)
 	eventbus.subscribe('into_queue', self.queue_screen)
+	eventbus.subscribe('into_game', self.walk_screen)
 end
 
 local function drop_events(self)
+	eventbus.unsubscribe('into_game', self.walk_screen)
 	eventbus.unsubscribe('into_queue', self.queue_screen)
-	eventbus.unsubscribe('choose_role_screen', self.choose_role_screen)
+	eventbus.unsubscribe('choose_role', self.choose_role_screen)
 	self.choose_role_screen = nil
 	self.queue_screen = nil
 end
@@ -75,6 +81,8 @@ function on_message(self, message_id, message, sender)
 		load(self, 'chooseroleproxy')
 	elseif message_id == hash('queue_screen') then
 		load(self, 'queueproxy')
+	elseif message_id == hash('walk_screen') then
+		load(self, 'walkproxy')
 	elseif message_id == hash('connection_menu') then
 		unload(self)
 	end

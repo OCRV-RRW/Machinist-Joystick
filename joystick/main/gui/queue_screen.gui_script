@@ -11,7 +11,7 @@ local function antimate_spot(self, start_pos, end_pos, start_alpha, end_alpha, c
 end
 
 local function back_button_click(self)
-	eventbus.publish('choose_role_screen')
+	eventbus.publish('choose_role')
 	eventbus.publish('leave_queue')
 end
 
@@ -25,8 +25,7 @@ local function update_spot_info(self)
 end
 
 local function disconnected(self)
-	local main_url = msg.url('main', '/root', 'script')
-	msg.post(main_url, 'connection_menu')
+	msg.post(bootstrap_url, 'connection_menu')
 	self.clicked = false
 end
 

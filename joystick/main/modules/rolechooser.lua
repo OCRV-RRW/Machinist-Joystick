@@ -10,6 +10,7 @@ local function on_message_received(data)
         end
         if received_json.Type == 'UpdateSpotInLine' then
             _G.spot_in_line = received_json.SpotInLine
+            return
         end
         if received_json.Type == 'LetJoystickIntoGame' then
             event_name = 'into_game'
@@ -26,11 +27,11 @@ local function on_choosed_role(role)
 end
 
 function M.init()
-    eventbus.subscribe('choose_role', on_choosed_role)
+    eventbus.subscribe('selected_role', on_choosed_role)
 end
 
 function M.final()
-    eventbus.unsubscribe('choose_role', on_choosed_role)
+    eventbus.unsubscribe('selected_role', on_choosed_role)
 end
 
 return M

@@ -19,4 +19,10 @@ images {
 images {
   image: "/resources/images/back button.png"
 }
+images {
+  image: "/resources/images/interaction.png"
+}
+images {
+  image: "/resources/images/move.png"
+}
 inner_padding: 1

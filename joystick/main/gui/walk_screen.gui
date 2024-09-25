@@ -1,0 +1,121 @@
+script: "/main/gui/walk_screen.gui_script"
+fonts {
+  name: "base"
+  font: "/fonts/base.font"
+}
+fonts {
+  name: "base_copy"
+  font: "/fonts/base_copy.font"
+}
+fonts {
+  name: "heading"
+  font: "/fonts/heading.font"
+}
+fonts {
+  name: "main"
+  font: "/fonts/main.font"
+}
+fonts {
+  name: "middle"
+  font: "/fonts/middle.font"
+}
+fonts {
+  name: "small"
+  font: "/fonts/small.font"
+}
+textures {
+  name: "gui"
+  texture: "/resources/gui.atlas"
+}
+nodes {
+  position {
+    x: 540.0
+    y: 960.0
+  }
+  size {
+    x: 1080.0
+    y: 1920.0
+  }
+  type: TYPE_BOX
+  texture: "gui/Starts"
+  id: "root"
+  inherit_alpha: true
+}
+nodes {
+  size {
+    x: 1080.0
+    y: 1920.0
+  }
+  type: TYPE_BOX
+  id: "buttons"
+  parent: "root"
+  inherit_alpha: true
+  alpha: 0.0
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 268.0
+    y: -519.0
+  }
+  size {
+    x: 315.0
+    y: 306.0
+  }
+  type: TYPE_BOX
+  texture: "gui/move"
+  id: "right"
+  parent: "buttons"
+}
+nodes {
+  position {
+    x: -268.0
+    y: -519.0
+  }
+  rotation {
+    y: 180.0
+  }
+  size {
+    x: 315.0
+    y: 306.0
+  }
+  type: TYPE_BOX
+  texture: "gui/move"
+  id: "left"
+  parent: "buttons"
+}
+nodes {
+  position {
+    y: -174.0
+  }
+  size {
+    x: 850.0
+    y: 246.0
+  }
+  type: TYPE_BOX
+  texture: "gui/interaction"
+  id: "interaction"
+  parent: "buttons"
+  slice9 {
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
+  }
+}
+nodes {
+  position {
+    x: -402.0
+    y: 821.0
+  }
+  size {
+    x: 276.0
+    y: 276.0
+  }
+  type: TYPE_BOX
+  texture: "gui/back button"
+  id: "back_btn"
+  parent: "root"
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

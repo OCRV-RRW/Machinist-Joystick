@@ -62,7 +62,7 @@ local function on_success_room_join(self)
 	timer.delay(0.5, false, function (self, handle, time_elapsed)
 		gui.set_enabled(gui.get_node('back'), false)
 		gui.set_position(gui.get_node('train'), vmath.vector3(-1000, 385, 0))
-		eventbus.publish('choose_role_screen')
+		eventbus.publish('choose_role')
 		set_message(self, '', vmath.vector3(1))
 	end)
 end

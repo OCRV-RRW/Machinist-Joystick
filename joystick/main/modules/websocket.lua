@@ -3,6 +3,7 @@ local M = {
     ROOM_JOINER = require('main.modules.roomjoiner'),
     ROLE_CHOOSER = require('main.modules.rolechooser'),
 	QUEUE = require('main.modules.queue'),
+	WALK = require('main.modules.walk'),
     HOST = 'wss://ocrv-game.ru/v2.0/Joystick'
 }
 
@@ -62,6 +63,7 @@ function M.init()
     M.ROLE_CHOOSER.init()
     M.ROOM_JOINER.init()
 	M.QUEUE.init()
+	M.WALK.init()
     setup_event()
 end
 
@@ -74,6 +76,7 @@ end
 
 function M.dispose()
     drop_events()
+	M.WALK.final()
 	M.QUEUE.final()
     M.ROLE_CHOOSER.final()
     M.ROOM_JOINER.final()
