@@ -1,0 +1,76 @@
+eventbus = require('main/modules/eventbus')
+ws = require('main.modules.websocket')
+druid = require("druid.druid")
+
+local function unload(self)
+	if self.loaded_proxies == nil then return false end
+	for i, v in ipairs(self.loaded_proxies) do
+		msg.post(v, 'disable')
+		msg.post(v, 'final')
+		msg.post(v, 'unload')
+		table.remove(self.loaded_proxies, i)
+		pprint("Dropped: " .. v)
+	end
+	return true
+end
+
+local function load(self, proxy)
+	unload(self)
+	local url = msg.url('main', '/root', proxy)
+	pprint('load '.. url)
+	msg.post(url, 'load')
+end
+
+local function on_loaded(self, sender)
+	pprint('Loaded: ' .. sender)
+	msg.post(sender, "init")
+	msg.post(sender, "enable")
+	msg.post(sender, "acquire_input_focus")
+	if self.first_load then
+		self.first_load = false
+		return
+	end
+	if self.loaded_proxies == nil then self.loaded_proxies = {} end
+	table.insert(self.loaded_proxies, sender)
+end
+
+local function on_unloaded(self, sender)
+end
+
+local function init_events(self)
+	self.choose_role_screen = function ()
+		msg.post(msg.url('main', '/root', 'script'), 'choose')
+	end
+
+	eventbus.subscribe('choose_role_screen', self.choose_role_screen)
+end
+
+local function drop_events(self)
+	eventbus.unsubscribe('choose_role_screen', self.choose_role_screen)
+	self.choose_role = nil
+end
+
+function init(self)
+	ws.init()
+	self.first_load = true
+	load(self, 'connectionmenuproxy')
+	init_events(self)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash('proxy_loaded') then
+		on_loaded(self, sender)
+	elseif message_id == hash('proxy_unloaded') then
+		on_unloaded(self, sender)
+	elseif message_id == hash('choose') then
+		load(self, 'chooseroleproxy')
+	elseif message_id == hash('connection_menu') then
+		unload(self)
+	end
+end
+
+function final(self)
+	ws.dispose()
+	drop_events(self)
+	unload(self)
+end

@@ -1,0 +1,80 @@
+local customstyle = require('main.gui.style')
+
+local function tchm_click(self)
+	self.tchm:set_enabled(false)
+	self.tchmp:set_enabled(false)
+	gui.animate(self.tchmp.node, gui.PROP_POSITION, vmath.vector3(0, -2000, 0), gui.EASING_INBACK, 0.2)
+	eventbus.publish('choose_role', 'Machinist')
+end
+
+local function tchmp_click(self)
+	self.tchm:set_enabled(false)
+	self.tchmp:set_enabled(false)
+	gui.animate(self.tchm.node, gui.PROP_POSITION, vmath.vector3(0, -2000, 0), gui.EASING_INBACK, 0.2)
+	eventbus.publish('choose_role', 'Assistant')
+end
+
+local function disconnection_click(self)
+	gui.animate(self.buttons, gui.PROP_POSITION, vmath.vector3(0, -2000, 0), gui.EASING_OUTBACK, 0.2)
+	eventbus.publish('disconnecting')
+	self.back_button:set_enabled(false)
+end
+
+local function disconnected(self)
+	local main_url = msg.url('main', '/root', 'script')
+	msg.post(main_url, 'connection_menu')
+	self.clicked = false
+end
+
+local function setup_buttons(self)
+	self.clicked = false
+	self.back_button = self.druid:new_button(gui.get_node('back_button'), disconnection_click)
+	self.tchm = self.druid:new_button(gui.get_node('tchm'), tchm_click)
+	self.tchmp = self.druid:new_button(gui.get_node('tchmp'), tchmp_click)
+	self.back_button:set_style(customstyle)
+	self.tchm:set_style(customstyle)
+	self.tchmp:set_style(customstyle)
+end
+
+local function init_events(self)
+	self.on_disconnected = function() disconnected(self) end
+	self.on_error = function() disconnected(self) end
+
+	eventbus.subscribe('disconnected', self.on_disconnected)
+	eventbus.subscribe('error', self.on_error)
+end
+
+local function drop_events(self)
+	eventbus.unsubscribe('disconnected', self.on_disconnected)
+	eventbus.unsubscribe('error', self.on_error)
+
+	self.on_connected = nil
+	self.on_disconnected = nil
+	self.on_error = nil
+end
+
+
+function init(self)
+	self.druid = druid.new(self)
+	self.buttons = gui.get_node('buttons')
+	gui.animate(self.buttons, gui.PROP_POSITION, vmath.vector3(0, 0, 0), gui.EASING_OUTBACK, 0.4, .1)
+	setup_buttons(self)
+	init_events(self)
+end
+
+function final(self)
+	drop_events(self)
+	self.druid:final()
+end
+
+function update(self, dt)
+	self.druid:update(dt)
+end
+
+function on_message(self, message_id, message, sender)
+	self.druid:on_message(message_id, message, sender)
+end
+
+function on_input(self, action_id, action)
+	self.druid:on_input(action_id, action)
+end

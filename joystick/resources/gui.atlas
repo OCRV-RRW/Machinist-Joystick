@@ -1,0 +1,22 @@
+images {
+  image: "/resources/images/Frame 4.png"
+}
+images {
+  image: "/resources/images/header 1.png"
+}
+images {
+  image: "/resources/images/Starts.png"
+}
+images {
+  image: "/resources/images/Rectangle 97.png"
+}
+images {
+  image: "/resources/images/tchm.png"
+}
+images {
+  image: "/resources/images/tchmp.png"
+}
+images {
+  image: "/resources/images/back button.png"
+}
+inner_padding: 1

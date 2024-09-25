@@ -1,0 +1,165 @@
+script: "/main/gui/connection_menu.gui_script"
+fonts {
+  name: "base"
+  font: "/fonts/base.font"
+}
+fonts {
+  name: "base_copy"
+  font: "/fonts/base_copy.font"
+}
+fonts {
+  name: "heading"
+  font: "/fonts/heading.font"
+}
+fonts {
+  name: "main"
+  font: "/fonts/main.font"
+}
+fonts {
+  name: "middle"
+  font: "/fonts/middle.font"
+}
+fonts {
+  name: "small"
+  font: "/fonts/small.font"
+}
+textures {
+  name: "gui"
+  texture: "/resources/gui.atlas"
+}
+nodes {
+  position {
+    x: 540.0
+    y: 960.0
+  }
+  size {
+    x: 1086.0
+    y: 1926.0
+  }
+  type: TYPE_BOX
+  texture: "gui/Starts"
+  id: "back"
+  adjust_mode: ADJUST_MODE_STRETCH
+  inherit_alpha: true
+  clipping_mode: CLIPPING_MODE_STENCIL
+}
+nodes {
+  position {
+    y: -420.0
+  }
+  size {
+    x: 1086.24
+    y: 1083.0
+  }
+  type: TYPE_BOX
+  texture: "gui/Rectangle 97"
+  id: "box1"
+  parent: "back"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: -1000.0
+    y: 385.0
+  }
+  size {
+    x: 1086.0
+    y: 1149.0
+  }
+  type: TYPE_BOX
+  texture: "gui/header 1"
+  id: "train"
+  parent: "back"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: -10.0
+    y: -183.0
+    z: 0.1
+  }
+  size {
+    x: 612.0
+    y: 246.0
+  }
+  type: TYPE_BOX
+  texture: "gui/Frame 4"
+  id: "connection"
+  parent: "back"
+  inherit_alpha: true
+  slice9 {
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
+  }
+}
+nodes {
+  size {
+    x: 612.0
+    y: 246.0
+  }
+  type: TYPE_TEXT
+  text: "\320\237\320\276\320\264\320\272\320\273\321\216\321\207\320\270\321\202\321\214\321\201\321\217"
+  font: "main"
+  id: "text"
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "connection"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: -10.0
+    y: -183.0
+    z: 0.1
+  }
+  size {
+    x: 612.0
+    y: 246.0
+  }
+  type: TYPE_BOX
+  texture: "gui/Frame 4"
+  id: "disconnection"
+  parent: "back"
+  inherit_alpha: true
+  slice9 {
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
+  }
+}
+nodes {
+  size {
+    x: 612.0
+    y: 246.0
+  }
+  type: TYPE_TEXT
+  text: "\320\236\321\202\320\272\320\273\321\216\321\207\320\270\321\202\321\214\321\201\321\217"
+  font: "main"
+  id: "text1"
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "disconnection"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    y: -556.0
+  }
+  size {
+    x: 1080.0
+    y: 200.0
+  }
+  color {
+    x: 0.502
+    y: 0.502
+    z: 0.502
+  }
+  type: TYPE_TEXT
+  font: "middle"
+  id: "message"
+  parent: "back"
+  inherit_alpha: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

@@ -1,0 +1,26 @@
+[bootstrap]
+main_collection = /main/main.collectionc
+
+[script]
+shared_state = 1
+
+[display]
+width = 1080
+height = 1920
+high_dpi = 1
+
+[android]
+input_method = HiddenInputField
+
+[project]
+title = TrainJoystick
+dependencies#0 = https://github.com/defold/extension-websocket/archive/refs/tags/4.0.0.zip
+dependencies#1 = https://github.com/Insality/druid/archive/refs/tags/0.11.0.zip
+
+[html5]
+show_fullscreen_button = 0
+show_made_with_defold = 0
+scale_mode = fit
+show_console_banner = 0
+splash_image = /resources/images/header 1.png
+

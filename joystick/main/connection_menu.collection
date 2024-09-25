@@ -1,0 +1,10 @@
+name: "connection_menu"
+scale_along_z: 0
+embedded_instances {
+  id: "ui"
+  data: "components {\n"
+  "  id: \"main_screen\"\n"
+  "  component: \"/main/gui/menu_screen.gui\"\n"
+  "}\n"
+  ""
+}

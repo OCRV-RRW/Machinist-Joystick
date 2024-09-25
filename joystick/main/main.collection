@@ -1,0 +1,22 @@
+name: "main"
+scale_along_z: 0
+embedded_instances {
+  id: "root"
+  data: "components {\n"
+  "  id: \"script\"\n"
+  "  component: \"/main/bootstrap.script\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"connectionmenuproxy\"\n"
+  "  type: \"collectionproxy\"\n"
+  "  data: \"collection: \\\"/main/connection_menu.collection\\\"\\n"
+  "\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"chooseroleproxy\"\n"
+  "  type: \"collectionproxy\"\n"
+  "  data: \"collection: \\\"/main/choose_role.collection\\\"\\n"
+  "\"\n"
+  "}\n"
+  ""
+}

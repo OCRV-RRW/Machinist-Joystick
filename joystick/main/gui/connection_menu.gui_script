@@ -1,0 +1,144 @@
+local customstyle = require('main.gui.style')
+
+local function set_message(self, text, color, anim, start_timer)
+	if self.message_timer then
+		timer.cancel(self.message_timer)
+	end
+	gui.cancel_animation(self.message, gui.PROP_SCALE)
+	gui.set_scale(self.message, vmath.vector3(1))
+	gui.set_color(self.message, color)
+	gui.set_text(self.message, text)
+	if anim then
+		gui.animate(self.message, gui.PROP_SCALE, 1.1, gui.EASING_LINEAR, 0.8, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
+	end
+	if start_timer then
+		self.message_timer = timer.delay(5, false, function(self, handle, time_elapsed)
+			gui.set_text(self.message, '')
+			self.message_timer = nil
+		end)
+	end
+end
+
+local function connection_click(self)
+	if self.clicked then return end
+	self.clicked = true
+	eventbus.publish('connecting')
+	self.connection:set_enabled(false)
+	set_message(self, 'Подключаемся...', vmath.vector3(1), true)
+	self.timeout_timer = timer.delay(10, false, self.on_error)
+end
+
+local function disconnection_click(self)
+	if self.clicked then return end
+	self.clicked = true
+	eventbus.publish('disconnecting')
+	self.disconnection:set_enabled(false)
+end
+
+local function connected(self)
+	if self.timeout_timer then
+		timer.cancel(self.timeout_timer)
+	end
+	gui.set_enabled(self.connection.node, false)
+	self.connection:set_enabled(true)
+	gui.set_enabled(self.disconnection.node, true)
+	self.clicked = false
+end
+
+local function disconnected(self)
+	gui.set_enabled(gui.get_node('back'), true)
+	gui.animate(gui.get_node('train'), gui.PROP_POSITION, vmath.vector3(0, 385, 0), gui.EASING_OUTCIRC, .5, .1)
+	gui.set_enabled(self.disconnection.node, false)
+	self.disconnection:set_enabled(true)
+	self.connection:set_enabled(true)
+	gui.set_enabled(self.connection.node, true)
+	self.clicked = false
+end
+
+local function on_success_room_join(self)
+	self.disconnection:set_enabled(false)
+	set_message(self, 'Комната готова!', vmath.vector3(1), false, true)
+	timer.delay(0.5, false, function (self, handle, time_elapsed)
+		gui.set_enabled(gui.get_node('back'), false)
+		gui.set_position(gui.get_node('train'), vmath.vector3(-1000, 385, 0))
+		eventbus.publish('choose_role_screen')
+		set_message(self, '', vmath.vector3(1))
+	end)
+end
+
+local function on_error_room_join(self)
+	set_message(self, 'Не нашлось свободной комнаты', vmath.vector3(1, 0, 0), false, true)
+	eventbus.publish('disconnecting')
+end
+
+local function setup_buttons(self)
+	self.clicked = false
+	self.connection = self.druid:new_button(gui.get_node('connection'), connection_click)
+	self.disconnection = self.druid:new_button(gui.get_node('disconnection'), disconnection_click)
+	self.connection:set_style(customstyle)
+	self.disconnection:set_style(customstyle)
+	self.message = gui.get_node('message')
+
+	gui.set_enabled(self.disconnection.node, false)
+end
+
+local function init_events(self)
+	self.on_connected = function() connected(self) end
+	self.on_disconnected = function() disconnected(self) end
+	self.on_error = function(data)
+		if data.message ~= '' then
+			set_message(self, "Ошибка подключения", vmath.vector3(1, 0, 1), false, true)
+		end
+		disconnected(self)
+	end
+	self.on_success_room_join = function() on_success_room_join(self) end
+	self.on_error_room_join = function() on_error_room_join(self) end
+
+	eventbus.subscribe('connected', self.on_connected)
+	eventbus.subscribe('disconnected', self.on_disconnected)
+	eventbus.subscribe('error', self.on_error)
+	eventbus.subscribe('join_room_success', self.on_success_room_join)
+	eventbus.subscribe('join_room_error', self.on_error_room_join)
+	pprint('connection menu event initiated')
+end
+
+local function drop_events(self)
+	eventbus.unsubscribe('join_room_success', self.on_success_room_join)
+	eventbus.unsubscribe('join_room_error', self.on_error_room_join)
+	eventbus.unsubscribe('connected', self.on_connected)
+	eventbus.unsubscribe('disconnected', self.on_disconnected)
+	eventbus.unsubscribe('error', self.on_error)
+	pprint('connection menu event dropped')
+
+	self.on_success_room_join = nil
+	self.on_error_room_join = nil
+	self.on_connected = nil
+	self.on_disconnected = nil
+	self.on_error = nil
+end
+
+
+function init(self)
+	self.druid = druid.new(self)
+	gui.animate(gui.get_node('train'), gui.PROP_POSITION, vmath.vector3(0, 385, 0), gui.EASING_OUTCIRC, .5, .2)
+	setup_buttons(self)
+	init_events(self)
+end
+
+function final(self)
+	drop_events(self)
+	self.druid:final()
+end
+
+function update(self, dt)
+	self.druid:update(dt)
+end
+
+function on_message(self, message_id, message, sender)
+	self.druid:on_message(message_id, message, sender)
+
+end
+
+function on_input(self, action_id, action)
+	self.druid:on_input(action_id, action)
+end
