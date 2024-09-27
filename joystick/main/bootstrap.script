@@ -50,6 +50,7 @@ local function init_events(self)
 	end
 
 	self.walk_screen = function (data)
+		pprint('post: walk_screen')
 		msg.post(bootstrap_url, 'walk_screen', data)
 	end
 
@@ -57,10 +58,15 @@ local function init_events(self)
 		msg.post(bootstrap_url, 'train_control_screen', data)
 	end
 
+	self.mini_game_screen = function (data)
+		msg.post(bootstrap_url, 'mini_game_screen', data)
+	end
+
 	eventbus.subscribe('choose_role', self.choose_role_screen)
 	eventbus.subscribe('into_queue', self.queue_screen)
 	eventbus.subscribe('into_game', self.walk_screen)
 	eventbus.subscribe('train_control', self.train_control_screen)
+	eventbus.subscribe('mini_game', self.mini_game_screen)
 end
 
 local function drop_events(self)
@@ -68,6 +74,7 @@ local function drop_events(self)
 	eventbus.unsubscribe('into_game', self.walk_screen)
 	eventbus.unsubscribe('into_queue', self.queue_screen)
 	eventbus.unsubscribe('choose_role', self.choose_role_screen)
+	eventbus.unsubscribe('mini_game', self.mini_game_screen)
 	self.choose_role_screen = nil
 	self.queue_screen = nil
 end
@@ -93,6 +100,8 @@ function on_message(self, message_id, message, sender)
 		load(self, 'walkproxy')
 	elseif message_id == hash('train_control_screen') then
 		load(self, 'traincontrolproxy')
+	elseif message_id == hash('mini_game_screen') then
+		load(self, 'minigameproxy')
 	elseif message_id == hash('connection_menu') then
 		unload(self)
 	end
@@ -100,7 +109,7 @@ end
 
 function on_input(self, action_id, action)
 	if action_id == hash('controller') and action.released then
-		eventbus.publish('train_control')
+		eventbus.publish('mini_game')
 	end
 end
 

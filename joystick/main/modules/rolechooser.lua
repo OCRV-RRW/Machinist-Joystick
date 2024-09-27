@@ -1,4 +1,9 @@
-local M = {}
+local M = {
+    ROLE = {
+        TCHM = 'Machinist',
+        TCHMP = 'Assistant'
+    }
+}
 
 local function on_message_received(data)
     local event_name
@@ -17,6 +22,7 @@ local function on_message_received(data)
             eventbus.unsubscribe('websocket_call', on_message_received)
         end
     end
+    pprint("publish " .. event_name)
     eventbus.publish(event_name, data)
 end
 

@@ -1,7 +1,6 @@
 local M = {PAGE_URL = nil}
 
 local function on_message_received(data)
-    eventbus.unsubscribe('websocket_call', on_message_received)
     local event_name
     if data.event == websocket.EVENT_MESSAGE then
         local received_json = json.decode(data.message)
@@ -10,10 +9,13 @@ local function on_message_received(data)
         else
             event_name = 'join_room_success'
         end
-    else
-        event_name = 'join_room_success'
+        eventbus.unsubscribe('websocket_call', on_message_received)
+    elseif data.event ~= websocket.EVENT_CONNECTED then
+        event_name = 'join_room_error'
     end
-    eventbus.publish(event_name, data)
+    if event_name then
+        eventbus.publish(event_name, data)
+    end
 end
 
 local function on_host_connected()

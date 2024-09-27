@@ -14,9 +14,14 @@ local function on_message_received(data)
     if data.event == websocket.EVENT_MESSAGE then
         local received_json = json.decode(data.message)
         if received_json.Type == 'OpenTrainControlPanel' then
-            _G.CRANE = received_json.Crane
-            _G.CONTROLLER = received_json.Controller
+            _G.crane = received_json.Crane
+            _G.controller = received_json.Controller
             eventbus.publish('train_control', data)
+        elseif received_json.Type == 'StartPipeGame' then
+            if _G.role == ws.ROLE_CHOOSER.ROLE.TCHMP then
+                _G.id = received_json.Id
+                eventbus.publish('mini_game', data)               
+            end
         end
     end
 end

@@ -24,4 +24,5 @@ scale_mode = fit
 show_console_banner = 0
 splash_image = /resources/images/header 1.png
 cssfile = /builtins/manifests/web/dark_theme.css
+htmlfile = /manifest/engine_template.html
 

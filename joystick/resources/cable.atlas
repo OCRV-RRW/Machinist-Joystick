@@ -1,0 +1,16 @@
+images {
+  image: "/resources/images/black_cable.png"
+}
+images {
+  image: "/resources/images/blue_cable.png"
+}
+images {
+  image: "/resources/images/green_cable.png"
+}
+images {
+  image: "/resources/images/red_cable.png"
+}
+images {
+  image: "/resources/images/yellow_cable.png"
+}
+extrude_borders: 2

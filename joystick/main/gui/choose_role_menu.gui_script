@@ -1,17 +1,20 @@
 local customstyle = require('main.gui.style')
 
-local function tchm_click(self)
+local function set_role(self, role)
+	_G.role = role
 	self.tchm:set_enabled(false)
 	self.tchmp:set_enabled(false)
+	timer.delay(0.8, false, function() eventbus.publish('selected_role', _G.role) end)
+end
+
+local function tchm_click(self)
 	gui.animate(self.tchmp.node, gui.PROP_POSITION, vmath.vector3(0, -2000, 0), gui.EASING_INBACK, 0.2)
-	timer.delay(0.8, false, function() eventbus.publish('selected_role', 'Machinist') end)
+	set_role(self, ws.ROLE_CHOOSER.ROLE.TCHM)
 end
 
 local function tchmp_click(self)
-	self.tchm:set_enabled(false)
-	self.tchmp:set_enabled(false)
 	gui.animate(self.tchm.node, gui.PROP_POSITION, vmath.vector3(0, -2000, 0), gui.EASING_INBACK, 0.2)
-	timer.delay(0.8, false, function() eventbus.publish('selected_role', 'Assistant') end)
+	set_role(self, ws.ROLE_CHOOSER.ROLE.TCHMP)
 end
 
 local function disconnection_click(self)

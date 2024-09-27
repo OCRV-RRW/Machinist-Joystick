@@ -36,5 +36,11 @@ embedded_instances {
   "  data: \"collection: \\\"/main/train_control.collection\\\"\\n"
   "\"\n"
   "}\n"
+  "embedded_components {\n"
+  "  id: \"minigameproxy\"\n"
+  "  type: \"collectionproxy\"\n"
+  "  data: \"collection: \\\"/main/minigame/cabelRepair.collection\\\"\\n"
+  "\"\n"
+  "}\n"
   ""
 }

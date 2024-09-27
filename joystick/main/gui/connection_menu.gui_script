@@ -1,8 +1,13 @@
 local customstyle = require('main.gui.style')
 
-local function set_message(self, text, color, anim, start_timer)
+local function set_message(self, text, color, anim, start_timer, show_timer)
+	show_timer = show_timer or 5
 	if self.message_timer then
 		timer.cancel(self.message_timer)
+		local exist_text = gui.get_text(self.message)
+		if exist_text ~= '' and exist_text ~= 'Комната готова!' then
+			text = (exist_text .. '\n'.. text)
+		end
 	end
 	gui.cancel_animation(self.message, gui.PROP_SCALE)
 	gui.set_scale(self.message, vmath.vector3(1))
@@ -12,7 +17,7 @@ local function set_message(self, text, color, anim, start_timer)
 		gui.animate(self.message, gui.PROP_SCALE, 1.1, gui.EASING_LINEAR, 0.8, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
 	end
 	if start_timer then
-		self.message_timer = timer.delay(5, false, function(self, handle, time_elapsed)
+		self.message_timer = timer.delay(show_timer, false, function(self, handle, time_elapsed)
 			gui.set_text(self.message, '')
 			self.message_timer = nil
 		end)
@@ -25,7 +30,7 @@ local function connection_click(self)
 	eventbus.publish('connecting')
 	self.connection:set_enabled(false)
 	set_message(self, 'Подключаемся...', vmath.vector3(1), true)
-	self.timeout_timer = timer.delay(10, false, self.on_error)
+	self.timeout_timer = timer.delay(5, false, self.on_error)
 end
 
 local function disconnection_click(self)
@@ -53,6 +58,7 @@ local function disconnected(self)
 	self.disconnection:set_enabled(true)
 	self.connection:set_enabled(true)
 	gui.set_enabled(self.connection.node, true)
+	set_message(self, 'Отключились', vmath.vector3(1, 0, 0), false, true, 1)
 	self.clicked = false
 end
 

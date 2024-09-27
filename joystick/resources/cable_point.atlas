@@ -1,0 +1,15 @@
+images {
+  image: "/resources/images/black_cable_point.png"
+}
+images {
+  image: "/resources/images/blue_cable_point.png"
+}
+images {
+  image: "/resources/images/green_cable_point.png"
+}
+images {
+  image: "/resources/images/red_cable_point.png"
+}
+images {
+  image: "/resources/images/yellow_cable_point.png"
+}

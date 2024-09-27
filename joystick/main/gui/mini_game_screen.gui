@@ -1,0 +1,45 @@
+script: "/main/gui/minigame_screen.gui_script"
+fonts {
+  name: "base"
+  font: "/fonts/base.font"
+}
+fonts {
+  name: "base_copy"
+  font: "/fonts/base_copy.font"
+}
+fonts {
+  name: "heading"
+  font: "/fonts/heading.font"
+}
+fonts {
+  name: "main"
+  font: "/fonts/main.font"
+}
+fonts {
+  name: "middle"
+  font: "/fonts/middle.font"
+}
+fonts {
+  name: "small"
+  font: "/fonts/small.font"
+}
+textures {
+  name: "gui"
+  texture: "/resources/gui.atlas"
+}
+nodes {
+  position {
+    x: 138.0
+    y: 1782.0
+    z: 0.1
+  }
+  size {
+    x: 276.0
+    y: 276.0
+  }
+  type: TYPE_BOX
+  texture: "gui/back button"
+  id: "back_btn"
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

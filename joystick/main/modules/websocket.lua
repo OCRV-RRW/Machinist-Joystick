@@ -5,11 +5,11 @@ local M = {
 	QUEUE = require('main.modules.queue'),
 	WALK = require('main.modules.walk'),
 	TRAINCONTROL = require('main.modules.traincontrol'),
+	MINIGAME = require('main.modules.minigame'),
 	HOST = 'wss://ocrv-game.ru/v2.0/Joystick'
 }
 
 local function websocket_callback(self, conn, data)
-	eventbus.publish('websocket_call', data)
 	if data.event == websocket.EVENT_DISCONNECTED then
 		pprint('Disconnected: ' .. tostring(conn))
 		eventbus.publish('disconnected', conn)
@@ -31,6 +31,7 @@ local function websocket_callback(self, conn, data)
 		pprint('Received: "' .. tostring(data.message) .. '"')
 		eventbus.publish('received', data)
 	end
+	eventbus.publish('websocket_call', data)
 end
 
 local function connecting()
@@ -65,13 +66,14 @@ function M.init()
 	M.ROOM_JOINER.init()
 	M.QUEUE.init()
 	M.WALK.init()
+	M.TRAINCONTROL.init()
+	M.MINIGAME.init()
 	setup_event()
 end
 
 function M.send(message)
 	if M.CONNECTION then
 		message = json.encode(message)
-		pprint('Send to server: ' .. message)
 		websocket.send(M.CONNECTION, message, { type = websocket.DATA_TYPE_TEXT })
 		eventbus.publish('send', message)
 	end
@@ -79,10 +81,12 @@ end
 
 function M.dispose()
 	drop_events()
+	M.MINIGAME.final()
 	M.WALK.final()
 	M.QUEUE.final()
 	M.ROLE_CHOOSER.final()
 	M.ROOM_JOINER.final()
+	M.TRAINCONTROL.final()
 end
 
 return M
