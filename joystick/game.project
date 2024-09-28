@@ -27,3 +27,15 @@ splash_image = /resources/images/header 1.png
 cssfile = /builtins/manifests/web/dark_theme.css
 htmlfile = /manifest/engine_template.html
 
+[druid]
+input_text = text
+input_touch = touch
+input_marked_text = marked_text
+input_key_esc = key_esc
+input_key_back = key_back
+input_key_enter = key_enter
+input_key_backspace = key_backspace
+input_multitouch = touch_multi
+input_scroll_up = mouse_wheel_up
+input_scroll_down = mouse_wheel_down
+

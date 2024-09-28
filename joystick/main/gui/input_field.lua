@@ -19,7 +19,7 @@
 -- @tfield druid.text placeholder @{Text}
 
 ---
-
+local customstyle = require('main.gui.style')
 local component = require("druid.component")
 
 local RichInput = component.create("druid.input_field")
@@ -63,6 +63,7 @@ function RichInput.init(self, template, nodes)
 	self.druid = self:get_druid()
 	self.input = self.druid:new_input(self:get_node(SCHEME.BUTTON), self:get_node(SCHEME.INPUT))
 	self.cursor = self:get_node(SCHEME.CURSOR)
+	self.input:set_style(customstyle)
 
 	self.input:set_text("")
 	self.placeholder = self.druid:new_text(self:get_node(SCHEME.PLACEHOLDER))

@@ -4,6 +4,7 @@ druid = require("druid.druid")
 local slider = require("druid.extended.slider")
 bootstrap_url = msg.url('main', '/root', 'script')
 spot_in_line = 1
+debug = "" .. hash("debug") == "[debug]"
 
 local function unload(self)
 	if self.loaded_proxies == nil then return false end
@@ -116,7 +117,7 @@ function on_message(self, message_id, message, sender)
 end
 
 function on_input(self, action_id, action)
-	if action_id == hash('controller') and action.released then
+	if debug and action_id == hash('controller') and action.released then
 		eventbus.publish('feedback')
 	end
 end

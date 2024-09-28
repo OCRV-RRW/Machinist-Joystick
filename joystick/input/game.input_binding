@@ -4,7 +4,19 @@ key_trigger {
 }
 key_trigger {
   input: KEY_BACKSPACE
-  action: "backspace"
+  action: "key_backspace"
+}
+key_trigger {
+  input: KEY_ESC
+  action: "key_esc"
+}
+key_trigger {
+  input: KEY_BACK
+  action: "key_back"
+}
+key_trigger {
+  input: KEY_ENTER
+  action: "key_enter"
 }
 mouse_trigger {
   input: MOUSE_BUTTON_1
@@ -15,10 +27,10 @@ touch_trigger {
   action: "touch_multi"
 }
 text_trigger {
-  input: TEXT
-  action: "text"
+  input: MARKED_TEXT
+  action: "marked_text"
 }
 text_trigger {
-  input: MARKED_TEXT
-  action: ""
+  input: TEXT
+  action: "text"
 }
