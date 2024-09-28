@@ -6,6 +6,7 @@ local M = {
 	WALK = require('main.modules.walk'),
 	TRAINCONTROL = require('main.modules.traincontrol'),
 	MINIGAME = require('main.modules.minigame'),
+	FEEDBACK = require('main.modules.feedback'),
 	HOST = 'wss://ocrv-game.ru/v2.0/Joystick'
 }
 
@@ -68,6 +69,7 @@ function M.init()
 	M.WALK.init()
 	M.TRAINCONTROL.init()
 	M.MINIGAME.init()
+	M.FEEDBACK.init()
 	setup_event()
 end
 
@@ -81,6 +83,7 @@ end
 
 function M.dispose()
 	drop_events()
+	M.FEEDBACK.final()
 	M.MINIGAME.final()
 	M.WALK.final()
 	M.QUEUE.final()

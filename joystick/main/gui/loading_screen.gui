@@ -1,0 +1,35 @@
+script: ""
+textures {
+  name: "gui"
+  texture: "/resources/gui.atlas"
+}
+nodes {
+  position {
+    x: 540.0
+    y: 960.0
+  }
+  rotation {
+    y: 90.0
+  }
+  size {
+    x: 1080.0
+    y: 1920.0
+  }
+  type: TYPE_BOX
+  id: "loading"
+  inherit_alpha: true
+  alpha: 0.35
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  size {
+    x: 156.0
+    y: 156.0
+  }
+  type: TYPE_BOX
+  texture: "gui/loading_circle"
+  id: "circle"
+  parent: "loading"
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

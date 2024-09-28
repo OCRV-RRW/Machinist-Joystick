@@ -42,5 +42,11 @@ embedded_instances {
   "  data: \"collection: \\\"/main/minigame/cabelRepair.collection\\\"\\n"
   "\"\n"
   "}\n"
+  "embedded_components {\n"
+  "  id: \"feedbackproxy\"\n"
+  "  type: \"collectionproxy\"\n"
+  "  data: \"collection: \\\"/main/feedback.collection\\\"\\n"
+  "\"\n"
+  "}\n"
   ""
 }

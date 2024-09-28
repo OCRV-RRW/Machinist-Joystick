@@ -1,0 +1,98 @@
+local customstyle    = require('main.gui.style')
+local buttons_hidden = vmath.vector3(0, -1920, 0)
+local buttons_shown  = vmath.vector3(0, 338, 0)
+local send_hidden = vmath.vector3(2160, -400, 0)
+local send_shown  = vmath.vector3(0, -400, 0)
+local input_hidden = vmath.vector3(-2160, -63, 0)
+local input_shown = vmath.vector3(0, -63, 0)
+local show_anim  = gui.EASING_OUTELASTIC
+local hide_anim = gui.EASING_INELASTIC
+local loading = require('main.gui.loading_screen')
+
+local rich_input  = require("main.gui.input_field")
+local input = require("druid.extended.input")
+druid.register("input", input)
+
+local function on_send_feedback(self)
+	pprint("send_fb")
+	self.send:set_enabled(false)
+	eventbus.publish('send_feedback')
+end
+
+local function  on_good_click(self)
+	_G.rate = 1
+	gui.set_color(self.good.node, vmath.vector4(1, 1, 1, 1))
+	gui.set_color(self.bad.node,  vmath.vector4(1, 1, 1, 0.3))
+	self.send:set_enabled(true)
+end
+
+local function  on_bad_click(self)
+	_G.rate = 0
+	gui.set_color(self.bad.node,  vmath.vector4(1, 1, 1, 1))
+	gui.set_color(self.good.node, vmath.vector4(1, 1, 1, 0.3))
+	self.send:set_enabled(true)
+end
+
+local function show(self)
+	gui.animate(self.title, 'color.w', 1, gui.EASING_LINEAR, .1, 0)
+	gui.animate(self.buttons, gui.PROP_POSITION, buttons_shown, show_anim, .15, .1)
+	gui.animate(self.input_field, gui.PROP_POSITION, input_shown, show_anim, 0.2, .25)
+	gui.animate(self.send.node, gui.PROP_POSITION, send_shown, show_anim, 0.2, 0.25)
+end
+
+local function setup(self)
+	self.send = self.druid:new_button('send', on_send_feedback)
+	self.send:set_style(customstyle)
+	self.send:set_enabled(false)
+	gui.set_position(self.send.node, send_hidden)
+	loading.init(self, 'loading_screen')
+
+	self.title = gui.get_node('title')
+	gui.set_alpha(self.title, 0)
+	self.buttons = gui.get_node('buttons')
+	gui.set_position(self.buttons, buttons_hidden)
+
+	self.good = self.druid:new_button('good', on_good_click)
+	self.bad = self.druid:new_button('bad', on_bad_click)
+
+	self.input_field = gui.get_node('input_box/root')
+	self.input = self.druid:new(rich_input, 'input_box')
+
+	self.input:set_placeholder('Текст начните вводить тут...')
+	gui.set_position(self.input_field, input_hidden)
+	show(self)
+end
+
+local function init_events(self)
+	ws.FEEDBACK.switch_on()
+end
+
+local function drop_events(self)
+	ws.FEEDBACK.switch_off()
+end
+
+
+function init(self)
+	self.druid = druid.new(self)
+	setup(self)
+	init_events(self)
+end
+
+function final(self)
+	drop_events(self)
+	loading.final(self)
+	self.druid:final()
+end
+
+function update(self, dt)
+	self.druid:update(dt)
+end
+
+function on_message(self, message_id, message, sender)
+	self.druid:on_message(message_id, message, sender)
+	loading.on_message(self, message_id, message, sender)
+end
+
+function on_input(self, action_id, action)
+	self.druid:on_input(action_id, action)
+end

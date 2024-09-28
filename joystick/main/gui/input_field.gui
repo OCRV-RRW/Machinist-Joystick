@@ -1,0 +1,162 @@
+script: ""
+fonts {
+  name: "base"
+  font: "/fonts/base.font"
+}
+fonts {
+  name: "base_copy"
+  font: "/fonts/base_copy.font"
+}
+fonts {
+  name: "heading"
+  font: "/fonts/heading.font"
+}
+fonts {
+  name: "main"
+  font: "/fonts/main.font"
+}
+fonts {
+  name: "middle"
+  font: "/fonts/middle.font"
+}
+fonts {
+  name: "small"
+  font: "/fonts/small.font"
+}
+textures {
+  name: "gui"
+  texture: "/resources/gui.atlas"
+}
+nodes {
+  type: TYPE_BOX
+  id: "root"
+  inherit_alpha: true
+  alpha: 0.0
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: -350.0
+    y: 175.0
+  }
+  size {
+    x: 700.0
+    y: 350.0
+  }
+  type: TYPE_BOX
+  texture: "gui/input_field"
+  id: "button"
+  pivot: PIVOT_NW
+  parent: "root"
+  slice9 {
+    x: 20.0
+    y: 20.0
+    z: 20.0
+    w: 20.0
+  }
+  clipping_mode: CLIPPING_MODE_STENCIL
+}
+nodes {
+  position {
+    x: 20.0
+    y: -20.0
+  }
+  size {
+    x: 660.0
+    y: 310.0
+  }
+  color {
+    x: 0.6
+    y: 0.6
+    z: 0.6
+  }
+  type: TYPE_TEXT
+  text: "Placeholder"
+  font: "middle"
+  id: "placeholder_text"
+  pivot: PIVOT_NW
+  outline {
+    x: 0.4
+    y: 0.4
+    z: 0.4
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+  line_break: true
+  parent: "button"
+  shadow_alpha: 0.0
+}
+nodes {
+  position {
+    x: 20.0
+    y: -20.0
+  }
+  size {
+    x: 660.0
+    y: 310.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  type: TYPE_TEXT
+  text: "User input"
+  font: "middle"
+  id: "input_text"
+  pivot: PIVOT_NW
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+  line_break: true
+  parent: "button"
+  shadow_alpha: 0.0
+}
+nodes {
+  position {
+    x: -350.0
+    y: 156.0
+  }
+  scale {
+    x: 0.6
+    y: 0.6
+  }
+  type: TYPE_BOX
+  id: "cursor_node"
+  parent: "button"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    y: 2.0
+  }
+  size {
+    x: 20.0
+    y: 40.0
+  }
+  color {
+    x: 0.2
+    y: 0.2
+    z: 0.2
+  }
+  type: TYPE_TEXT
+  text: "|"
+  font: "middle"
+  id: "cursor_text"
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+  parent: "cursor_node"
+  outline_alpha: 0.0
+  shadow_alpha: 0.0
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

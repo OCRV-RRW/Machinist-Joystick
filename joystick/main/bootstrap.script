@@ -20,7 +20,7 @@ end
 local function load(self, proxy)
 	unload(self)
 	local url = msg.url('main', '/root', proxy)
-	pprint('load '.. url)
+	pprint('load ' .. url)
 	msg.post(url, 'load')
 end
 
@@ -41,25 +41,29 @@ local function on_unloaded(self, sender)
 end
 
 local function init_events(self)
-	self.choose_role_screen = function ()
+	self.choose_role_screen   = function()
 		msg.post(bootstrap_url, 'choose_role_screen')
 	end
 
-	self.queue_screen  = function (data)
+	self.queue_screen         = function(data)
 		msg.post(bootstrap_url, 'queue_screen', data)
 	end
 
-	self.walk_screen = function (data)
+	self.walk_screen          = function(data)
 		pprint('post: walk_screen')
 		msg.post(bootstrap_url, 'walk_screen', data)
 	end
 
-	self.train_control_screen = function (data)
+	self.train_control_screen = function(data)
 		msg.post(bootstrap_url, 'train_control_screen', data)
 	end
 
-	self.mini_game_screen = function (data)
+	self.mini_game_screen     = function(data)
 		msg.post(bootstrap_url, 'mini_game_screen', data)
+	end
+
+	self.feedback             = function(data)
+		msg.post(bootstrap_url, 'feedback_screen', data)
 	end
 
 	eventbus.subscribe('choose_role', self.choose_role_screen)
@@ -67,9 +71,11 @@ local function init_events(self)
 	eventbus.subscribe('into_game', self.walk_screen)
 	eventbus.subscribe('train_control', self.train_control_screen)
 	eventbus.subscribe('mini_game', self.mini_game_screen)
+	eventbus.subscribe('feedback', self.feedback)
 end
 
 local function drop_events(self)
+	eventbus.unsubscribe('feedback', self.feedback)
 	eventbus.unsubscribe('train_control', self.train_control_screen)
 	eventbus.unsubscribe('into_game', self.walk_screen)
 	eventbus.unsubscribe('into_queue', self.queue_screen)
@@ -102,6 +108,8 @@ function on_message(self, message_id, message, sender)
 		load(self, 'traincontrolproxy')
 	elseif message_id == hash('mini_game_screen') then
 		load(self, 'minigameproxy')
+	elseif message_id == hash('feedback_screen') then
+		load(self, 'feedbackproxy')
 	elseif message_id == hash('connection_menu') then
 		unload(self)
 	end
@@ -109,7 +117,7 @@ end
 
 function on_input(self, action_id, action)
 	if action_id == hash('controller') and action.released then
-		eventbus.publish('mini_game')
+		eventbus.publish('feedback')
 	end
 end
 

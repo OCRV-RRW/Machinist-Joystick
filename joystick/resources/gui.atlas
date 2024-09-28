@@ -43,4 +43,19 @@ images {
 images {
   image: "/resources/images/scroll.png"
 }
+images {
+  image: "/resources/images/bad.png"
+}
+images {
+  image: "/resources/images/good.png"
+}
+images {
+  image: "/resources/images/input_field.png"
+}
+images {
+  image: "/resources/images/yoda.png"
+}
+images {
+  image: "/resources/images/loading_circle.png"
+}
 inner_padding: 1

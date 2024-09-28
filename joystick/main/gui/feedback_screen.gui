@@ -1,0 +1,216 @@
+script: "/main/gui/feedback_screen.gui_script"
+fonts {
+  name: "base"
+  font: "/fonts/base.font"
+}
+fonts {
+  name: "base_copy"
+  font: "/fonts/base_copy.font"
+}
+fonts {
+  name: "heading"
+  font: "/fonts/heading.font"
+}
+fonts {
+  name: "main"
+  font: "/fonts/main.font"
+}
+fonts {
+  name: "middle"
+  font: "/fonts/middle.font"
+}
+fonts {
+  name: "small"
+  font: "/fonts/small.font"
+}
+textures {
+  name: "gui"
+  texture: "/resources/gui.atlas"
+}
+nodes {
+  position {
+    x: 540.0
+    y: 960.0
+  }
+  size {
+    x: 1080.0
+    y: 1920.0
+  }
+  type: TYPE_BOX
+  texture: "gui/Starts"
+  id: "root"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    y: 338.0
+  }
+  size {
+    x: 1080.0
+    y: 400.0
+  }
+  type: TYPE_BOX
+  id: "buttons"
+  parent: "root"
+  inherit_alpha: true
+  alpha: 0.0
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: -216.0
+  }
+  size {
+    x: 315.0
+    y: 306.0
+  }
+  type: TYPE_BOX
+  texture: "gui/good"
+  id: "good"
+  parent: "buttons"
+}
+nodes {
+  position {
+    x: 217.0
+  }
+  size {
+    x: 315.0
+    y: 306.0
+  }
+  type: TYPE_BOX
+  texture: "gui/bad"
+  id: "bad"
+  parent: "buttons"
+}
+nodes {
+  position {
+    y: 638.0
+  }
+  size {
+    x: 1080.0
+    y: 200.0
+  }
+  type: TYPE_TEXT
+  text: "\320\222\320\260\320\266\320\265\320\275 \320\275\320\260\320\274 \320\276\321\202\320\267\321\213\320\262 \n"
+  "\320\262\320\260\321\210!"
+  font: "main"
+  id: "title"
+  parent: "root"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 146.0
+    y: -53.0
+  }
+  size {
+    x: 120.0
+    y: 120.0
+  }
+  type: TYPE_BOX
+  texture: "gui/yoda"
+  id: "box"
+  parent: "title"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    y: -400.0
+  }
+  size {
+    x: 750.0
+    y: 200.0
+  }
+  type: TYPE_BOX
+  texture: "gui/Frame 4"
+  id: "send"
+  parent: "root"
+  inherit_alpha: true
+  slice9 {
+    x: 20.0
+    y: 20.0
+    z: 20.0
+    w: 20.0
+  }
+}
+nodes {
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "\320\276\321\202\320\277\321\200\320\260\320\262\320\270\321\202\321\214"
+  font: "main"
+  id: "send_name"
+  parent: "send"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    y: -63.0
+  }
+  type: TYPE_TEMPLATE
+  id: "input_box"
+  parent: "root"
+  inherit_alpha: true
+  template: "/main/gui/input_field.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "input_box/root"
+  parent: "input_box"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "input_box/button"
+  parent: "input_box/root"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "input_box/placeholder_text"
+  parent: "input_box/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "input_box/input_text"
+  parent: "input_box/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "input_box/cursor_node"
+  parent: "input_box/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "input_box/cursor_text"
+  parent: "input_box/cursor_node"
+  template_node_child: true
+}
+nodes {
+  position {
+    z: 1.0
+  }
+  type: TYPE_TEMPLATE
+  id: "loading_screen"
+  inherit_alpha: true
+  template: "/main/gui/loading_screen.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "loading_screen/loading"
+  parent: "loading_screen"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "loading_screen/circle"
+  parent: "loading_screen/loading"
+  template_node_child: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT
