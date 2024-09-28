@@ -8,10 +8,14 @@ local function on_message_received(data)
         local received_json = json.decode(data.message)
         if received_json.Type == 'RequestFeedback' then
             local url = M.URL .. '?id=' .. _G.UUID
+            eventbus.publish('start_loading')
             http.request(url, 'get', function(self, id, response)
                 pprint(response)
+                eventbus.publish('finish_loading')
                 if response.code == 200 then
                     eventbus.publish('feedback')
+                else
+                    msg.post(bootstrap_url, 'connection_menu')
                 end
             end)
         end
