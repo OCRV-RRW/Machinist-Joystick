@@ -7,17 +7,18 @@ local function on_message_received(data)
     if data.event == websocket.EVENT_MESSAGE then
         local received_json = json.decode(data.message)
         if received_json.Type == 'RequestFeedback' then
-            local url = M.URL .. '?id=' .. _G.UUID
+            local url = M.URL .. '/' .. _G.UUID
             eventbus.publish('start_loading')
-            http.request(url, 'get', function(self, id, response)
+            http.request(url, 'GET', function(self, id, response)
                 pprint(response)
                 eventbus.publish('finish_loading')
-                if response.code == 200 then
+                if response.status == 200 then
                     eventbus.publish('feedback')
                 else
                     msg.post(bootstrap_url, 'connection_menu')
+                    eventbus.publish('disconnected')
                 end
-            end)
+            end, {['Access-Control-Allow-Origin'] = "*", ["Content-Type"] = 'application/json'})
         end
     end
 end

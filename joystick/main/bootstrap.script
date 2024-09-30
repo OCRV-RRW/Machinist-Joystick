@@ -4,7 +4,7 @@ druid = require("druid.druid")
 local slider = require("druid.extended.slider")
 bootstrap_url = msg.url('main', '/root', 'script')
 spot_in_line = 1
-debug = "" .. hash("debug") == "[debug]"
+--DEBUG = "" .. hash("debug") == "[debug]"
 
 local function unload(self)
 	if self.loaded_proxies == nil then return false end

@@ -22,8 +22,10 @@ local function on_message_received(data)
             eventbus.unsubscribe('websocket_call', on_message_received)
         end
     end
-    pprint("publish " .. event_name)
-    eventbus.publish(event_name, data)
+    if event_name then
+        pprint("publish " .. event_name)
+        eventbus.publish(event_name, data)
+    end
 end
 
 local function on_choosed_role(role)
