@@ -120,6 +120,10 @@ function on_input(self, action_id, action)
 	if debug and action_id == hash('controller') and action.released then
 		eventbus.publish('feedback')
 	end
+	if debug and action_id == hash('clear') and action.released then
+		sys.save('id',{uuid  = nil })
+		pprint('cleared')
+	end
 end
 
 function final(self)

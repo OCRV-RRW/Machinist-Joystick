@@ -45,7 +45,7 @@ end
 local function on_select(self)
 	gui.set_enabled(self.placeholder.node, false)
 end
- 
+
 
 local function on_unselect(self)
 	gui.set_enabled(self.cursor, false)
@@ -65,6 +65,7 @@ function RichInput.init(self, template, nodes)
 	self.cursor = self:get_node(SCHEME.CURSOR)
 	self.input:set_style(customstyle)
 
+
 	self.input:set_text("")
 	self.placeholder = self.druid:new_text(self:get_node(SCHEME.PLACEHOLDER))
 
@@ -75,7 +76,6 @@ function RichInput.init(self, template, nodes)
 	update_text(self, "")
 end
 
-
 --- Set placeholder text
 -- @tparam RichInput self @{RichInput}
 -- @tparam string placeholder_text The placeholder text
@@ -83,6 +83,5 @@ function RichInput.set_placeholder(self, placeholder_text)
 	self.placeholder:set_to(placeholder_text)
 	return self
 end
-
 
 return RichInput

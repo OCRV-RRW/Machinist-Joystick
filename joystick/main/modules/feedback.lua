@@ -2,6 +2,11 @@ local M = {
     URL = 'https://ocrv-game.ru/feedback/api/v1/feedback'
 }
 
+local  function return_to_main()
+    msg.post(bootstrap_url, 'connection_menu')
+    eventbus.publish('disconnected')
+end
+
 local function on_message_received(data)
     local event_name
     if data.event == websocket.EVENT_MESSAGE then
@@ -12,11 +17,10 @@ local function on_message_received(data)
             http.request(url, 'GET', function(self, id, response)
                 pprint(response)
                 eventbus.publish('finish_loading')
-                if response.status == 200 then
+                if response.status == 404 then
                     eventbus.publish('feedback')
                 else
-                    msg.post(bootstrap_url, 'connection_menu')
-                    eventbus.publish('disconnected')
+                    return_to_main()
                 end
             end, {['Access-Control-Allow-Origin'] = "*", ["Content-Type"] = 'application/json'})
         end
@@ -32,8 +36,8 @@ local function send_feedback()
     http.request(M.URL, method, function(self, id, response)
         eventbus.publish('finish_loading')
         pprint(id, response)
-        msg.post(bootstrap_url, 'connection_menu')
-    end, headers, body)
+        return_to_main()
+        end, headers, body)
 end
 
 function M.switch_on()
@@ -50,6 +54,7 @@ function M.init()
     if id.uuid == nil then
         id = { uuid = M.generate_uuid() }
         sys.save('id', id)
+        pprint('generated uuid ' .. id.uuid)
     end
     _G.UUID = id.uuid
     eventbus.subscribe('websocket_call', on_message_received)
@@ -60,6 +65,7 @@ function M.final()
 end
 
 function M.generate_uuid()
+    math.randomseed(os.time())
     local template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
     return string.gsub(template, '[xy]', function(c)
         local v = (c == 'x') and math.random(0, 0xf) or math.random(8, 0xb)

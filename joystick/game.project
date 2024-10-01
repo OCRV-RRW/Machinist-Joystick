@@ -17,6 +17,8 @@ title = TrainJoystick
 dependencies#0 = https://github.com/defold/extension-websocket/archive/refs/tags/4.0.0.zip
 dependencies#1 = https://github.com/Insality/druid/archive/refs/tags/0.11.0.zip
 dependencies#2 = https://github.com/britzl/defold-richtext/archive/master.zip
+dependencies#3 = https://github.com/AGulev/jstodef/archive/refs/tags/2.0.0.zip
+dependencies#4 = https://github.com/mchlkpng/defold-mobilehtml5-typing/archive/main.zip
 
 [html5]
 show_fullscreen_button = 0
