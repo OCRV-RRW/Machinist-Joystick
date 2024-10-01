@@ -12,7 +12,7 @@ local function on_message_received(data)
             http.request(url, 'GET', function(self, id, response)
                 pprint(response)
                 eventbus.publish('finish_loading')
-                if response.status == 200 then
+                if response.status == 404 then
                     eventbus.publish('feedback')
                 else
                     msg.post(bootstrap_url, 'connection_menu')
