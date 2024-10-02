@@ -4,7 +4,9 @@ local M = {
 local function on_finish_game()
     local message = {Role = _G.role, Type = "ExitMiniGame", ForServer = false}
     ws.send(message)
-    eventbus.publish('into_game')
+    if _G.role == ws.ROLE_CHOOSER.ROLE.TCHMP then
+        eventbus.publish('into_game', {role = _G.role})
+    end
 end
 
 local function on_repared_fuse()
