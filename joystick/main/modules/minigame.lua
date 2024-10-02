@@ -5,7 +5,7 @@ local function on_finish_game()
     local message = {Role = _G.role, Type = "ExitMiniGame", ForServer = false}
     ws.send(message)
     if _G.role == ws.ROLE_CHOOSER.ROLE.TCHMP then
-        eventbus.publish('into_game', {role = _G.role})
+        eventbus.publish('into_game')
     end
 end
 
@@ -24,4 +24,4 @@ function M.final()
     eventbus.unsubscribe('finish_mini_game', on_finish_game)
 end
 
-return M
+return ddM
