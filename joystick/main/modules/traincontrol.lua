@@ -9,9 +9,12 @@ local function on_message_received(data)
     end
 end
 
-local function on_leave_control()
-    local message = {ForServer = false, Type = "LeaveControlPanel", Role = _G.role}
-    ws.send(message)
+local function on_leave_controla(args)
+    pprint("leave control panel " .. args.role)
+    if args.role == ws.ROLE_CHOOSER.ROLE.TCHM then
+        local message = {ForServer = false, Type = "LeaveControlPanel", Role = args.role}
+        ws.send(message)
+    end
 end
 
 local function send_control_state()
@@ -30,7 +33,9 @@ function M.switch_off()
 end
 
 function M.init()
-    eventbus.subscribe('into_game', on_leave_control)
+    if _G.role == ws.ROLE_CHOOSER.ROLE.TCHM then
+        eventbus.subscribe('into_game', on_leave_control)
+    end
 end
 
 function M.final()
