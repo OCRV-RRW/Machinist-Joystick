@@ -1,0 +1,285 @@
+local colors_module = require("main.pipe.colors")
+local cells_path = require("main.pipe.cells_path")
+
+local colors_table = {}
+colors_table[0] = 1
+colors_table[2] = 3
+colors_table[4] = 4
+
+local function get_levels_settings(self)
+	local levels_json = sys.load_resource("/resources/json/levels.json")
+	local table = json.decode(tostring(levels_json))
+	return table["levels"]
+end
+
+local function clear_path(self, path)
+	if path then
+		for _, c in pairs(path) do
+			msg.post(c, "try_delete_pipe")
+		end
+		cells_path.clear_path(path)
+	else 
+		for _, c in pairs(self.current_path) do
+			msg.post(c, "try_delete_pipe")
+		end
+		cells_path.clear_path(self.current_path)
+	end
+end
+
+local function is_valid(self, message, sender)
+	return message.is_ended and
+		self.current_path[1] ~= sender and 
+		math.abs(self.current_cell_coords.x - message.coords.x) + math.abs(self.current_cell_coords.y - message.coords.y) <= 1
+
+end
+
+local function getn(table)
+	local count = 0
+	for _, val in pairs(table) do
+		count = count + 1
+	end
+	return count
+end
+
+local function send_message_check_busy(self)
+	local count = 0
+	for _, value in pairs(self.cells) do
+		count = count + 1
+		local cell_url = msg.url(nil, value, "cell")
+		msg.post(cell_url, "check_busy", {last = count == getn(self.cells)} )
+	end
+end
+
+local function get_pair_color(value)
+	for k, v in pairs(colors_table) do
+		if k == value then
+			return colors_table[k]
+		elseif v == value then
+			return k
+		end
+	end
+	return nil
+end
+
+local function change_level_by_colors(level, colors_table)
+	local using_colors = {}
+
+	local function contain_color(color)
+		for _, value in ipairs(using_colors) do
+			if value == color then
+				return true
+			end
+		end
+		return false
+	end
+
+	for _, value in ipairs(level) do
+		if contain_color(value["endPointColor"]) == false then
+			local pair_color = get_pair_color(value["endPointColor"])
+			if pair_color ~= nil then
+				table.insert(using_colors, value["endPointColor"])
+				value["endPointColor"] = pair_color
+			end
+		end
+	end
+
+	return level
+end
+
+local function create_grid(self, count_in_row, count_in_columm, settings)
+	math.randomseed(os.time())
+	local idx_level = math.random(#settings)
+	local settings_level = settings[idx_level]
+	local changed_level = change_level_by_colors(settings_level, colors_table)
+	self.count_cells = count_in_columm * count_in_row
+	local idx_cell = 0
+	for i = 0, count_in_columm - 1 do
+		for j = 0, count_in_row - 1 do
+			idx_cell = idx_cell + 1
+			local cell = factory.create("#cell_factory", 
+				vmath.vector3(i * 140 + 260, j * 140 + 0, 0), 
+				nil, 
+				{ 
+					is_ended = changed_level[idx_cell]["isEndPoint"], 
+					color = changed_level[idx_cell]["endPointColor"],
+					coords = vmath.vector3(i, j, 0)
+				})
+			self.cells[i.." "..j] = cell
+			msg.post(cell, "add_cleat")
+		end
+	end
+end
+
+local function reset(self)
+	while #cells_pathes ~= 0 do
+		clear_path(self, cells_pathes[1])
+	end
+end
+
+local function exit(self)
+	reset(self)
+	print("exit")
+end
+
+local function on_win(self)
+	exit(self)
+end
+
+local function check_path_state(self, path)
+	local first_cell_color = go.get(path[1], "color")
+	local last_cell_color = go.get(path[#path], "color")
+	if first_cell_color == get_pair_color(last_cell_color) then
+		return true
+	end
+
+	return false
+end
+
+local function check_game_state(self) 
+	local all_pathes_is_valid = true
+	for _, value in ipairs(cells_pathes) do
+		if check_path_state(self, value) == false then
+			all_pathes_is_valid = false
+		end
+	end
+
+	if self.count_busy_cells == getn(self.cells) and all_pathes_is_valid then
+		on_win(self)
+	end
+end
+
+local function set_path_state(self)
+	local path = cells_pathes[#cells_pathes]
+	if check_path_state(self, path) then
+		for _, val in ipairs(path) do
+			msg.post(val, "set_ok_state")
+		end
+	else
+		for _, val in ipairs(path) do
+			msg.post(val, "set_fail_state")
+		end
+	end
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	msg.post("@render:", "use_fixed_fit_projection", { near = -1, far = 1 })
+	self.count_cells = 0
+	self.cells = {}
+	self.count_busy_cells = 0
+	self.current_color = colors_module.NONE
+	self.on_started = false
+	self.current_cell_coords = vmath.vector3(-1, -1, -1)
+	self.current_cell = nil
+	self.prev_cell = nil
+	self.path_cleared = false
+	self.prev_cell_coords = vmath.vector3(-1, -1, -1)
+	self.current_path = nil
+	self.last_touch_pos = nil
+	local levels_settings = get_levels_settings(self)
+	create_grid(self, 5, 5, levels_settings)
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.pressed then
+		for _, val in pairs(self.cells) do
+			local cell_url = msg.url(nil, val, "cell")
+			msg.post(cell_url, "on_start", { touch_pos = vmath.vector3(action.x, action.y, 0) })
+		end
+	elseif action_id == hash("touch") and action.released then
+		if self.on_started then
+			for _, val in pairs(self.cells) do
+				local cell_url = msg.url(nil, val, "cell")
+				msg.post(cell_url, "on_release", { touch_pos = vmath.vector3(action.x, action.y, 0) })
+			end
+			self.on_started = false
+		end
+	elseif action_id == hash("touch") then
+		if self.on_started then
+			for _, val in pairs(self.cells) do
+				local cell_url = msg.url(nil, val, "cell")
+				msg.post(cell_url, "on_pick_cell", { touch_pos = vmath.vector3(action.x, action.y, 0), vector = {x = 1, y = 2} })
+			end
+		end
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	local path = nil
+	if message_id == hash("ok_on_start") then
+		if message.busy then
+			path = get_path_by_cell(sender)
+			clear_path(self, path)
+			msg.post(sender, "on_release", { touch_pos = message.touch_pos })
+			self.on_started = false
+			self.path_cleared = true
+		else
+			self.path_cleared = false
+			self.on_started = true
+			self.current_cell_coords = message.coords
+			self.current_cell = sender
+			self.current_color = message.color;
+			self.current_path = {}
+			cells_pathes.add_path(self.current_path)
+			msg.post(self.current_cell, "try_create_pipe", { color = message.color, vector = vmath.vector3(0, 0, 0)})
+		end
+	elseif message_id == hash("ok_on_pick") then
+		if math.abs(self.current_cell_coords.x - message.coords.x) + math.abs(self.current_cell_coords.y - message.coords.y) > 1 then
+			msg.post(sender, "on_release", { touch_pos = message.touch_pos })
+			self.on_started = false
+		elseif message.busy == true then
+			msg.post(sender, "on_release", { touch_pos = message.touch_pos })
+			self.on_started = false
+			clear_path(self)
+		else
+			self.prev_cell_coords = self.current_cell_coords
+			self.current_cell_coords = message.coords
+			self.prev_cell = self.current_cell
+			self.current_cell = sender
+			msg.post(self.prev_cell, "update_pipe", { vector = vmath.vector3(self.current_cell_coords.x - self.prev_cell_coords.x, 
+			self.current_cell_coords.y - self.prev_cell_coords.y, 0)})
+			msg.post(sender, "try_create_pipe", { color = self.current_color, 
+				vector = vmath.vector3(self.current_cell_coords.x - self.prev_cell_coords.x, 
+				self.current_cell_coords.y - self.prev_cell_coords.y, 0)})
+		end
+	elseif message_id == hash("ok_on_release") then
+		if is_valid(self, message, sender) then
+			set_path_state(self)
+			send_message_check_busy(self)
+		else
+			if self.path_cleared == false then
+				clear_path(self)
+			end
+		end
+		self.current_cell_coords = vmath.vector3(-1, -1, -1)
+		self.prev_cell_coords = vmath.vector3(-1, -1, -1)
+		self.current_color = colors_module.NONE
+	end
+
+	if message_id == hash("add_cell_to_path") then
+		cells_path.try_add_cell(sender)
+	end
+
+	if message_id == hash("answer_is_busy") then
+		if message.busy then
+			self.count_busy_cells = self.count_busy_cells + 1
+		end
+
+		if message.last then
+			check_game_state(self)
+			self.count_busy_cells = 0
+		end
+	end
+
+	if message_id == hash("reset_btn_click") then
+		reset(self)
+	end
+
+	if message_id == hash("exit_btn_click") then
+		exit(self)
+	end
+end

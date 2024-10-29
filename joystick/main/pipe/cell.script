@@ -1,0 +1,149 @@
+local camera_orto = require("orthographic.camera")
+go.property("is_ended", false)
+go.property("color", 0)
+go.property("coords", vmath.vector3())
+
+local function pick(self, touch_pos)
+	local size = go.get("#cell_sprite", "size")
+	local world_pos = camera_orto.screen_to_world(hash("/camera"), touch_pos)
+	if world_pos.x >= (go.get_position().x - size.x / 2) and world_pos.x <= (go.get_position().x + size.x / 2) then
+		if world_pos.y >= (go.get_position().y - size.y / 2) and world_pos.y <= (go.get_position().y + size.y / 2) then
+			return true
+		end
+	end
+	return false
+end 
+
+function init(self)
+	self.picked = false
+	self.busy = false
+	self.pipe = nil
+	self.vectors = {}
+end
+
+local function update_pipe(self, message)
+	local vector = vmath.vector3()
+	if #self.vectors == 2 then
+		if (self.vectors[1].x == self.vectors[2].x and 
+			self.vectors[1].y == self.vectors[2].y) then
+				vector = self.vectors[1]
+		end
+		if ((self.vectors[1].x == 0 and self.vectors[2].x == 0) or (self.vectors[1].y == 0 and self.vectors[2].y == 0)) then
+			vector = self.vectors[2]
+		else
+			local vector_sum = vmath.vector3(self.vectors[1].x + self.vectors[2].x, self.vectors[1].y + self.vectors[2].y, 0)
+			local determinant = (self.vectors[1].x * self.vectors[2].y) - (self.vectors[1].y  * self.vectors[2].x)
+			vector = vmath.vector3(vector_sum.x * determinant, vector_sum.y * determinant, 0)
+		end
+	end
+
+	if self.is_ended then
+		msg.post(self.pipe, "update_pipe", { is_end = true, vector = vector, color = message.color })
+	else
+		msg.post(self.pipe, "update_pipe", { is_end = false, vector = vector, color = message.color })
+	end
+end
+
+local function create_pipe(self, message)
+	self.busy = true
+	if self.is_ended then
+		self.pipe = factory.create("#pipe_factory", nil, nil, { is_end = true, vector = message.vector, color = message.color })
+	else 
+		self.pipe = factory.create("#pipe_factory", nil, nil, { is_end = false, vector = message.vector, color = message.color })
+	end
+end
+
+local function delete_pipe(self)
+	msg.post(self.pipe, "delete_pipe")
+	self.pipe = nil
+	self.vectors = {}
+	self.busy = false
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("on_pick_cell") then
+		local pos = message.touch_pos
+		if pick(self, pos) and self.picked == false then
+			self.picked = true
+			go.animate("#cell_sprite", "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1.1, 1.1, 0), go.EASING_LINEAR, 0.1)
+			msg.post(sender, "ok_on_pick", { coords = self.coords, is_ended = self.is_ended, color = self.color, touch_pos = message.touch_pos, busy = self.busy })
+		elseif pick(self, pos) == false and self.picked == true then
+			self.picked = false
+			go.animate("#cell_sprite", "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1, 1, 0), go.EASING_LINEAR, 0.1)
+		end
+	elseif message_id == hash("on_release") then
+		local pos = message.touch_pos
+		if pick(self, pos) then
+			self.picked = false
+			go.animate("#cell_sprite", "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1, 1, 0), go.EASING_LINEAR, 0.1)
+			msg.post(sender, "ok_on_release", { coords = self.coords, color = self.color, touch_pos = message.touch_pos, is_ended = self.is_ended, busy = self.busy})
+		end
+	elseif message_id == hash("on_start") then
+		local pos = message.touch_pos
+		if pick(self, pos) and self.is_ended == true then
+			self.picked = true
+			go.animate("#cell_sprite", "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1.1, 1.1, 0), go.EASING_LINEAR, 0.1)
+			msg.post(sender, "ok_on_start", { coords = self.coords, color = self.color, touch_pos = message.touch_pos, busy = self.busy })
+		end
+	end
+
+	if message_id == hash("add_cleat") then
+		if self.is_ended then
+		    factory.create("#cleat_factory", nil, nil, { color = self.color })
+		end
+	end
+
+	if message_id == hash("try_create_pipe") then
+		if self.pipe then
+			update_pipe(self, message)
+			msg.post(sender, "return_path_by_cell")
+		else
+			table.insert(self.vectors, message.vector)
+			create_pipe(self, message) 
+			msg.post(sender, "add_cell_to_path")
+		end
+	end
+
+	if message_id == hash("update_pipe") then
+		if (#self.vectors == 2) then
+			table.remove(self.vectors, 2)
+			table.insert(self.vectors, 2, message.vector)
+		elseif (#self.vectors == 1) then
+			table.insert(self.vectors, message.vector)
+		end
+		update_pipe(self, message)
+	end
+
+	if message_id == hash("try_delete_pipe") then
+		if self.pipe then
+			delete_pipe(self)
+		end
+	end
+
+	if message_id == hash("check_busy") then
+		msg.post(sender, "answer_is_busy", {busy = self.busy, last = message.last})
+	end
+
+	if message_id == hash("set_ok_state") then
+		msg.post(self.pipe, "set_ok_state")
+	end
+
+	if message_id == hash("set_fail_state") then
+		msg.post(self.pipe, "set_fail_state")
+	end
+end
+
+function on_input(self, action_id, action)
+end
+
+function on_reload(self)
+end
+
+function final(self)
+end
+
+function update(self, dt)
+end
+
+function fixed_update(self, dt)
+end

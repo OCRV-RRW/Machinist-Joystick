@@ -1,0 +1,16 @@
+images {
+  image: "/resources/images/cleat_blue.png"
+}
+images {
+  image: "/resources/images/cleat_dark.png"
+}
+images {
+  image: "/resources/images/cleat_red.png"
+}
+images {
+  image: "/resources/images/cleat_green.png"
+}
+images {
+  image: "/resources/images/cleat_yellow.png"
+}
+extrude_borders: 2

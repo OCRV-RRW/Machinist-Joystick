@@ -1,0 +1,35 @@
+name: "pipe_game"
+instances {
+  id: "grid"
+  prototype: "/main/pipe/gird.go"
+}
+instances {
+  id: "camera"
+  prototype: "/orthographic/camera.go"
+  position {
+    x: 544.0
+    y: 551.0
+  }
+  component_properties {
+    id: "script"
+    properties {
+      id: "zoom"
+      value: "1.4"
+      type: PROPERTY_TYPE_NUMBER
+    }
+    properties {
+      id: "projection"
+      value: "FIXED_AUTO"
+      type: PROPERTY_TYPE_HASH
+    }
+  }
+}
+scale_along_z: 0
+embedded_instances {
+  id: "gui"
+  data: "components {\n"
+  "  id: \"pipe\"\n"
+  "  component: \"/main/gui/pipe.gui\"\n"
+  "}\n"
+  ""
+}

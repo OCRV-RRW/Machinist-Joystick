@@ -24,4 +24,4 @@ function M.final()
     eventbus.unsubscribe('finish_mini_game', on_finish_game)
 end
 
-return ddM
+return M

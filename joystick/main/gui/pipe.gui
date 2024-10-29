@@ -1,0 +1,51 @@
+script: "/main/gui/pipe.gui_script"
+textures {
+  name: "pipe_gui"
+  texture: "/resources/pipe_gui.atlas"
+}
+nodes {
+  position {
+    x: 539.0
+    y: 1783.0
+  }
+  size {
+    x: 1080.0
+    y: 276.0
+  }
+  type: TYPE_BOX
+  id: "buttons"
+  yanchor: YANCHOR_TOP
+  inherit_alpha: true
+  alpha: 0.0
+  visible: false
+}
+nodes {
+  position {
+    x: -401.0
+  }
+  size {
+    x: 276.0
+    y: 276.0
+  }
+  type: TYPE_BOX
+  texture: "pipe_gui/reset_pipe_game"
+  id: "reset_btn"
+  yanchor: YANCHOR_TOP
+  parent: "buttons"
+}
+nodes {
+  position {
+    x: 401.0
+  }
+  size {
+    x: 276.0
+    y: 276.0
+  }
+  type: TYPE_BOX
+  texture: "pipe_gui/exit_pipe_game"
+  id: "exit_btn"
+  yanchor: YANCHOR_TOP
+  parent: "buttons"
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

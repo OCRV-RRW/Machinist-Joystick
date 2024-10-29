@@ -1,0 +1,15 @@
+images {
+  image: "/resources/images/exit_pipe_game.png"
+  sprite_trim_mode: SPRITE_TRIM_MODE_4
+}
+images {
+  image: "/resources/images/reset_pipe_game.png"
+  sprite_trim_mode: SPRITE_TRIM_MODE_4
+}
+images {
+  image: "/resources/images/game_working_only_landscape.png"
+}
+images {
+  image: "/resources/images/game_background.png"
+}
+extrude_borders: 2

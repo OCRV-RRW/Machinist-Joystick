@@ -1,0 +1,4 @@
+images {
+  image: "/resources/images/gridCell.png"
+}
+extrude_borders: 2

@@ -1,0 +1,54 @@
+images {
+  image: "/resources/images/line_pipe_red.png"
+}
+images {
+  image: "/resources/images/line_pipe_blue.png"
+}
+images {
+  image: "/resources/images/line_pipe_dark.png"
+}
+images {
+  image: "/resources/images/line_pipe_green.png"
+}
+images {
+  image: "/resources/images/line_pipe_yellow.png"
+}
+images {
+  image: "/resources/images/curve_pipe_red.png"
+}
+images {
+  image: "/resources/images/curve_pipe_blue.png"
+}
+images {
+  image: "/resources/images/curve_pipe_dark.png"
+}
+images {
+  image: "/resources/images/curve_pipe_green.png"
+}
+images {
+  image: "/resources/images/curve_pipe_yellow.png"
+}
+images {
+  image: "/resources/images/end_pipe_blue.png"
+}
+images {
+  image: "/resources/images/end_pipe_dark.png"
+}
+images {
+  image: "/resources/images/end_pipe_green.png"
+}
+images {
+  image: "/resources/images/end_pipe_red.png"
+}
+images {
+  image: "/resources/images/end_pipe_yellow.png"
+}
+images {
+  image: "/resources/images/curve_pipe_grey.png"
+}
+images {
+  image: "/resources/images/end_pipe_grey.png"
+}
+images {
+  image: "/resources/images/line_pipe_grey.png"
+}
