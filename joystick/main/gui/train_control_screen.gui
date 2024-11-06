@@ -44,22 +44,6 @@ nodes {
 }
 nodes {
   position {
-    x: 402.0
-    y: 822.0
-  }
-  size {
-    x: 276.0
-    y: 276.0
-  }
-  type: TYPE_BOX
-  texture: "gui/exit"
-  id: "back_btn"
-  xanchor: XANCHOR_RIGHT
-  yanchor: YANCHOR_TOP
-  parent: "root"
-}
-nodes {
-  position {
     y: -960.0
   }
   size {
@@ -334,6 +318,37 @@ nodes {
   id: "second"
   pivot: PIVOT_W
   parent: "controller"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 402.0
+    y: 822.0
+  }
+  size {
+    x: 276.0
+    y: 276.0
+  }
+  type: TYPE_BOX
+  texture: "gui/exit"
+  id: "back_btn"
+  xanchor: XANCHOR_RIGHT
+  yanchor: YANCHOR_TOP
+  parent: "root"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    y: 1200.0
+  }
+  size {
+    x: 276.0
+    y: 276.0
+  }
+  type: TYPE_BOX
+  texture: "gui/repair_button"
+  id: "repair_btn"
+  parent: "root"
   inherit_alpha: true
 }
 material: "/builtins/materials/gui.material"

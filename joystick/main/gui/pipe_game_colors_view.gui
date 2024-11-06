@@ -1,0 +1,165 @@
+script: "/main/gui/pipe_game_colors_view.gui_script"
+fonts {
+  name: "always_on_top"
+  font: "/builtins/fonts/debug/always_on_top.font"
+}
+fonts {
+  name: "default"
+  font: "/builtins/fonts/default.font"
+}
+fonts {
+  name: "base"
+  font: "/fonts/base.font"
+}
+fonts {
+  name: "base_copy"
+  font: "/fonts/base_copy.font"
+}
+fonts {
+  name: "heading"
+  font: "/fonts/heading.font"
+}
+fonts {
+  name: "main"
+  font: "/fonts/main.font"
+}
+fonts {
+  name: "middle"
+  font: "/fonts/middle.font"
+}
+fonts {
+  name: "small"
+  font: "/fonts/small.font"
+}
+textures {
+  name: "gui"
+  texture: "/resources/gui.atlas"
+}
+textures {
+  name: "cleat"
+  texture: "/resources/cleat.atlas"
+}
+nodes {
+  position {
+    x: 540.0
+    y: 960.0
+  }
+  size {
+    x: 1080.0
+    y: 1920.0
+  }
+  type: TYPE_BOX
+  texture: "gui/Starts"
+  id: "root"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    y: 822.0
+  }
+  size {
+    x: 276.0
+    y: 276.0
+  }
+  type: TYPE_BOX
+  texture: "gui/repair_button"
+  id: "repair_btn"
+  parent: "root"
+  inherit_alpha: true
+}
+nodes {
+  size {
+    x: 540.0
+    y: 960.0
+  }
+  type: TYPE_BOX
+  id: "cleats"
+  parent: "root"
+  inherit_alpha: true
+  alpha: 0.0
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: -170.0
+    y: 379.0
+  }
+  size {
+    x: 200.0
+    y: 200.0
+  }
+  type: TYPE_BOX
+  texture: "cleat/cleat_green"
+  id: "cleat_1"
+  parent: "cleats"
+}
+nodes {
+  position {
+    x: 170.0
+    y: 379.0
+  }
+  size {
+    x: 200.0
+    y: 200.0
+  }
+  type: TYPE_BOX
+  texture: "cleat/cleat_green"
+  id: "cleat_2"
+  parent: "cleats"
+}
+nodes {
+  position {
+    x: -170.0
+  }
+  size {
+    x: 200.0
+    y: 200.0
+  }
+  type: TYPE_BOX
+  texture: "cleat/cleat_green"
+  id: "cleat_3"
+  parent: "cleats"
+}
+nodes {
+  position {
+    x: 170.0
+  }
+  size {
+    x: 200.0
+    y: 200.0
+  }
+  type: TYPE_BOX
+  texture: "cleat/cleat_green"
+  id: "cleat_4"
+  parent: "cleats"
+}
+nodes {
+  position {
+    x: -170.0
+    y: -379.0
+  }
+  size {
+    x: 200.0
+    y: 200.0
+  }
+  type: TYPE_BOX
+  texture: "cleat/cleat_green"
+  id: "cleat_5"
+  parent: "cleats"
+}
+nodes {
+  position {
+    x: 170.0
+    y: -379.0
+  }
+  size {
+    x: 200.0
+    y: 200.0
+  }
+  type: TYPE_BOX
+  texture: "cleat/cleat_green"
+  id: "cleat_6"
+  parent: "cleats"
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

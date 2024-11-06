@@ -7,13 +7,15 @@ colors.GREEN = 2
 colors.BLUE = 3
 colors.DARK = 4
 
-function colors.get_state(number)
+---@param number integer
+---@return string
+function get_state(number)
     for key, value in pairs(colors) do
         if number == value then
             return key
         end
     end
-    return colors.NONE
+    return "NONE"
 end
 
 return colors

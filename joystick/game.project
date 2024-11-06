@@ -49,3 +49,6 @@ clear_color_green = 0.2
 clear_color_alpha = 1.0
 clear_color_blue = 0.2
 
+[collection_proxy]
+max_count = 16
+

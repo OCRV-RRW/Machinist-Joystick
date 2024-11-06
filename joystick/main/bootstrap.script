@@ -60,11 +60,15 @@ local function init_events(self)
 	end
 
 	self.mini_game_screen     = function(data)
-		msg.post(bootstrap_url, 'mini_game_screen', data)
+		msg.post(bootstrap_url, 'pipe_game_screen', data)
 	end
 
 	self.feedback             = function(data)
 		msg.post(bootstrap_url, 'feedback_screen', data)
+	end
+
+	self.pipe_game_colors_view= function(data)
+		msg.post(bootstrap_url, 'pipe_game_colors_view_screen', data)
 	end
 
 	eventbus.subscribe('choose_role', self.choose_role_screen)
@@ -73,6 +77,7 @@ local function init_events(self)
 	eventbus.subscribe('train_control', self.train_control_screen)
 	eventbus.subscribe('mini_game', self.mini_game_screen)
 	eventbus.subscribe('feedback', self.feedback)
+	eventbus.subscribe('pipe_game_colors_view', self.pipe_game_colors_view)
 end
 
 local function drop_events(self)
@@ -82,6 +87,7 @@ local function drop_events(self)
 	eventbus.unsubscribe('into_queue', self.queue_screen)
 	eventbus.unsubscribe('choose_role', self.choose_role_screen)
 	eventbus.unsubscribe('mini_game', self.mini_game_screen)
+	eventbus.unsubscribe('pipe_game_colors_view', self.pipe_game_colors_view)
 	self.choose_role_screen = nil
 	self.queue_screen = nil
 end
@@ -107,10 +113,12 @@ function on_message(self, message_id, message, sender)
 		load(self, 'walkproxy')
 	elseif message_id == hash('train_control_screen') then
 		load(self, 'traincontrolproxy')
-	elseif message_id == hash('mini_game_screen') then
-		load(self, 'minigameproxy')
+	elseif message_id == hash('pipe_game_screen') then
+		load(self, 'pipegameproxy')
 	elseif message_id == hash('feedback_screen') then
 		load(self, 'feedbackproxy')
+	elseif message_id == hash('pipe_game_colors_view_screen') then
+		load(self, 'pipegamecolorsviewproxy')
 	elseif message_id == hash('connection_menu') then
 		unload(self)
 	end

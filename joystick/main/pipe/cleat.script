@@ -1,8 +1,8 @@
-local colors_module = require("main.pipe.colors")
+require("main.pipe.pipe_colors")
 go.property("color", -1)
 
 function init(self)
-	local color = colors_module.get_state(self.color)
+	local color = get_state(self.color)
 	if color == "RED" then
 		sprite.play_flipbook("#sprite", "cleat_red")
 	elseif color == "YELLOW" then

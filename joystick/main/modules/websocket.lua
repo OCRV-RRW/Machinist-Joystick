@@ -7,6 +7,7 @@ local M = {
 	TRAINCONTROL = require('main.modules.traincontrol'),
 	MINIGAME = require('main.modules.minigame'),
 	FEEDBACK = require('main.modules.feedback'),
+	PIPEGAME = require('main.modules.pipegame'),
 	HOST = 'wss://ocrv-game.ru/v2.0/Joystick'
 }
 
@@ -70,6 +71,7 @@ function M.init()
 	M.TRAINCONTROL.init()
 	M.MINIGAME.init()
 	M.FEEDBACK.init()
+	M.PIPEGAME.init()
 	setup_event()
 end
 
@@ -90,6 +92,7 @@ function M.dispose()
 	M.ROLE_CHOOSER.final()
 	M.ROOM_JOINER.final()
 	M.TRAINCONTROL.final()
+	M.PIPEGAME.final()
 end
 
 return M

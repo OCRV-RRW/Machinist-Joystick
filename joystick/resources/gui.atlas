@@ -58,4 +58,7 @@ images {
 images {
   image: "/resources/images/loading_circle.png"
 }
+images {
+  image: "/resources/images/repair_button.png"
+}
 inner_padding: 1

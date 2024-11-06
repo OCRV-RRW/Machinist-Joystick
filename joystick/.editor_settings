@@ -1,4 +1,19 @@
 {
+  :bundle {
+    :build-report false
+    :contentless false
+    :debug-symbols true
+    :html5 {
+      :architecture {
+        :js-web false
+        :wasm-web true
+      }
+    }
+    :liveupdate false
+    :output-directory "C:\\Projects\\Builds\\joystick_build"
+    :texture-compression "enabled"
+    :variant "debug"
+  }
   :run {
     :simulated-resolution {
       :height 926
@@ -7,22 +22,6 @@
   }
   :workflow {
     :recent-files [
-      [
-        "/resources/pipe.atlas"
-        :scene
-      ]
-      [
-        "/resources/gui.atlas"
-        :scene
-      ]
-      [
-        "/resources/cleat.atlas"
-        :scene
-      ]
-      [
-        "/resources/cell.atlas"
-        :scene
-      ]
       [
         "/resources/cable_point.atlas"
         :scene
@@ -40,34 +39,6 @@
         :scene
       ]
       [
-        "/main/gui/pipe.gui"
-        :scene
-      ]
-      [
-        "/main/walk.collection"
-        :scene
-      ]
-      [
-        "/main/choose_role.collection"
-        :scene
-      ]
-      [
-        "/main/queue.collection"
-        :scene
-      ]
-      [
-        "/main/feedback.collection"
-        :scene
-      ]
-      [
-        "/main/gui/choose_role_screen.gui"
-        :scene
-      ]
-      [
-        "/main/main.collection"
-        :scene
-      ]
-      [
         "/main/pipe/cell.go"
         :scene
       ]
@@ -80,14 +51,6 @@
         :scene
       ]
       [
-        "/game.project"
-        :cljfx-form-view
-      ]
-      [
-        "/main/train_control.collection"
-        :scene
-      ]
-      [
         "/main/pipeGame.collection"
         :scene
       ]
@@ -96,8 +59,96 @@
         :scene
       ]
       [
+        "/main/gui/walk_screen.gui"
+        :scene
+      ]
+      [
+        "/main/gui/input_field.gui"
+        :scene
+      ]
+      [
+        "/main/gui/feedback_screen.gui"
+        :scene
+      ]
+      [
+        "/main/gui/choose_role_screen.gui"
+        :scene
+      ]
+      [
+        "/resources/gui.atlas"
+        :scene
+      ]
+      [
+        "/main/gui/menu_screen.gui"
+        :scene
+      ]
+      [
+        "/main/gui/pipe.gui"
+        :scene
+      ]
+      [
+        "/main/gui/queue_screen.gui"
+        :scene
+      ]
+      [
+        "/main/gui/mini_game_screen.gui"
+        :scene
+      ]
+      [
+        "/main/gui/train_control_screen.gui"
+        :scene
+      ]
+      [
+        "/main/gui/pipe_game_colors_view.gui"
+        :scene
+      ]
+      [
+        "/main/pipegamecolorsview.collection"
+        :scene
+      ]
+      [
         "/main/pipe_game.collection"
         :scene
+      ]
+      [
+        "/main/queue.collection"
+        :scene
+      ]
+      [
+        "/main/train_control.collection"
+        :scene
+      ]
+      [
+        "/main/walk.collection"
+        :scene
+      ]
+      [
+        "/main/pipe_game_colors_view.collection"
+        :scene
+      ]
+      [
+        "/main/feedback.collection"
+        :scene
+      ]
+      [
+        "/main/bootstrap.script"
+        :code
+      ]
+      [
+        "/main/choose_role.collection"
+        :scene
+      ]
+      [
+        "/main/connection_menu.collection"
+        :scene
+      ]
+      [
+        "/main/main.collection"
+        :scene
+      ]
+      [
+        "/game.project"
+        :cljfx-form-view
       ]
     ]
   }

@@ -54,5 +54,11 @@ embedded_instances {
   "  data: \"collection: \\\"/main/pipe_game.collection\\\"\\n"
   "\"\n"
   "}\n"
+  "embedded_components {\n"
+  "  id: \"pipegamecolorsviewproxy\"\n"
+  "  type: \"collectionproxy\"\n"
+  "  data: \"collection: \\\"/main/pipe_game_colors_view.collection\\\"\\n"
+  "\"\n"
+  "}\n"
   ""
 }

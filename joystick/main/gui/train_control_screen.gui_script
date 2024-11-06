@@ -1,3 +1,4 @@
+local pipegame_module = require('main.modules.pipegame')
 local customstyle = require('main.gui.style')
 local crane_hidden = vmath.vector3(2160, 600, 0)
 local crane_shown = vmath.vector3(540, 600, 0)
@@ -58,6 +59,10 @@ local function back_button_click(self)
 	self.back_button:set_enabled(false)
 end
 
+local function repair_button_click(self)
+	eventbus.publish('pipe_game_colors_view')
+end
+
 local function disconnected(self)
 	msg.post(bootstrap_url, 'connection_menu')
 	self.clicked = false
@@ -78,7 +83,9 @@ end
 
 local function setup(self)
 	self.back_button = self.druid:new_button(gui.get_node('back_btn'), back_button_click)
+	self.repair_button = self.druid:new_button(gui.get_node('repair_btn'), repair_button_click)
 	self.back_button:set_style(customstyle)
+	self.repair_button:set_style(customstyle)
 
 	self.controller_spots = {
 		[0] = gui.get_node('r'),
@@ -135,18 +142,34 @@ local function setup(self)
 	end
 end
 
+local function show_repair_button(self)
+	gui.animate(self.repair_btn, gui.PROP_POSITION, vmath.vector3(0, 822, 0), gui.EASING_OUTELASTIC, 0.2)
+end
+
+local function hide_repair_button(self)
+	gui.animate(self.repair_btn, gui.PROP_POSITION, vmath.vector3(0, 1200, 0), gui.EASING_OUTELASTIC, 0.2)
+end
+
 local function init_events(self)
 	self.on_disconnected = function() disconnected(self) end
 	self.on_error = function() disconnected(self) end
+	self.on_start_pipe_game = function() show_repair_button(self) end
+	self.on_exit_pipe_game = function() hide_repair_button(self) end
 	eventbus.subscribe('disconnected', self.on_disconnected)
 	eventbus.subscribe('error', self.on_error)
+	eventbus.subscribe('start_pipe_game', self.on_start_pipe_game)
+	eventbus.subscribe('exit_pipe_game', self.on_exit_pipe_game)
 end
 
 local function drop_events(self)
 	eventbus.unsubscribe('disconnected', self.on_disconnected)
 	eventbus.unsubscribe('error', self.on_error)
+	eventbus.unsubscribe('start_pipe_game', self.on_start_pipe_game)
+	eventbus.unsubscribe('exit_pipe_game', self.on_exit_pipe_game)
 	self.on_disconnected = nil
 	self.on_error = nil
+	self.on_start_pipe_game = nil
+	self.on_exit_pipe_game = nil
 end
 
 
@@ -155,6 +178,9 @@ function init(self)
 	setup(self)
 	init_events(self)
 	ws.TRAINCONTROL.switch_on()
+	if pipegame_module.STARTED then
+		self.on_start_pipegame()
+	end
 end
 
 function final(self)

@@ -1,0 +1,10 @@
+name: "pipe_game_colors_view"
+scale_along_z: 0
+embedded_instances {
+  id: "gui"
+  data: "components {\n"
+  "  id: \"pipe_game_colors_view\"\n"
+  "  component: \"/main/gui/pipe_game_colors_view.gui\"\n"
+  "}\n"
+  ""
+}
