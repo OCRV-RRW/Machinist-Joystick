@@ -123,10 +123,6 @@
         :scene
       ]
       [
-        "/main/pipe_game_colors_view.collection"
-        :scene
-      ]
-      [
         "/main/feedback.collection"
         :scene
       ]
@@ -149,6 +145,10 @@
       [
         "/game.project"
         :cljfx-form-view
+      ]
+      [
+        "/main/pipe_game_colors_view.collection"
+        :scene
       ]
     ]
   }

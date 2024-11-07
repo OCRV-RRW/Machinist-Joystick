@@ -64,7 +64,7 @@ end
 local function convert_colors_table(table_to_convert)
     local result = {}
     for key, value in pairs(table_to_convert) do
-        result[colors[key]] = result[colors[value]]
+        result[colors[key]] = colors[value]
     end
     return result
 end
@@ -72,13 +72,13 @@ end
 local function send_colors_table()
     if not M.COLORS_TABLE then return end
     local converted_colors_table = convert_colors_table(M.COLORS_TABLE)
-    pprint("send_colors_table")
-    for key, value in pairs(M.COLORS_TABLE) do
-        pprint(key)
-        pprint(value)
+    if _G.role == ws.ROLE_CHOOSER.ROLE.TCHMP then
+        pprint("assistant")
+        eventbus.publish('send_colors_table_to_pipe_game', converted_colors_table)
+    elseif _G.role == ws.ROLE_CHOOSER.ROLE.TCHM then
+        pprint("machinsit")
+        eventbus.publish('send_colors_table_to_colors_view', converted_colors_table)
     end
-    eventbus.publish('send_colors_table_to_pipe_game', converted_colors_table)
-    eventbus.publish('send_colors_table_to_colors_view', converted_colors_table)
 end
 
 local function on_success_game()
@@ -101,12 +101,11 @@ local function on_message_received(data)
     if data.event == websocket.EVENT_MESSAGE then
         local received_json = json.decode(data.message)
         if received_json.Type == 'StartPipeGame' then
-            if _G.role == ws.ROLE_CHOOSER.ROLE.TCHMP then
-                _G.id = received_json.Id
-                on_start_pipegame()
-            end
+            pprint('start_pipe_game')
+            on_start_pipegame()
         end
         if received_json.Type == 'SendColorsPipeEvent' then
+            pprint("dsds")
             M.COLORS_TABLE = json.decode(received_json.ColorsTable)
             send_colors_table()
         end

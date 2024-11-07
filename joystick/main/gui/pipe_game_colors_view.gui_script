@@ -2,9 +2,14 @@ local customstyle = require('main.gui.style')
 require('main.pipe.pipe_colors')
 
 local function draw_cleats(self, colors_table)
+	for k,v in pairs(colors_table) do
+		pprint(k)
+		pprint(v)
+	end
 	local draw_cleat = function (index, color)
 		local cleat = gui.get_node('cleat_'..tostring(index))
-		gui.set_texture(cleat, 'cleat/cleat_'..color)
+		gui.set_texture(cleat, 'cleat')
+		gui.play_flipbook(cleat, 'cleat_'..color)
 	end 
 
 	local idx = 0
@@ -26,12 +31,8 @@ local function start_click_animation(self, node)
 	gui.animate(node, "scale", vmath.vector3(1.2, 1.2, 0), gui.EASING_LINEAR, 0.1, 0, return_size)
 end
 
-local function cleat_clicked(self, button)
-	start_click_animation(self, button)
-end
-
 local function repair_button_clicked(self)
-	start_click_animation(self, self.repair_btn)
+	start_click_animation(self, gui.get_node('repair_btn'))
 	eventbus.publish('train_control')
 end
 
@@ -40,31 +41,7 @@ function init(self)
 	self.repair_btn = self.druid:new_button(
 		gui.get_node('repair_btn'),
 		repair_button_clicked)
-	self.cleat_1 = self.druid:new_button(
-		gui.get_node('cleat_1'),
-		cleat_clicked)
-	self.cleat_2 = self.druid:new_button(
-		gui.get_node('cleat_2'),
-		cleat_clicked)
-	self.cleat_3 = self.druid:new_button(
-		gui.get_node('cleat_3'),
-		cleat_clicked)
-	self.cleat_4 = self.druid:new_button(
-		gui.get_node('cleat_4'),
-		cleat_clicked)
-	self.cleat_5 = self.druid:new_button(
-		gui.get_node('cleat_5'),
-		cleat_clicked)
-	self.cleat_6 = self.druid:new_button(
-		gui.get_node('cleat_6'),
-		cleat_clicked)
 	self.repair_btn:set_style(customstyle)
-	self.cleat_1:set_style(customstyle)
-	self.cleat_2:set_style(customstyle)
-	self.cleat_3:set_style(customstyle)
-	self.cleat_4:set_style(customstyle)
-	self.cleat_5:set_style(customstyle)
-	self.cleat_6:set_style(customstyle)
 	
 	self.on_send_colors_table = function(colors_table)
 		draw_cleats(self, colors_table)

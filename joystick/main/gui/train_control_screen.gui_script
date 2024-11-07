@@ -143,11 +143,12 @@ local function setup(self)
 end
 
 local function show_repair_button(self)
-	gui.animate(self.repair_btn, gui.PROP_POSITION, vmath.vector3(0, 822, 0), gui.EASING_OUTELASTIC, 0.2)
+	pprint("show")
+	gui.animate(gui.get_node('repair_btn'), gui.PROP_POSITION, vmath.vector3(0, 822, 0), gui.EASING_OUTELASTIC, 0.2)
 end
 
 local function hide_repair_button(self)
-	gui.animate(self.repair_btn, gui.PROP_POSITION, vmath.vector3(0, 1200, 0), gui.EASING_OUTELASTIC, 0.2)
+	gui.animate(gui.get_node('repair_btn'), gui.PROP_POSITION, vmath.vector3(0, 1200, 0), gui.EASING_OUTELASTIC, 0.2)
 end
 
 local function init_events(self)
@@ -179,7 +180,7 @@ function init(self)
 	init_events(self)
 	ws.TRAINCONTROL.switch_on()
 	if pipegame_module.STARTED then
-		self.on_start_pipegame()
+		eventbus.publish('start_pipe_game')
 	end
 end
 

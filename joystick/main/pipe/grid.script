@@ -47,7 +47,7 @@ local function send_message_check_busy(self)
 	end
 end
 
-local function get_pair_color(value, colors_table)
+local function get_pair_color(value)
 	for k, v in pairs(colors_table) do
 		if k == value then
 			return colors_table[k]
@@ -59,13 +59,10 @@ local function get_pair_color(value, colors_table)
 end
 
 local function try_get_pair_color(value)
-	local suc, res = pcall(get_pair_color, value, colors_table)
-	if suc then
-		return res
-	else
-		pprint("WARNING: " .. res)
-		return nil
-	end
+	pprint(getn(colors_table))
+	pprint("lenght colors table")
+	local result = get_pair_color(value)
+	return result
 end
 
 local function change_level_by_colors(level)
@@ -172,6 +169,7 @@ local function set_path_state(self)
 end
 
 local function set_color_tables(table)
+	pprint("set_table")
 	colors_table = table
 	msg.post("#", "create_grid")
 end
