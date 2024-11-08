@@ -276,6 +276,10 @@ function on_message(self, message_id, message, sender)
 			msg.post(sender, "try_create_pipe", { color = self.current_color,
 				vector = vmath.vector3(self.current_cell_coords.x - self.prev_cell_coords.x,
 				self.current_cell_coords.y - self.prev_cell_coords.y, 0)})
+			if message.is_ended then
+				msg.post(sender, "on_release", { touch_pos = message.touch_pos })
+				self.on_started = false
+			end
 		end
 	elseif message_id == hash("ok_on_release") then
 		if is_valid(self, message, sender) then
