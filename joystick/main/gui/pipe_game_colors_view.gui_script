@@ -54,6 +54,7 @@ function init(self)
 	eventbus.subscribe('send_colors_table_to_colors_view', self.on_send_colors_table)
 	eventbus.subscribe('on_exit_pipe_game', self.on_exit_pipe_game)
 	eventbus.publish('get_colors_table')
+	gui.animate(gui.get_node('text_box'), gui.PROP_POSITION, vmath.vector3(0, 393, 0), gui.EASING_OUTELASTIC, 0.5)
 end
 
 function final(self)

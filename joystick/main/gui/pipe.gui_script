@@ -1,5 +1,6 @@
 function init(self)
 	msg.post(".", "acquire_input_focus")
+	gui.animate(gui.get_node('text_box'), gui.PROP_POSITION, vmath.vector3(540, 1350, 0), gui.EASING_OUTELASTIC, 0.5)
 end
 
 function final(self)

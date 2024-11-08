@@ -1,7 +1,43 @@
 script: "/main/gui/pipe.gui_script"
+fonts {
+  name: "main"
+  font: "/fonts/main.font"
+}
+fonts {
+  name: "always_on_top"
+  font: "/builtins/fonts/debug/always_on_top.font"
+}
+fonts {
+  name: "default"
+  font: "/builtins/fonts/default.font"
+}
+fonts {
+  name: "base"
+  font: "/fonts/base.font"
+}
+fonts {
+  name: "base_copy"
+  font: "/fonts/base_copy.font"
+}
+fonts {
+  name: "heading"
+  font: "/fonts/heading.font"
+}
+fonts {
+  name: "middle"
+  font: "/fonts/middle.font"
+}
+fonts {
+  name: "small"
+  font: "/fonts/small.font"
+}
 textures {
   name: "pipe_gui"
   texture: "/resources/pipe_gui.atlas"
+}
+textures {
+  name: "gui"
+  texture: "/resources/gui.atlas"
 }
 nodes {
   position {
@@ -46,6 +82,40 @@ nodes {
   id: "exit_btn"
   yanchor: YANCHOR_TOP
   parent: "buttons"
+}
+nodes {
+  position {
+    x: 540.0
+    y: 2200.0
+  }
+  size {
+    x: 800.0
+    y: 400.0
+  }
+  type: TYPE_BOX
+  texture: "gui/input_field"
+  id: "text_box"
+  inherit_alpha: true
+}
+nodes {
+  size {
+    x: 800.0
+    y: 400.0
+  }
+  color {
+    x: 0.173
+    y: 0.243
+    z: 0.314
+  }
+  type: TYPE_TEXT
+  text: "\320\243\320\267\320\275\320\260\320\271 \321\201\321\205\320\265\320\274\321\203 \321\201\320\276\320\265\320\264\320\270\320\275\320\265\320\275\320\270\321\217 \320\277\321\200\320\276\320\262\320\276\320\264\320\276\320\262 \321\203 \320\234\320\260\321\210\320\270\320\275\320\270\321\201\321\202\320\260\n"
+  ""
+  font: "main"
+  id: "text"
+  line_break: true
+  parent: "text_box"
+  inherit_alpha: true
+  text_leading: 0.7
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

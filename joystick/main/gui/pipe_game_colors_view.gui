@@ -68,6 +68,9 @@ nodes {
   inherit_alpha: true
 }
 nodes {
+  position {
+    y: -376.0
+  }
   size {
     x: 540.0
     y: 960.0
@@ -160,6 +163,75 @@ nodes {
   texture: "cleat/cleat_green"
   id: "cleat_6"
   parent: "cleats"
+}
+nodes {
+  size {
+    x: 136.0
+    y: 80.0
+  }
+  type: TYPE_BOX
+  texture: "gui/arrow"
+  id: "arrow_1"
+  parent: "cleats"
+}
+nodes {
+  position {
+    y: 381.0
+  }
+  size {
+    x: 136.0
+    y: 80.0
+  }
+  type: TYPE_BOX
+  texture: "gui/arrow"
+  id: "arrow_2"
+  parent: "cleats"
+}
+nodes {
+  position {
+    y: -379.0
+  }
+  size {
+    x: 136.0
+    y: 80.0
+  }
+  type: TYPE_BOX
+  texture: "gui/arrow"
+  id: "arrow_3"
+  parent: "cleats"
+}
+nodes {
+  position {
+    y: 1200.0
+  }
+  size {
+    x: 800.0
+    y: 250.0
+  }
+  type: TYPE_BOX
+  texture: "gui/input_field"
+  id: "text_box"
+  parent: "root"
+  inherit_alpha: true
+}
+nodes {
+  size {
+    x: 768.0
+    y: 250.0
+  }
+  color {
+    x: 0.173
+    y: 0.243
+    z: 0.314
+  }
+  type: TYPE_TEXT
+  text: "\320\241\321\205\320\265\320\274\320\260 \321\201\320\276\320\265\320\264\320\270\320\275\320\265\320\275\320\270\321\217 \320\277\321\200\320\276\320\262\320\276\320\264\320\276\320\262"
+  font: "main"
+  id: "text"
+  line_break: true
+  parent: "text_box"
+  inherit_alpha: true
+  text_leading: 0.7
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

@@ -61,4 +61,10 @@ images {
 images {
   image: "/resources/images/repair_button.png"
 }
+images {
+  image: "/resources/images/repair_btn_train_control.png"
+}
+images {
+  image: "/resources/images/arrow.png"
+}
 inner_padding: 1

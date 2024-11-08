@@ -346,7 +346,7 @@ nodes {
     y: 276.0
   }
   type: TYPE_BOX
-  texture: "gui/repair_button"
+  texture: "gui/repair_btn_train_control"
   id: "repair_btn"
   parent: "root"
   inherit_alpha: true

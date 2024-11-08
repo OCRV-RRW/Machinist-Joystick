@@ -23,10 +23,6 @@
   :workflow {
     :recent-files [
       [
-        "/resources/cable_point.atlas"
-        :scene
-      ]
-      [
         "/resources/cable.atlas"
         :scene
       ]
@@ -63,27 +59,11 @@
         :scene
       ]
       [
-        "/main/gui/input_field.gui"
-        :scene
-      ]
-      [
-        "/main/gui/feedback_screen.gui"
-        :scene
-      ]
-      [
         "/main/gui/choose_role_screen.gui"
         :scene
       ]
       [
-        "/resources/gui.atlas"
-        :scene
-      ]
-      [
         "/main/gui/menu_screen.gui"
-        :scene
-      ]
-      [
-        "/main/gui/pipe.gui"
         :scene
       ]
       [
@@ -95,19 +75,7 @@
         :scene
       ]
       [
-        "/main/gui/train_control_screen.gui"
-        :scene
-      ]
-      [
-        "/main/gui/pipe_game_colors_view.gui"
-        :scene
-      ]
-      [
         "/main/pipegamecolorsview.collection"
-        :scene
-      ]
-      [
-        "/main/pipe_game.collection"
         :scene
       ]
       [
@@ -116,10 +84,6 @@
       ]
       [
         "/main/walk.collection"
-        :scene
-      ]
-      [
-        "/main/feedback.collection"
         :scene
       ]
       [
@@ -135,10 +99,6 @@
         :scene
       ]
       [
-        "/game.project"
-        :cljfx-form-view
-      ]
-      [
         "/main/pipe_game_colors_view.collection"
         :scene
       ]
@@ -148,6 +108,46 @@
       ]
       [
         "/main/train_control.collection"
+        :scene
+      ]
+      [
+        "/main/gui/train_control_screen.gui"
+        :scene
+      ]
+      [
+        "/main/feedback.collection"
+        :scene
+      ]
+      [
+        "/resources/gui.atlas"
+        :scene
+      ]
+      [
+        "/main/gui/feedback_screen.gui"
+        :scene
+      ]
+      [
+        "/main/gui/loading_screen.gui"
+        :scene
+      ]
+      [
+        "/main/gui/input_field.gui"
+        :scene
+      ]
+      [
+        "/main/pipe_game.collection"
+        :scene
+      ]
+      [
+        "/game.project"
+        :cljfx-form-view
+      ]
+      [
+        "/main/gui/pipe.gui"
+        :scene
+      ]
+      [
+        "/main/gui/pipe_game_colors_view.gui"
         :scene
       ]
     ]
