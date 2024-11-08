@@ -148,25 +148,26 @@ local function show_repair_button(self)
 end
 
 local function hide_repair_button(self)
+	pprint("hide")
 	gui.animate(gui.get_node('repair_btn'), gui.PROP_POSITION, vmath.vector3(0, 1200, 0), gui.EASING_OUTELASTIC, 0.2)
 end
 
 local function init_events(self)
 	self.on_disconnected = function() disconnected(self) end
 	self.on_error = function() disconnected(self) end
-	self.on_start_pipe_game = function() show_repair_button(self) end
-	self.on_exit_pipe_game = function() hide_repair_button(self) end
+	self.on_start_pipe_game = function() msg.post(msg.url('train_control', '/ui', 'train_control_screen'), "show_repair_button") end
+	self.on_exit_pipe_game = function() msg.post(msg.url('train_control', '/ui', 'train_control_screen'), "hide_repair_button") end
 	eventbus.subscribe('disconnected', self.on_disconnected)
 	eventbus.subscribe('error', self.on_error)
-	eventbus.subscribe('start_pipe_game', self.on_start_pipe_game)
-	eventbus.subscribe('exit_pipe_game', self.on_exit_pipe_game)
+	eventbus.subscribe('on_start_pipe_game', self.on_start_pipe_game)
+	eventbus.subscribe('on_exit_pipe_game', self.on_exit_pipe_game)
 end
 
 local function drop_events(self)
 	eventbus.unsubscribe('disconnected', self.on_disconnected)
 	eventbus.unsubscribe('error', self.on_error)
-	eventbus.unsubscribe('start_pipe_game', self.on_start_pipe_game)
-	eventbus.unsubscribe('exit_pipe_game', self.on_exit_pipe_game)
+	eventbus.unsubscribe('on_start_pipe_game', self.on_start_pipe_game)
+	eventbus.unsubscribe('on_exit_pipe_game', self.on_exit_pipe_game)
 	self.on_disconnected = nil
 	self.on_error = nil
 	self.on_start_pipe_game = nil
@@ -180,7 +181,10 @@ function init(self)
 	init_events(self)
 	ws.TRAINCONTROL.switch_on()
 	if pipegame_module.STARTED then
-		eventbus.publish('start_pipe_game')
+		eventbus.publish('on_start_pipe_game')
+	end
+	if not pipegame_module.STARTED then
+		eventbus.publish('on_exit_pipe_game')
 	end
 end
 
@@ -194,6 +198,12 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
+	if message_id == hash("show_repair_button") then
+		show_repair_button(self)
+	end
+	if message_id == hash("hide_repair_button") then
+		hide_repair_button(self)
+	end
 	self.druid:on_message(message_id, message, sender)
 end
 

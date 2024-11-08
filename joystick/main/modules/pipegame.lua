@@ -46,7 +46,6 @@ end
 
 local function on_start_pipegame()
     gen_colors()
-    pprint(json.encode(M.COLORS_TABLE))
     local message = {
         ColorsTable = json.encode(M.COLORS_TABLE),
         Role = nil,
@@ -54,8 +53,7 @@ local function on_start_pipegame()
         Type = "SendColorsPipeEvent"
     }
     ws.send(message)
-    pprint("start_pipe_game")
-    eventbus.publish('start_pipe_game')
+    eventbus.publish('on_start_pipe_game')
     M.STARTED = true
 end
 
@@ -82,14 +80,12 @@ local function send_colors_table()
 end
 
 local function on_success_game()
+    pprint("repair")
     local message = {Id = _G.id, Role = _G.role, Type = "RepairFuse", ForServer = false}
     ws.send(message)
 end
 
 local function on_exit_game()
-    M.COLORS_TABLE = nil
-    M.STARTED = false
-    eventbus.publish('exit_pipe_game')
     local message = {Role = _G.role, Type = "ExitMiniGame", ForServer = false}
     ws.send(message)
     if _G.role == ws.ROLE_CHOOSER.ROLE.TCHMP then
@@ -101,13 +97,18 @@ local function on_message_received(data)
     if data.event == websocket.EVENT_MESSAGE then
         local received_json = json.decode(data.message)
         if received_json.Type == 'StartPipeGame' then
-            pprint('start_pipe_game')
+            pprint('on_start_pipe_game')
             on_start_pipegame()
         end
         if received_json.Type == 'SendColorsPipeEvent' then
             pprint("dsds")
             M.COLORS_TABLE = json.decode(received_json.ColorsTable)
             send_colors_table()
+        end
+        if received_json.Type == 'ExitMiniGame' then
+            M.COLORS_TABLE = nil
+            M.STARTED = false
+            eventbus.publish('on_exit_pipe_game') 
         end
     end
 end

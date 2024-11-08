@@ -128,8 +128,8 @@ local function exit(self)
 end
 
 local function on_win(self)
-	eventbus.publish('repair_fuse')
 	exit(self)
+	eventbus.publish('repair_fuse')
 end
 
 local function check_path_state(self, path)
@@ -208,6 +208,19 @@ function on_input(self, action_id, action)
 			for _, val in pairs(self.cells) do
 				local cell_url = msg.url(nil, val, "cell")
 				msg.post(cell_url, "on_release", { touch_pos = vmath.vector3(action.x, action.y, 0) })
+			end
+			if is_valid(self, 
+				{
+					is_ended = go.get(self.current_cell, 'is_ended'), 
+					coords = go.get(self.current_cell, 'coords')
+				}, 
+				self.current_cell) then
+				set_path_state(self)
+				send_message_check_busy(self)
+			else
+				if self.path_cleared == false then
+					clear_path(self)
+				end
 			end
 			self.on_started = false
 		end
@@ -300,4 +313,8 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("exit_btn_click") then
 		exit(self)
 	end
+end
+
+function final(self)
+	eventbus.unsubscribe('send_colors_table_to_pipe_game', set_color_tables)
 end

@@ -46,13 +46,21 @@ function init(self)
 	self.on_send_colors_table = function(colors_table)
 		draw_cleats(self, colors_table)
 	end
+
+	self.on_exit_pipe_game = function()
+		eventbus.publish('train_control')
+	end
+
 	eventbus.subscribe('send_colors_table_to_colors_view', self.on_send_colors_table)
+	eventbus.subscribe('on_exit_pipe_game', self.on_exit_pipe_game)
 	eventbus.publish('get_colors_table')
 end
 
 function final(self)
 	eventbus.unsubscribe('send_colors_table_to_colors_view', self.on_send_colors_table)
+	eventbus.unsubscribe('on_exit_pipe_game', self.on_exit_pipe_game)
 	self.on_send_colors_table = nil
+	self.on_exit_pipe_game = nil
 	self.druid:final()
 end
 

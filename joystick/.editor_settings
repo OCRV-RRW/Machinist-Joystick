@@ -115,10 +115,6 @@
         :scene
       ]
       [
-        "/main/train_control.collection"
-        :scene
-      ]
-      [
         "/main/walk.collection"
         :scene
       ]
@@ -139,15 +135,19 @@
         :scene
       ]
       [
-        "/main/main.collection"
-        :scene
-      ]
-      [
         "/game.project"
         :cljfx-form-view
       ]
       [
         "/main/pipe_game_colors_view.collection"
+        :scene
+      ]
+      [
+        "/main/main.collection"
+        :scene
+      ]
+      [
+        "/main/train_control.collection"
         :scene
       ]
     ]
