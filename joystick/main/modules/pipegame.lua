@@ -2,64 +2,14 @@ colors = require("main.pipe.pipe_colors")
 
 local M = {
     COLORS_TABLE = nil,
-    STARTED = false
+    GRID_TABLE = nil,
+    STARTED = false,
+    NUMBER_LEVEL = -1
 }
-
-local function gen_colors()
-    M.COLORS_TABLE = {}
-    math.randomseed(os.time())
-    local unused_colors = {}
-
-    local choose_color = function ()
-        if #unused_colors < 1 then
-            pprint("WARNING: unused_colors table lenght < 1!!!!!")
-            return nil
-        end
-
-        local rand_idx = math.random(1, #unused_colors)
-        local color = unused_colors[rand_idx]
-        table.remove(unused_colors, rand_idx)
-        return color
-    end
-
-    for color, _ in pairs(colors) do
-        if color ~= "NONE" then
-            table.insert(unused_colors, color)
-        end
-    end
-
-    while #unused_colors > 0 do
-        if #unused_colors == 1 then
-            local color = choose_color()
-            if color then
-                M.COLORS_TABLE[color] = color
-            end
-        elseif #unused_colors > 1 then
-            local color_key = choose_color()
-            local color_value = choose_color()
-            if color_key and color_value then
-                M.COLORS_TABLE[color_key] = color_value
-            end
-        end
-    end
-end
-
-local function on_start_pipegame()
-    gen_colors()
-    local message = {
-        ColorsTable = json.encode(M.COLORS_TABLE),
-        Role = nil,
-        ForServer = false,
-        Type = "SendColorsPipeEvent"
-    }
-    ws.send(message)
-    eventbus.publish('on_start_pipe_game')
-    M.STARTED = true
-end
 
 ---@param table_to_convert table
 ---@return table
-local function convert_colors_table(table_to_convert)
+function Convert_colors_table(table_to_convert)
     local result = {}
     for key, value in pairs(table_to_convert) do
         result[colors[key]] = colors[value]
@@ -67,16 +17,34 @@ local function convert_colors_table(table_to_convert)
     return result
 end
 
-local function send_colors_table()
-    if not M.COLORS_TABLE then return end
-    local converted_colors_table = convert_colors_table(M.COLORS_TABLE)
-    if _G.role == ws.ROLE_CHOOSER.ROLE.TCHMP then
-        pprint("assistant")
-        eventbus.publish('send_colors_table_to_pipe_game', converted_colors_table)
-    elseif _G.role == ws.ROLE_CHOOSER.ROLE.TCHM then
-        pprint("machinsit")
-        eventbus.publish('send_colors_table_to_colors_view', converted_colors_table)
+
+local function gen()
+    M.COLORS_TABLE = {}
+    M.GRID_TABLE = {}
+    math.randomseed(os.time())
+    M.NUMBER_LEVEL = math.random(5)
+end
+
+local function on_start_pipegame()
+    if (_G.role == ws.ROLE_CHOOSER.ROLE.TCHMP) then
+        gen()
+        local message = {
+            NumberLevel = M.NUMBER_LEVEL,
+            Role = nil,
+            ForServer = false,
+            Type = "SendPipeGameDataEvent"
+        }
+        ws.send(message)
     end
+    eventbus.publish('on_start_pipe_game')
+    M.STARTED = true
+end
+
+local function send_pipe_game_data()
+    if M.NUMBER_LEVEL == -1 then return end
+    pprint("module")
+	pprint(tostring(M.NUMBER_LEVEL))
+    eventbus.publish('send_pipe_game_data', M.NUMBER_LEVEL)
 end
 
 local function on_success_game()
@@ -100,13 +68,14 @@ local function on_message_received(data)
             pprint('on_start_pipe_game')
             on_start_pipegame()
         end
-        if received_json.Type == 'SendColorsPipeEvent' then
+        if received_json.Type == 'SendPipeGameDataEvent' then
             pprint("dsds")
-            M.COLORS_TABLE = json.decode(received_json.ColorsTable)
-            send_colors_table()
+            if (_G.role == ws.ROLE_CHOOSER.ROLE.TCHM) then
+                M.NUMBER_LEVEL = received_json.NumberLevel
+            end
         end
         if received_json.Type == 'ExitMiniGame' then
-            M.COLORS_TABLE = nil
+            M.NUMBER_LEVEL = -1
             M.STARTED = false
             eventbus.publish('on_exit_pipe_game') 
         end
@@ -117,14 +86,14 @@ function M.init()
     eventbus.subscribe('websocket_call', on_message_received)
     eventbus.subscribe('repair_fuse', on_success_game)
     eventbus.subscribe('finish_mini_game', on_exit_game)
-    eventbus.subscribe("get_colors_table", send_colors_table)
+    eventbus.subscribe("get_pipe_game_data", send_pipe_game_data)
 end
 
 function M.final()
     eventbus.unsubscribe('websocket_call', on_message_received)
     eventbus.unsubscribe('repair_fuse', on_success_game)
     eventbus.unsubscribe('finish_mini_game', on_exit_game)
-    eventbus.unsubscribe("get_colors_table", send_colors_table)
+    eventbus.unsubscribe("get_pipe_game_data", send_pipe_game_data)
 end
 
 return M

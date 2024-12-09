@@ -1,6 +1,12 @@
 local customstyle = require('main.gui.style')
 require('main.pipe.pipe_colors')
 
+local function get_level_colors(number)
+	local levels_json = sys.load_resource("/resources/json/levels.json")
+	local table = json.decode(tostring(levels_json))
+	return table["levels"][tostring(number)]["colors"]
+end
+
 local function draw_cleats(self, colors_table)
 	for k,v in pairs(colors_table) do
 		pprint(k)
@@ -36,6 +42,10 @@ local function repair_button_clicked(self)
 	eventbus.publish('train_control')
 end
 
+local function disconnected(self) 
+	msg.post(bootstrap_url, 'connection_menu')
+end
+
 function init(self)
 	self.druid = druid.new(self)
 	self.repair_btn = self.druid:new_button(
@@ -43,7 +53,10 @@ function init(self)
 		repair_button_clicked)
 	self.repair_btn:set_style(customstyle)
 	
-	self.on_send_colors_table = function(colors_table)
+	self.on_send_pipe_game_data = function(number)
+		print("fdfdf")
+		local table = get_level_colors(number)
+		local colors_table = Convert_colors_table(table)
 		draw_cleats(self, colors_table)
 	end
 
@@ -51,14 +64,22 @@ function init(self)
 		eventbus.publish('train_control')
 	end
 
-	eventbus.subscribe('send_colors_table_to_colors_view', self.on_send_colors_table)
+	self.on_disconnected = function() disconnected(self) end
+	self.on_error = function() disconnected(self) end
+
+
+	eventbus.subscribe('send_pipe_game_data', self.on_send_pipe_game_data)
 	eventbus.subscribe('on_exit_pipe_game', self.on_exit_pipe_game)
-	eventbus.publish('get_colors_table')
+	eventbus.subscribe('disconnected', self.on_disconnected)
+	eventbus.subscribe('error', self.on_error)
+	eventbus.publish('get_pipe_game_data')
 	gui.animate(gui.get_node('text_box'), gui.PROP_POSITION, vmath.vector3(0, 393, 0), gui.EASING_OUTELASTIC, 0.5)
 end
 
 function final(self)
-	eventbus.unsubscribe('send_colors_table_to_colors_view', self.on_send_colors_table)
+	eventbus.unsubscribe('disconnected', self.on_disconnected)
+	eventbus.unsubscribe('error', self.on_error)
+	eventbus.unsubscribe('send_pipe_game_data', self.on_send_pipe_game_data)
 	eventbus.unsubscribe('on_exit_pipe_game', self.on_exit_pipe_game)
 	self.on_send_colors_table = nil
 	self.on_exit_pipe_game = nil

@@ -115,10 +115,6 @@
         :scene
       ]
       [
-        "/main/feedback.collection"
-        :scene
-      ]
-      [
         "/resources/gui.atlas"
         :scene
       ]
@@ -135,7 +131,11 @@
         :scene
       ]
       [
-        "/main/pipe_game.collection"
+        "/main/gui/pipe.gui"
+        :scene
+      ]
+      [
+        "/main/gui/pipe_game_colors_view.gui"
         :scene
       ]
       [
@@ -143,11 +143,11 @@
         :cljfx-form-view
       ]
       [
-        "/main/gui/pipe.gui"
+        "/main/feedback.collection"
         :scene
       ]
       [
-        "/main/gui/pipe_game_colors_view.gui"
+        "/main/pipe_game.collection"
         :scene
       ]
     ]

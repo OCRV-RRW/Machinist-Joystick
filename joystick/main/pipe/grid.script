@@ -1,14 +1,21 @@
 local colors_module = require("main.pipe.pipe_colors")
 local cells_path = require("main.pipe.cells_path")
 local colors_table = {}
+local level_settings = {}
 
-local function get_levels_settings()
+local function get_level_settings(number)
 	local levels_json = sys.load_resource("/resources/json/levels.json")
 	local table = json.decode(tostring(levels_json))
-	return table["levels"]
+	return table["levels"][tostring(number)]["level"]
 end
 
-local levels_settings = get_levels_settings()
+local function get_level_colors(number)
+	local levels_json = sys.load_resource("/resources/json/levels.json")
+	local table = json.decode(tostring(levels_json))
+	pprint("grid")
+	pprint(tostring(number))
+	return table["levels"][tostring(number)]["colors"]
+end
 
 local function clear_path(self, path)
 	if path then
@@ -58,44 +65,8 @@ local function get_pair_color(value)
 	return nil
 end
 
-local function try_get_pair_color(value)
-	pprint(getn(colors_table))
-	pprint("lenght colors table")
-	local result = get_pair_color(value)
-	return result
-end
-
-local function change_level_by_colors(level)
-	local using_colors = {}
-
-	local function contain_color(color)
-		for _, value in ipairs(using_colors) do
-			if value == color then
-				return true
-			end
-		end
-		return false
-	end
-
-	for _, value in ipairs(level) do
-		if contain_color(value["endPointColor"]) == false then
-			local pair_color = try_get_pair_color(value["endPointColor"])
-			if pair_color ~= nil then
-				table.insert(using_colors, value["endPointColor"])
-				value["endPointColor"] = pair_color
-			end
-		end
-	end
-
-	return level
-end
-
 local function create_grid(self)
-	if (#self.cells > 0) then return end
-	math.randomseed(os.time())
-	local idx_level = math.random(#levels_settings)
-	local settings_level = levels_settings[idx_level]
-	local changed_level = change_level_by_colors(settings_level)
+	if #self.cells > 0 then return end
 	self.count_cells = 5 * 5
 	local idx_cell = 0
 	for i = 0, 5 - 1 do
@@ -105,8 +76,8 @@ local function create_grid(self)
 				vmath.vector3(i * 140 + 260, j * 140 + 0, 0),
 				nil,
 				{
-					is_ended = changed_level[idx_cell]["isEndPoint"],
-					color = changed_level[idx_cell]["endPointColor"],
+					is_ended = level_settings[idx_cell]["isEndPoint"],
+					color = level_settings[idx_cell]["endPointColor"],
 					coords = vmath.vector3(i, j, 0)
 				})
 			self.cells[i.." "..j] = cell
@@ -155,22 +126,11 @@ local function check_game_state(self)
 	end
 end
 
-local function set_path_state(self)
-	local path = cells_pathes[#cells_pathes]
-	if check_path_state(self, path) then
-		for _, val in ipairs(path) do
-			msg.post(val, "set_ok_state")
-		end
-	else
-		for _, val in ipairs(path) do
-			msg.post(val, "set_fail_state")
-		end
-	end
-end
-
-local function set_color_tables(table)
+local function on_send_pipe_game_data(number)
 	pprint("set_table")
-	colors_table = table
+	level_settings = get_level_settings(number)
+	local table = get_level_colors(number)
+	colors_table = Convert_colors_table(table)
 	msg.post("#", "create_grid")
 end
 
@@ -189,12 +149,25 @@ function init(self)
 	self.prev_cell_coords = vmath.vector3(-1, -1, -1)
 	self.current_path = nil
 	self.last_touch_pos = nil
-	eventbus.subscribe('send_colors_table_to_pipe_game', set_color_tables)
-	eventbus.publish('get_colors_table')
+	eventbus.subscribe('send_pipe_game_data', on_send_pipe_game_data)
+	eventbus.publish('get_pipe_game_data')
 end
 
 function final(self)
 	msg.post(".", "release_input_focus")
+	self.count_cells = 0
+	self.cells = {}
+	self.count_busy_cells = 0
+	self.current_color = colors_module.NONE
+	self.on_started = false
+	self.current_cell_coords = vmath.vector3(-1, -1, -1)
+	self.current_cell = nil
+	self.prev_cell = nil
+	self.path_cleared = false
+	self.prev_cell_coords = vmath.vector3(-1, -1, -1)
+	self.current_path = nil
+	self.last_touch_pos = nil
+	reset(self)
 end
 
 function on_input(self, action_id, action)
@@ -215,7 +188,6 @@ function on_input(self, action_id, action)
 					coords = go.get(self.current_cell, 'coords')
 				}, 
 				self.current_cell) then
-				set_path_state(self)
 				send_message_check_busy(self)
 			else
 				if self.path_cleared == false then
@@ -242,13 +214,13 @@ function on_message(self, message_id, message, sender)
 	end
 
 	if message_id == hash("ok_on_start") then
-		if message.busy then
-			path = get_path_by_cell(sender)
-			clear_path(self, path)
-			msg.post(sender, "on_release", { touch_pos = message.touch_pos })
-			self.on_started = false
-			self.path_cleared = true
-		else
+		-- if message.busy then
+		-- 	path = get_path_by_cell(sender)
+		-- 	clear_path(self, path)
+		-- 	msg.post(sender, "on_release", { touch_pos = message.touch_pos })
+		-- 	self.on_started = false
+		-- 	self.path_cleared = true
+		if not message.busy then
 			self.path_cleared = false
 			self.on_started = true
 			self.current_cell_coords = message.coords
@@ -257,6 +229,8 @@ function on_message(self, message_id, message, sender)
 			self.current_path = {}
 			cells_pathes.add_path(self.current_path)
 			msg.post(self.current_cell, "try_create_pipe", { color = message.color, vector = vmath.vector3(0, 0, 0)})
+		else
+			self.on_started = false
 		end
 	elseif message_id == hash("ok_on_pick") then
 		if math.abs(self.current_cell_coords.x - message.coords.x) + math.abs(self.current_cell_coords.y - message.coords.y) > 1 then
@@ -283,7 +257,6 @@ function on_message(self, message_id, message, sender)
 		end
 	elseif message_id == hash("ok_on_release") then
 		if is_valid(self, message, sender) then
-			set_path_state(self)
 			send_message_check_busy(self)
 		else
 			if self.path_cleared == false then
@@ -320,5 +293,5 @@ function on_message(self, message_id, message, sender)
 end
 
 function final(self)
-	eventbus.unsubscribe('send_colors_table_to_pipe_game', set_color_tables)
+	eventbus.unsubscribe('send_pipe_game_data', on_send_pipe_game_data)
 end
