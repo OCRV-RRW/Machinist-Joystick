@@ -1,6 +1,7 @@
 local customstyle    = require('main.gui.style')
 local buttons_hidden = vmath.vector3(0, -1920, 0)
 local buttons_shown  = vmath.vector3(0, 0, 0)
+local pipe_module    = require('main.modules.pipegame')
 
 local function disconnected(self)
 	msg.post(msg.url('walk', '/ui', 'walk_screen'), 'go_to_connection_menu')
@@ -14,6 +15,14 @@ local function back_button_click(self)
 	else
 		eventbus.publish('disconnecting')
 	end
+end
+
+local function show_text_box(self)
+	gui.animate(gui.get_node('text_box'), gui.PROP_POSITION, vmath.vector3(540, 1300, 0), gui.EASING_OUTELASTIC, 0.2)
+end
+
+local function hide_text_box(self)
+	gui.animate(gui.get_node('text_box'), gui.PROP_POSITION, vmath.vector3(540, 2200, 0), gui.EASING_LINEAR, 0.2)
 end
 
 local function setup(self)
@@ -56,14 +65,22 @@ end
 local function init_events(self)
 	self.on_disconnected = function() disconnected(self) end
 	self.on_error = function() disconnected(self) end
+	self.on_start_pipe_game = function() msg.post(msg.url('walk', '/ui', 'walk_screen'), "show_text_box") end
+	self.on_exit_pipe_game = function() msg.post(msg.url('walk', '/ui', 'walk_screen'), "hide_text_box") end
+	eventbus.subscribe('on_start_pipe_game', self.on_start_pipe_game)
+	eventbus.subscribe('on_exit_pipe_game', self.on_exit_pipe_game)
 	eventbus.subscribe('disconnected', self.on_disconnected)
 	eventbus.subscribe('error', self.on_error)
 end
 
 local function drop_events(self)
 	eventbus.publish('move_interact', {})
+	eventbus.unsubscribe('on_start_pipe_game', self.on_start_pipe_game)
+	eventbus.unsubscribe('on_exit_pipe_game', self.on_exit_pipe_game)
 	eventbus.unsubscribe('disconnected', self.on_disconnected)
 	eventbus.unsubscribe('error', self.on_error)
+	self.on_start_pipe_game = nil
+	self.on_exit_pipe_game = nil
 	self.on_disconnected = nil
 	self.on_error = nil
 end
@@ -73,6 +90,11 @@ function init(self)
 	self.druid = druid.new(self)
 	setup(self)
 	init_events(self)
+	if pipe_module.STARTED then
+		if _G.role == ws.ROLE_CHOOSER.ROLE.TCHM then
+			msg.post(msg.url('walk', '/ui', 'walk_screen'), "show_text_box")
+		end
+	end
 end
 
 function final(self)
@@ -90,6 +112,12 @@ function on_message(self, message_id, message, sender)
 		gui.animate(self.buttons, gui.PROP_POSITION, buttons_hidden, gui.EASING_INCIRC, 0.2, 0, function()
 			msg.post(bootstrap_url, 'connection_menu')
 		end)
+	end
+	if message_id == hash('show_text_box') then
+		show_text_box(self)
+	end
+	if message_id == hash('hide_text_box') then
+		hide_text_box(self)
 	end
 end
 

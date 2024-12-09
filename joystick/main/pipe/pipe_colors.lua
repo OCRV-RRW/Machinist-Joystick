@@ -5,7 +5,7 @@ colors.RED = 0
 colors.YELLOW = 1
 colors.GREEN = 2
 colors.BLUE = 3
-colors.DARK = 4
+colors.WISTERIA = 4
 
 ---@param number integer
 ---@return string

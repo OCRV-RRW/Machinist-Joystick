@@ -3,15 +3,16 @@ go.property("color", -1)
 
 function init(self)
 	local color = get_state(self.color)
-	if color == "RED" then
-		sprite.play_flipbook("#sprite", "cleat_red")
-	elseif color == "YELLOW" then
-		sprite.play_flipbook("#sprite", "cleat_yellow")
-	elseif color == "GREEN" then
-		sprite.play_flipbook("#sprite", "cleat_green")
-	elseif color == "BLUE" then
-		sprite.play_flipbook("#sprite", "cleat_blue")
-	elseif color == "DARK" then
-		sprite.play_flipbook("#sprite", "cleat_dark")
-	end
+	-- if color == "RED" then
+	-- 	sprite.play_flipbook("#sprite", "cleat_red")
+	-- elseif color == "YELLOW" then
+	-- 	sprite.play_flipbook("#sprite", "cleat_yellow")
+	-- elseif color == "GREEN" then
+	-- 	sprite.play_flipbook("#sprite", "cleat_green")
+	-- elseif color == "BLUE" then
+	-- 	sprite.play_flipbook("#sprite", "cleat_blue")
+	-- elseif color == "WISTERIA" then
+	-- 	sprite.play_flipbook("#sprite", "cleat_wisteria")
+	-- end
+	sprite.play_flipbook("#sprite", "cleat_"..string.lower(color))
 end

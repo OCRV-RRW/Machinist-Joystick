@@ -2,9 +2,6 @@ images {
   image: "/resources/images/cleat_blue.png"
 }
 images {
-  image: "/resources/images/cleat_dark.png"
-}
-images {
   image: "/resources/images/cleat_red.png"
 }
 images {
@@ -12,5 +9,8 @@ images {
 }
 images {
   image: "/resources/images/cleat_yellow.png"
+}
+images {
+  image: "/resources/images/cleat_wisteria.png"
 }
 extrude_borders: 2

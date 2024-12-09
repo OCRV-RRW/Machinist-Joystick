@@ -151,6 +151,7 @@ function init(self)
 	self.last_touch_pos = nil
 	eventbus.subscribe('send_pipe_game_data', on_send_pipe_game_data)
 	eventbus.publish('get_pipe_game_data')
+	pprint(#cells_pathes)
 end
 
 function final(self)
@@ -214,13 +215,13 @@ function on_message(self, message_id, message, sender)
 	end
 
 	if message_id == hash("ok_on_start") then
-		-- if message.busy then
-		-- 	path = get_path_by_cell(sender)
-		-- 	clear_path(self, path)
-		-- 	msg.post(sender, "on_release", { touch_pos = message.touch_pos })
-		-- 	self.on_started = false
-		-- 	self.path_cleared = true
-		if not message.busy then
+		if message.busy then
+			path = get_path_by_cell(sender)
+			clear_path(self, path)
+			msg.post(sender, "on_release", { touch_pos = message.touch_pos })
+			self.on_started = false
+			self.path_cleared = true
+		elseif not message.busy then
 			self.path_cleared = false
 			self.on_started = true
 			self.current_cell_coords = message.coords
@@ -229,8 +230,8 @@ function on_message(self, message_id, message, sender)
 			self.current_path = {}
 			cells_pathes.add_path(self.current_path)
 			msg.post(self.current_cell, "try_create_pipe", { color = message.color, vector = vmath.vector3(0, 0, 0)})
-		else
-			self.on_started = false
+		-- else
+		-- 	self.on_started = false
 		end
 	elseif message_id == hash("ok_on_pick") then
 		if math.abs(self.current_cell_coords.x - message.coords.x) + math.abs(self.current_cell_coords.y - message.coords.y) > 1 then

@@ -36,7 +36,9 @@ local function on_start_pipegame()
         }
         ws.send(message)
     end
-    eventbus.publish('on_start_pipe_game')
+    if (_G.role == ws.ROLE_CHOOSER.ROLE.TCHM) then
+        eventbus.publish('on_start_pipe_game')
+    end
     M.STARTED = true
 end
 

@@ -44,11 +44,11 @@ images {
   image: "/resources/images/end_pipe_yellow.png"
 }
 images {
-  image: "/resources/images/curve_pipe_grey.png"
+  image: "/resources/images/curve_pipe_wisteria.png"
 }
 images {
-  image: "/resources/images/end_pipe_grey.png"
+  image: "/resources/images/end_pipe_wisteria.png"
 }
 images {
-  image: "/resources/images/line_pipe_grey.png"
+  image: "/resources/images/line_pipe_wisteria.png"
 }

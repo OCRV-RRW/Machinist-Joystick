@@ -5,9 +5,9 @@ go.property("color", -1)
 
 local function update_pipe(self, vector, updated)
 	if self.is_end then
-		sprite.play_flipbook("#sprite", "end_pipe_grey")
+		sprite.play_flipbook("#sprite", "end_pipe_dark")
     else
-		sprite.play_flipbook("#sprite", self.type.."_pipe_grey")
+		sprite.play_flipbook("#sprite", self.type.."_pipe_dark")
 	end
 
 	if self.type == "line" then

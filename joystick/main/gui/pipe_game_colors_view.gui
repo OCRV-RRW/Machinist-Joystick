@@ -39,6 +39,10 @@ textures {
   name: "cleat"
   texture: "/resources/cleat.atlas"
 }
+textures {
+  name: "cell"
+  texture: "/resources/cell.atlas"
+}
 nodes {
   position {
     x: 540.0
@@ -83,88 +87,6 @@ nodes {
   size_mode: SIZE_MODE_AUTO
 }
 nodes {
-  position {
-    x: -170.0
-    y: 379.0
-  }
-  size {
-    x: 200.0
-    y: 200.0
-  }
-  type: TYPE_BOX
-  texture: "cleat/cleat_green"
-  id: "cleat_1"
-  parent: "cleats"
-}
-nodes {
-  position {
-    x: 170.0
-    y: 379.0
-  }
-  size {
-    x: 200.0
-    y: 200.0
-  }
-  type: TYPE_BOX
-  texture: "cleat/cleat_green"
-  id: "cleat_2"
-  parent: "cleats"
-}
-nodes {
-  position {
-    x: -170.0
-  }
-  size {
-    x: 200.0
-    y: 200.0
-  }
-  type: TYPE_BOX
-  texture: "cleat/cleat_green"
-  id: "cleat_3"
-  parent: "cleats"
-}
-nodes {
-  position {
-    x: 170.0
-  }
-  size {
-    x: 200.0
-    y: 200.0
-  }
-  type: TYPE_BOX
-  texture: "cleat/cleat_green"
-  id: "cleat_4"
-  parent: "cleats"
-}
-nodes {
-  position {
-    x: -170.0
-    y: -379.0
-  }
-  size {
-    x: 200.0
-    y: 200.0
-  }
-  type: TYPE_BOX
-  texture: "cleat/cleat_green"
-  id: "cleat_5"
-  parent: "cleats"
-}
-nodes {
-  position {
-    x: 170.0
-    y: -379.0
-  }
-  size {
-    x: 200.0
-    y: 200.0
-  }
-  type: TYPE_BOX
-  texture: "cleat/cleat_green"
-  id: "cleat_6"
-  parent: "cleats"
-}
-nodes {
   size {
     x: 136.0
     y: 80.0
@@ -199,6 +121,148 @@ nodes {
   texture: "gui/arrow"
   id: "arrow_3"
   parent: "cleats"
+}
+nodes {
+  position {
+    x: -170.0
+    y: 379.0
+  }
+  size {
+    x: 200.0
+    y: 200.0
+  }
+  type: TYPE_BOX
+  texture: "cell/gridCell"
+  id: "box_1"
+  parent: "cleats"
+}
+nodes {
+  size {
+    x: 140.0
+    y: 140.0
+  }
+  type: TYPE_BOX
+  texture: "cleat/cleat_green"
+  id: "cleat_1"
+  parent: "box_1"
+}
+nodes {
+  position {
+    x: 170.0
+    y: 379.0
+  }
+  size {
+    x: 200.0
+    y: 200.0
+  }
+  type: TYPE_BOX
+  texture: "cell/gridCell"
+  id: "box_2"
+  parent: "cleats"
+}
+nodes {
+  size {
+    x: 140.0
+    y: 140.0
+  }
+  type: TYPE_BOX
+  texture: "cleat/cleat_green"
+  id: "cleat_2"
+  parent: "box_2"
+}
+nodes {
+  position {
+    x: -170.0
+  }
+  size {
+    x: 200.0
+    y: 200.0
+  }
+  type: TYPE_BOX
+  texture: "cell/gridCell"
+  id: "box_3"
+  parent: "cleats"
+}
+nodes {
+  size {
+    x: 140.0
+    y: 140.0
+  }
+  type: TYPE_BOX
+  texture: "cleat/cleat_green"
+  id: "cleat_3"
+  parent: "box_3"
+}
+nodes {
+  position {
+    x: 170.0
+  }
+  size {
+    x: 200.0
+    y: 200.0
+  }
+  type: TYPE_BOX
+  texture: "cell/gridCell"
+  id: "box_4"
+  parent: "cleats"
+}
+nodes {
+  size {
+    x: 140.0
+    y: 140.0
+  }
+  type: TYPE_BOX
+  texture: "cleat/cleat_green"
+  id: "cleat_4"
+  parent: "box_4"
+}
+nodes {
+  position {
+    x: -170.0
+    y: -379.0
+  }
+  size {
+    x: 200.0
+    y: 200.0
+  }
+  type: TYPE_BOX
+  texture: "cell/gridCell"
+  id: "box_5"
+  parent: "cleats"
+}
+nodes {
+  size {
+    x: 140.0
+    y: 140.0
+  }
+  type: TYPE_BOX
+  texture: "cleat/cleat_green"
+  id: "cleat_5"
+  parent: "box_5"
+}
+nodes {
+  position {
+    x: 170.0
+    y: -379.0
+  }
+  size {
+    x: 200.0
+    y: 200.0
+  }
+  type: TYPE_BOX
+  texture: "cell/gridCell"
+  id: "box_6"
+  parent: "cleats"
+}
+nodes {
+  size {
+    x: 140.0
+    y: 140.0
+  }
+  type: TYPE_BOX
+  texture: "cleat/cleat_green"
+  id: "cleat_6"
+  parent: "box_6"
 }
 nodes {
   position {

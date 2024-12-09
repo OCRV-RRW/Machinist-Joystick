@@ -23,14 +23,6 @@
   :workflow {
     :recent-files [
       [
-        "/resources/cable.atlas"
-        :scene
-      ]
-      [
-        "/main/pipe/gird.go"
-        :scene
-      ]
-      [
         "/resources/pipe_gui.atlas"
         :scene
       ]
@@ -55,10 +47,6 @@
         :scene
       ]
       [
-        "/main/gui/walk_screen.gui"
-        :scene
-      ]
-      [
         "/main/gui/choose_role_screen.gui"
         :scene
       ]
@@ -79,14 +67,6 @@
         :scene
       ]
       [
-        "/main/queue.collection"
-        :scene
-      ]
-      [
-        "/main/walk.collection"
-        :scene
-      ]
-      [
         "/main/bootstrap.script"
         :code
       ]
@@ -99,15 +79,7 @@
         :scene
       ]
       [
-        "/main/pipe_game_colors_view.collection"
-        :scene
-      ]
-      [
         "/main/main.collection"
-        :scene
-      ]
-      [
-        "/main/train_control.collection"
         :scene
       ]
       [
@@ -135,7 +107,7 @@
         :scene
       ]
       [
-        "/main/gui/pipe_game_colors_view.gui"
+        "/main/feedback.collection"
         :scene
       ]
       [
@@ -143,11 +115,39 @@
         :cljfx-form-view
       ]
       [
-        "/main/feedback.collection"
+        "/main/pipe_game_colors_view.collection"
+        :scene
+      ]
+      [
+        "/main/queue.collection"
         :scene
       ]
       [
         "/main/pipe_game.collection"
+        :scene
+      ]
+      [
+        "/main/train_control.collection"
+        :scene
+      ]
+      [
+        "/main/walk.collection"
+        :scene
+      ]
+      [
+        "/main/gui/walk_screen.gui"
+        :scene
+      ]
+      [
+        "/resources/cleat.atlas"
+        :scene
+      ]
+      [
+        "/resources/pipe.atlas"
+        :scene
+      ]
+      [
+        "/main/gui/pipe_game_colors_view.gui"
         :scene
       ]
     ]

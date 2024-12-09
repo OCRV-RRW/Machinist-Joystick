@@ -180,7 +180,7 @@
         "colors": {
             "RED": "GREEN",
             "BLUE": "BLUE",
-            "DARK": "DARK"
+            "WISTERIA": "WISTERIA"
         }}, "2": {
         "level": [
             {
@@ -361,7 +361,7 @@
         ],
         "colors": {
             "RED": "BLUE",
-            "YELLOW": "DARK",
+            "YELLOW": "WISTERIA",
             "GREEN": "GREEN"
         }}, "3": {
         "level": [ 
@@ -542,7 +542,7 @@
             }
         ],
         "colors": {
-            "RED": "DARK",
+            "RED": "WISTERIA",
             "GREEN": "BLUE",
             "YELLOW": "YELLOW"
         }}, "4": {
@@ -724,7 +724,7 @@
             }
         ],
         "colors": {
-            "GREEN": "DARK",
+            "GREEN": "WISTERIA",
             "RED": "BLUE",
             "YELLOW": "YELLOW"
         }
@@ -907,7 +907,7 @@
             }
         ],
         "colors": {
-            "DARK": "DARK",
+            "WISTERIA": "WISTERIA",
             "GREEN": "RED",
             "YELLOW": "BLUE"
         }
